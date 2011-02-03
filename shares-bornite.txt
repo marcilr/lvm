@@ -1,0 +1,136 @@
+shares-bornite.txt
+Created Sat Dec 27 11:43:26 AKST 2008
+by Raymond E. Marcil
+
+
+The bornite server has a series of lvm-based shares on the 
+16-port 3ware 9650SE-16ML PCIe x8 RAID6.
+
+8x Seagate Barracuda 7200.11 ST31000340AS 1 TB
+
+For failures:
+  hardware/drive/ST31000340AS/ST31000340AS-drives.txt
+
+
+orders/complete/2008/20080512-newegg-seagate-sata.txt
+  Seagate Barracuda 7200.11 ST31000340AS 1 TB   8x $219.99 = $1,759.92
+  Seagate Barracuda 7200.10 ST380815AS 80GB    11x  $39.99 = $439.89
+
+Not finding May 15, 2008 order of 8x ST31000340AS drives.
+Need to take an inventory in the garage.
+
+
+Directory          Description                                  Size
+--------------------------------------------------------------------
+/backup/00BACKUPS  Backups of 3ware 9650SE-16ML RAID6 array   2.67TB
+                   and boot volume.  2.67TB RAID5 directly 
+                   attached to motherboard.
+
+
+Directory          Description                                  Size
+--------------------------------------------------------------------
+/data/00BACKUPS    Backups                                    1.46TB
+/data/00TARBALLS   Software tarballs, 4104MB on Sep 3, 2008    100GB
+  from: malachite:/usr/local/src/00TARBALLS on Sep 3, 2008
+/data/akshena      Shena's data                                 30GB
+/data/chroot       Chroot directories                            1GB
+/data/debs         Debian debs                                  25GB
+/data/docs         Documentation                                 5GB
+/data/iso          ISOs                                         50GB
+/data/maps         Maps                                         50GB
+/data/movies       TiVo movies                                1000GB
+/data/music        Music collection                            500GB
+/data/pdf          PDFs                                          5GB
+/data/pictures     Picture collection                          100GB
+/data/rockhounding Rockhounding related.                       100GB
+/data/scans        Scans                                       100GB
+/data/svnroot      Subversion repositories                     500GB
+                   from turchoise:/usr/local/svnroot
+                   prior 2x 80GB  RAID1 on Jan 13, 2009
+/data/usr                                                       10GB
+/data/wallpaper                                                  1GB
+                                                     ===============
+                                                     Total:   4532GB
+NOTE: Taken Apr 17, 2010
+
+
+
+bornite:~# lvscan | sort
+  ACTIVE            '/dev/backups/00BACKUPS' [2.67 TB] inherit
+  ACTIVE            '/dev/data/00BACKUPS' [1.46 TB] inherit
+  ACTIVE            '/dev/data/00TARBALLS' [100.00 GB] inherit
+  ACTIVE            '/dev/data/akshena' [30.00 GB] inherit
+  ACTIVE            '/dev/data/chroot' [1.00 GB] inherit
+  ACTIVE            '/dev/data/debs' [25.00 GB] inherit
+  ACTIVE            '/dev/data/docs' [5.00 GB] inherit
+  ACTIVE            '/dev/data/iso' [50.00 GB] inherit
+  ACTIVE            '/dev/data/maps' [50.00 GB] inherit
+  ACTIVE            '/dev/data/movies' [1000.00 GB] inherit
+  ACTIVE            '/dev/data/music' [500.00 GB] inherit
+  ACTIVE            '/dev/data/pdf' [5.00 GB] inherit
+  ACTIVE            '/dev/data/pictures' [100.00 GB] inherit
+  ACTIVE            '/dev/data/rockhounding' [100.00 GB] inherit
+  ACTIVE            '/dev/data/scans' [100.00 GB] inherit
+  ACTIVE            '/dev/data/svnroot' [500.00 GB] inherit
+  ACTIVE            '/dev/data/usr' [10.00 GB] inherit
+  ACTIVE            '/dev/data/wallpaper' [1.00 GB] inherit
+bornite:~#
+
+/dev/data/:
+  1460 + 100 + 30 + 1 + 25 + 5 + 50 + 50 + 1000 + 500 + 5 + 100 + 100 + 100 + 500 + 10 + 1
+  = 4037
+
+
+NOTE: Taken Nov 11, 2010
+
+
+marcilr@bornite:~$ mount
+/dev/md0 on / type ext3 (rw,errors=remount-ro)
+...
+/dev/mapper/data-00BACKUPS on /data/00BACKUPS type ext3 (rw)
+/dev/mapper/data-00TARBALLS on /data/00TARBALLS type ext3 (rw)
+/dev/mapper/data-akshena on /data/akshena type ext3 (rw)
+/dev/mapper/data-debs on /data/debs type ext3 (rw)
+/dev/mapper/data-iso on /data/iso type ext3 (rw)
+/dev/mapper/data-maps on /data/maps type ext3 (rw)
+/dev/mapper/data-movies on /data/movies type ext3 (rw)
+/dev/mapper/data-music on /data/music type ext3 (rw)
+/dev/mapper/data-pictures on /data/pictures type ext3 (rw)
+/dev/mapper/data-rockhounding on /data/rockhounding type ext3 (rw)
+/dev/mapper/data-scans on /data/scans type ext3 (rw)
+/dev/mapper/data-svnroot on /data/svnroot type ext3 (rw)
+/dev/mapper/data-usr on /data/usr type ext3 (rw)
+/dev/mapper/data-wallpaper on /data/wallpaper type ext3 (rw)
+/dev/mapper/data-chroot on /data/chroot type ext3 (rw)
+/dev/mapper/data-docs on /data/docs type ext3 (rw)
+/dev/mapper/backups-00BACKUPS on /backups/00BACKUPS type ext3 (rw)
+...
+
+NOTE: Taken Mar 30, 2010
+
+bornite:/backups/00BACKUPS# df -h
+Filesystem                        Size  Used Avail Use% Mounted on
+/dev/md0                           73G   33G   37G  48% /
+tmpfs                             443M     0  443M   0% /lib/init/rw
+udev                               10M   88K   10M   1% /dev
+tmpfs                             443M     0  443M   0% /dev/shm
+/dev/mapper/data-00BACKUPS        1.5T  1.1T  312G  78% /data/00BACKUPS
+/dev/mapper/data-00TARBALLS        99G   24G   70G  26% /data/00TARBALLS
+/dev/mapper/data-akshena           30G  4.3G   24G  16% /data/akshena
+/dev/mapper/data-chroot          1008M   38M  919M   4% /data/chroot
+/dev/mapper/data-debs              25G  173M   24G   1% /data/debs
+/dev/mapper/data-iso               50G  4.8G   43G  11% /data/iso
+/dev/mapper/data-maps              50G  4.3G   43G  10% /data/maps
+/dev/mapper/data-movies           985G  556G  380G  60% /data/movies
+/dev/mapper/data-music            493G  266G  202G  57% /data/music
+/dev/mapper/data-pictures          99G   20G   75G  21% /data/pictures
+/dev/mapper/data-rockhounding      99G  210M   94G   1% /data/rockhounding
+/dev/mapper/data-scans             99G  233M   94G   1% /data/scans
+/dev/mapper/data-svnroot          493G   19G  449G   5% /data/svnroot
+/dev/mapper/data-usr              9.9G  1.1G  8.3G  12% /data/usr
+/dev/mapper/data-wallpaper       1008M  214M  744M  23% /data/wallpaper
+/dev/mapper/backups-00BACKUPS     2.7T  2.2T  397G  85% /backups/00BACKUPS
+/dev/mapper/data-docs             5.0G  1.5G  3.2G  32% /data/docs
+bornite:/backups/00BACKUPS#
+
+NOTE: Taken Aug 25, 2010

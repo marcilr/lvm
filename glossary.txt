@@ -2,6 +2,8 @@ glossary.txt
 Created
 
 
+lvm glossary
+
 LVM - Logical Volume Manager
 PV  - Physical Volume
 LV  - Logical Volume

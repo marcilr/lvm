@@ -94,7 +94,7 @@ wikipedia.org/
 Commands to regain access to your partitions (in case you need to):
   mdadm --assemble /dev/md2 /dev/sda2 /dev/sdb2 
   cryptsetup luksOpen /dev/md2 vault 
-  vgchange -a y <vgname>              <== Looks promising.
+  vgchange -ay vg (or substitute the name of your LVM volume group for vg here) <== Looks promising.
 
   Options:
     ay - Availability active
@@ -108,6 +108,7 @@ Just for your information, the opposite of these commands are:
   mdadm --stop /dev/md2
 
 gentoo-wiki.com/
+knoppmythwiki.org/
 
 
 Links
@@ -119,5 +120,13 @@ http://en.wikipedia.org/wiki/Logical_Volume_Manager_%28Linux%29
 Root filesystem over LVM2, DM-Crypt and RAID
 http://en.gentoo-wiki.com/wiki/Root_filesystem_over_LVM2,_DM-Crypt_and_RAID#LVM2
 
+KnoppMythUpgradeWithLVM
+vgchange -ay vg (or substitute the name of your LVM volume group for vg here)
+http://www.knoppmythwiki.org/index.php?page=KnoppMythUpgradeWithLVM
+
 LVM Operations
 http://www-public.int-evry.fr/~procacci/wiki/bin/view/Documentations/DellEmcAX100LVM
+
+Linux LVM error VG meta data inconsistent and Solution
+http://www.cyberciti.biz/faq/lvm-error-vg-meta-data-inconsistent/
+

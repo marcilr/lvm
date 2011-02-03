@@ -1,0 +1,14 @@
+packages.txt
+Created Thu Feb  3 12:56:26 AKST 2011
+by Raymond E. Marcil
+
+
+lvm (Logical Volume Management) packages.
+
+
+lvm2 - The Linux Logical Volume Manager (installed on bornite Sep 2, 2008)
+       Has pvcreate, vgcreate, and vgscan lvm utilities.
+
+installed: lvm-common lvm2
+suggested: dmsetup (installed)
+

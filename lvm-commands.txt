@@ -91,10 +91,27 @@ aware that their underlying storage is moving.
 wikipedia.org/
 
 
+Commands to regain access to your partitions (in case you need to):
+  mdadm --assemble /dev/md2 /dev/sda2 /dev/sdb2 
+  cryptsetup luksOpen /dev/md2 vault 
+  vgchange -ay vg                      <== Looks promising.
+  mount /dev/mapper/vg-* /mount/points
+
+Just for your information, the opposite of these commands are:
+  umount /dev/mapper/vg-*
+  vgchange -an vg
+  cryptsetup luksClose vault
+  mdadm --stop /dev/md2
+
+gentoo-wiki.com/
+
 
 Links
 =====
 Logical Volume Manager (Linux)
 From Wikipedia, the free encyclopedia
 http://en.wikipedia.org/wiki/Logical_Volume_Manager_%28Linux%29
+
+Root filesystem over LVM2, DM-Crypt and RAID
+http://en.gentoo-wiki.com/wiki/Root_filesystem_over_LVM2,_DM-Crypt_and_RAID#LVM2
 

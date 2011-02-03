@@ -1,0 +1,32 @@
+privs.txt
+Created Fri Jan  1 18:14:44 AKST 2010
+by Raymond E. Marcil
+
+
+Notes on setting currect privs for on files under directories:
+/data/music  
+/data/movies
+/data/pictures
+
+Should have the privs:
+  files - 644
+  directories - 775, g+s
+
+Set privs on files:
+$ find . -type f -exec chmod 664 {} \;
+$ find . -type d -exec chmod 775 {} \;
+$ find . -type d -exec chmod g+s {} \;
+
+
+
+find
+====
+Find only regular files (not directories):
+$ find . -type f
+
+Find only directories:
+$ find . -type d
+
+
+
+

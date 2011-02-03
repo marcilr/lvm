@@ -1,0 +1,17 @@
+glossary.txt
+Created
+
+
+LVM - Logical Volume Manager
+PV  - Physical Volume
+LV  - Logical Volume
+VG  - Volume Group
+
+
+
+Links
+=====
+Logical Volume Manager (Linux)
+From Wikipedia, the free encyclopedia
+http://en.wikipedia.org/wiki/Logical_Volume_Manager_%28Linux%29
+

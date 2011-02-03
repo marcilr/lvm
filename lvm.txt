@@ -1,0 +1,729 @@
+lvm.txt
+Created Wed Sep  3 11:47:17 AKDT 2008
+by Raymond E. Marcil
+
+
+Configuring 5.45TB RAID6 on 3ware 9650SE-8LPML with logical volumes.
+
+
+lvm - Logical Volume Manager (LVM) 
+      Physical Volume (PV)
+      Logical Volume (LV)
+      Volume Group (VG)
+
+The Logical Volume Manager (LVM) is a subsystem for managing disk 
+space. The HP LVM subsystem offers value-added features, such as 
+mirroring (with the optional HP MirrorDisk/UX software), high 
+availability (with the optional HP ServiceGuard software), and 
+striping, that enhance availability and performance.
+
+Unlike earlier arrangements where disks were divided into fixed-sized 
+sections, LVM allows the user to consider the disks, also known as 
+physical volumes, as a pool (or volume) of data storage, consisting 
+of equal-sized extents. The default size of an extent is 4 MB.
+
+An LVM system consists of arbitrary groupings of physical volumes, 
+organized into volume groups. A volume group can consist of one or 
+more physical volumes. There can be more than one volume group in 
+the system. Once created, the volume group, and not the disk, is 
+the basic unit of data storage. Thus, whereas earlier one would move 
+disks from one system to another, with LVM, one would move a volume 
+group from one system to another. For this reason it is often 
+convenient to have multiple volume groups on a system.
+
+Volume groups can be subdivided into virtual disks, called logical 
+volumes. A logical volume can span a number of physical volumes or 
+represent only a portion of one physical volume. The pool of disk 
+space that is represented by a volume group can be apportioned into 
+logical volumes of various sizes. The size of a logical volume is 
+determined by its number of extents. Once created, logical volumes 
+can be treated just like disk partitions. Logical volumes can be 
+assigned to file systems, used as swap or dump devices, or used for 
+raw access.
+
+from: hp.com/
+
+config: /etc/lvm/lvm.conf
+
+
+Commands
+========
+lvdisplay - display attributes of a logical volume
+lvextend  - add space to logical volume
+lvreduce  - reduce size of logical volume
+lvremove  - remove a logical volume
+lvrename  - rename a logical volume
+lvscan    - nice list of logical volumes
+
+pvcreate  - initialize a disk or partition for use by LVM
+vgcreate  - create a volume group
+vgdisplay - display attributes of volume groups
+vgextend  - add space to volume group
+vgremove  - remove a volume group
+vgrename  - rename a volume group
+vgscan    - scan all disks for volume groups and rebuild caches
+
+LVM information can be created, displayed, and manipulated with the following commands:
+  lvchange - Change logical volume characteristics
+  lvcreate - Stripe, create logical volume in volume group
+  lvdisplay - Display information about logical volumes
+  lvextend - Increase space, increase mirrors for logical volume
+  lvlnboot - Prepare logical volume to be root, primary swap, or dump volume
+  lvmmigrate - Prepare root file system for migration from partitions to logical 
+               volumes
+  lvreduce - Decrease number of physical extents allocated to logical volume
+  lvremove - Remove one or more logical volumes from volume group
+  lvrmboot - Remove logical volume link to root, primary swap, or dump volume
+  pvchange - Change characteristics of physical volume in volume group
+  pvcreate - Create physical volume for use in volume group
+  pvdisplay - Display information about physical volumes within volume group
+  pvmove   - Move allocated physical extents from one physical volume to other 
+             physical volumes
+  vgcfgbackup - Create or update volume group configuration backup file
+  vgcfgrestore - Display or restore volume group configuration from backup file
+  vgchange  - Set volume group availability
+  vgcreate  - Create volume group
+  vgdisplay - Display information about volume groups
+  vgexport  - Export an volume group and its associated logical volumes
+  vgextend  - Extend an volume group by adding physical volumes
+  vgimport  - Import an volume group onto the system
+  vgreduce  - Remove physical volumes from an volume group
+  vgremove  - Remove volume group definition from the system
+  vgscan    - Scan physical volumes for volume groups
+
+The following commands are also available if the HP MirrorDisk/UX software is installed:
+  lvmerge   - Merge two logical volumes into one logical volume
+  lvsplit   - Split mirrored logical volume into two logical volumes
+  lvsync    - Synchronize stale mirrors in logical volumes
+  vgsync    - Synchronize stale logical volume mirrors in volume groups
+
+from: hp.com/
+
+
+Packages
+========
+lvm2 - The Linux Logical Volume Manager (installed on bornite Sep 2, 2008)
+       Has pvcreate, vgcreate, and vgscan lvm utilities.
+installed: lvm-common lvm2
+suggested: dmsetup (installed)
+
+
+lvm groups on raid6
+===================
+data - Has all logical volumes.
+
+
+lvm volumes on raid6
+====================
+Volumes created on bornite raid6
+
+
+Name          Capacity 
+======================
+00BACKUPS       1460GB
+00TARBALLS       100GB
+akshena           30GB
+chroot             1GB
+debs              25GB
+docs               5GB
+iso               50GB
+maps              50GB
+movies          1000GB
+music            500GB
+pdf                5GB
+pictures         100GB
+rockhounding     100GB
+scans            100GB 
+svnroot          500GB
+usr               10GB
+wallpaper          1GB    
+       ===============
+       Total:   4037GB
+
+1460 + 100 + 30 + 1 + 25 + 5 + 50 + 50 + 1000 + 500 + 5 + 100 + 100 + 100 + 500 + 10 + 1 
+  = 4037GB
+
+NOTE: Taken Nov 11, 2010
+      All columes volumes formatted with ext3.
+
+
+Usage
+=====
+Initialize physical volume:
+bornite:~# pvcreate /dev/sde1
+  Physical volume "/dev/sde1" successfully created
+
+
+Create volume group
+-------------------
+bornite:~# vgcreate data /dev/sde1
+  Volume group "data" successfully created
+
+
+Display volume groups
+---------------------
+bornite:/# vgdisplay
+  --- Volume group ---
+  VG Name               data
+  System ID             
+  Format                lvm2
+  Metadata Areas        1
+  Metadata Sequence No  4
+  VG Access             read/write
+  VG Status             resizable
+  MAX LV                0
+  Cur LV                0
+  Open LV               0
+  Max PV                0
+  Cur PV                1
+  Act PV                1
+  VG Size               5.46 TB
+  PE Size               4.00 MB
+  Total PE              1430495
+  Alloc PE / Size       0 / 0   
+  Free  PE / Size       1430495 / 5.46 TB
+  VG UUID               IPYghg-p1g8-TWUT-t0PW-NKJ0-3TA0-lkr2ka
+
+
+Remove volume group
+-------------------
+bornite:/# vgrename data-vol data
+  Volume group "data-vol" successfully renamed to "data"
+
+
+Scan volumes
+------------
+bornite:~# vgscan
+  Reading all physical volumes.  This may take a while...
+  Found volume group "data" using metadata type lvm2
+
+
+Create logical volume
+--------------------- 
+Volume with 1TB capacity with name 'mp3', for data group:
+
+bornite:~# lvcreate -n mp3 --size 1000g data
+  Logical volume "mp3" created
+
+Volume with 500GB capacity with name 'svnroot', for data group:
+
+bornite:~# lvcreate -n svnroot --size 500g data
+  Logical volume "svnroot" created
+
+
+Fri Nov 12 09:52:40 AKST 2010
+=============================
+Create /data/pdf logical volume.  Migrate data from /data/docs/pdf/*.
+
+Create 5GB pdf volume:
+bornite:~# lvcreate -n pdf --size 5g data
+  Logical volume "pdf" created
+bornite:~#
+
+Format docs volume ext3:
+bornite:~# time mkfs.ext3 /dev/mapper/data-pdf
+
+Mount /data/docs:
+bornite:~# mkdir /data/pdf
+bornite:~# chown sshfs:sshfs /data/pdf/
+bornite:~# chmod 775 /data/pdf/
+bornite:~# chmod g+s /data/pdf/
+bornite:~# mount /dev/data/pdf /data/pdf/
+
+Update /etc/fstab with /data/pdf mount:
+/dev/mapper/data-pdf          /data/pdf          ext3   defaults   0    2
+
+Test /data/pad mount:
+bornite:~# umount /data/pdf
+bornite:~# mount /data/pdf
+bornite:~# mount | grep pdf
+/dev/mapper/data-pdf on /data/pdf type ext3 (rw)
+
+Looks good!
+
+
+Sync /data/docs/pdf/* files to /data/pdf/:
+bornite:~# time rsync -va --progress --stats /data/docs/pdf/ /data/pdf/
+building file list ... 
+2030 files to consider
+./
+0032.pdf
+        9756 100%    0.00kB/s    0:00:00 (xfer#1, to-check=2028/2030)
+...
+weatherization/sharp@ruralcap.com_20081021_122834.pdf
+      153779 100%    6.98MB/s    0:00:00 (xfer#1777, to-check=0/2030)
+
+Number of files: 2030
+Number of files transferred: 1777
+Total file size: 724272109 bytes
+Total transferred file size: 724271984 bytes
+Literal data: 724271984 bytes
+Matched data: 0 bytes
+File list size: 45293
+File list generation time: 0.874 seconds
+File list transfer time: 0.000 seconds
+Total bytes sent: 724487561
+Total bytes received: 40632
+
+sent 724487561 bytes  received 40632 bytes  30830986.94 bytes/sec
+total size is 724272109  speedup is 1.00
+
+real    0m23.121s
+user    0m5.060s
+sys     0m3.088s
+bornite:~#
+
+bornite:/data/docs/pdf# find . | wc -l
+2030
+bornite:/data/docs/pdf#
+
+bornite:/data/pdf# find . | wc -l
+2031
+bornite:/data/pdf#
+
+Dynamite!
+
+
+Wed Jun  2 14:06:28 AKDT 2010
+=============================
+Increase /data/docs/ from 1GB to 5GB.
+
+Umount /data/docs:
+bornite:~# umount /data/docs
+
+bornite:~# lvremove /dev/data/docs
+Do you really want to remove active logical volume "docs"? [y/n]: y
+  Logical volume "docs" successfully removed
+bornite:~# 
+
+Create 5GB docs volume:
+bornite:~# lvcreate -n docs --size 5g data
+  Logical volume "docs" created
+bornite:~#
+
+Format docs volume ext3:
+bornite:~# time mkfs.ext3 /dev/mapper/data-docs
+
+Mount /data/docs:
+bornite:~# mount /dev/data/docs  /data/docs/
+
+bornite:~# df -m
+...
+/dev/mapper/data-docs
+                          5040       139      4646   3% /data/docs
+
+Looks good.
+
+
+
+Tue Mar 30 15:04:40 AKDT 2010
+=============================
+Create 50GB /data/maps for maps.
+
+Create 50GB maps volume:
+bornite:~# lvcreate -n maps --size 50g data
+  Logical volume "maps" created
+
+Format maps volume ext3:
+bornite:~# time mkfs.ext3 /dev/mapper/data-maps
+
+Create mount point:
+bornite:~# mkdir /data/maps
+
+Update /etc/fstab:
+/dev/mapper/data-maps        /data/maps         ext3   defaults   0    2
+
+Mount /data/maps:
+bornite:~# mount /data/maps
+
+bornite:~# df -m
+...
+/dev/mapper/data-maps
+                         50397       180     47657   1% /data/maps
+
+
+Looks good.
+
+
+Mon Mar  8 07:51:56 AKST 2010
+=============================
+Create 1GB /data/docs for 1994-2009 LinuxJournal archive.
+
+Create 1G chroot volume:
+bornite:~# lvcreate -n docs --size 1g data
+  Logical volume "docs" created
+
+Format chroot volume ext3:
+bornite:~# time mkfs.ext3 /dev/mapper/data-docs
+
+Create mount point:
+bornite:~# mkdir /data/chroot
+
+Update /etc/fstab:
+/dev/mapper/data-docs         /data/docs         ext3   defaults   0    2
+
+Mount /data/docs:
+bornite:~# mount /data/docs
+
+bornite:~# df -m
+...
+/dev/mapper/data-docs
+                          1008        34       924   4% /data/docs
+
+Looks good.
+
+
+Sun Mar  7 17:37:39 AKST 2010
+=============================
+Create /data/chroot for dhcp, dns, and apache chroot directories.
+Only creating 1GB size as only working on dhcp for now.
+
+Create 1G chroot volume:
+bornite:~# lvcreate -n chroot --size 1g data
+  Logical volume "chroot" created
+
+Format chroot volume ext3:
+bornite:~# time mkfs.ext3 /dev/mapper/data-chroot
+
+Create mount point:
+bornite:~# mkdir /data/chroot
+
+Update /etc/fstab:
+/dev/mapper/data-chroot       /data/chroot       ext3   defaults   0    2
+
+Mount /data/chroot:
+bornite:~# mount /data/chroot
+
+bornite:~# df -m
+...
+/dev/mapper/data-chroot
+                          1008        34       924   4% /data/chroot
+
+Looks good.
+
+
+Sat Jan 23 09:03:19 AKST 2010
+=============================
+The rsync restore of /dev/data/00BACKUPS-OLD (raid5 on /mnt) to 
+/dev/data/00BACKUPS (raid6 on /data/00BACKUPS)
+took overnight to complete.
+
+bornite:/data/00BACKUPS# find . | wc -l
+2798706
+
+bornite:/mnt# find . | wc -l
+2798706
+
+Filecounts match looking good.
+
+Delete temporary 00BACKUPS-OLD volume used to restore 00BACKUPS.
+bornite:/# umount /mnt
+umount: /mnt: device is busy
+umount: /mnt: device is busy
+
+Nothing using 00BACKUPS-OLD volume. The umount worked from bornite's 
+console in the garage.
+
+bornite:~# lvremove /dev/data/00BACKUPS-OLD
+Do you really want to remove active logical \
+volume "00BACKUPS-OLD"? [y/n]: y
+  Logical volume "00BACKUPS-OLD" successfully removed
+bornite:~#
+
+
+
+
+Fri Jan 22 13:18:37 AKST 2010
+=============================
+Expand /data/00BACKUPS from 1000GB to 1500GB
+
+1. Rename /data/00BACKUPS logical volume.
+bornite:/# umount /data/00BACKUPS/
+bornite:/# lvrename /dev/data/00BACKUPS /dev//data/00BACKUPS-OLD
+  Renamed "00BACKUPS" to "00BACKUPS-OLD" in volume group "data"
+bornite:/#
+
+bornite:/# lvscan
+...
+  ACTIVE            '/dev/data/00BACKUPS-OLD' [1000.00 GB] inherit
+...
+
+2. Create 1.5TB /data/00BACKUPS logical backup.
+bornite:~# lvcreate -n 00BACKUPS --size 1500GB data
+  Logical volume "00BACKUPS" created
+
+3. Create ext3 filesystem on /data/00BACKUPS logical backup.
+bornite:~# mkfs.ext3 /dev/mapper/data-00BACKUPS
+
+4. Restore data to /data/00BACKUPS from 00BACKUPS-OLD
+bornite:/# mount /data/00BACKUPS
+bornite:/# mount /dev/data/00BACKUPS-OLD /mnt
+bornite:/# time rsync -va --stats --progress /mnt/ /data/00BACKUPS
+building file list ...
+2798706 files to consider
+./
+20090401-musicbrainz.tar.bz2
+    13114161 100%   44.24MB/s    0:00:00 (xfer#1, to-check=2798704/2798706)
+README
+        1243 100%    4.14kB/s    0:00:00 (xfer#2, to-check=2798703/2798706)
+TODO
+         199 100%    0.64kB/s    0:00:00 (xfer#3, to-check=2798702/2798706)
+...
+wallpaper/20091021-wallpaper.tar.bz2
+   177160803 100%   31.56MB/s    0:00:05 (xfer#2124598, to-check=0/2798706)
+
+Number of files: 2798706
+Number of files transferred: 2124598
+Total file size: 941179990796 bytes
+Total transferred file size: 922161110683 bytes
+Literal data: 922161110683 bytes
+Matched data: 0 bytes
+File list size: 63315990
+File list generation time: 826.336 seconds
+File list transfer time: 0.000 seconds
+Total bytes sent: 922435861161
+Total bytes received: 49491888
+
+sent 922435861161 bytes  received 49491888 bytes  25023677.33 bytes/sec
+total size is 941179990796  speedup is 1.02
+
+real    617m15.789s
+user    106m28.711s
+sys     64m51.679s
+bornite:/#
+
+
+Fri Jan 22 10:30:28 AKST 2010
+=============================
+Reduce /data/movies logical volume from 1000G to 500G.
+
+1. Create /data/movies logical volume with 500G.
+bornite:~# lvcreate -n movies --size 500GB data
+  Logical volume "movies" created
+
+2. Backed up /data with /backups/00BACKUPS/backup script.
+Verified movies backed up to  /backups/00BACKUPS/20100122-data/movies
+Verified filecount.
+
+3. Unmount /data/movies.
+bornite:~# umount /data/movies
+
+4. Remove /data/movies logical volume.
+bornite:/# lvremove /dev/data/movies 
+Do you really want to remove active logical volume "movies"? [y/n]: y
+  Logical volume "movies" successfully removed
+bornite:~# 
+
+5. Recreate /data/movies logical volume with 500G.
+bornite:~# lvcreate -n movies --size 500GB data
+  Logical volume "movies" created
+
+Format /data/movies/ volume:
+bornite:~# mkfs.ext3 /dev/mapper/data-movies
+
+6. Restore /date/movies data from backup.
+bornite:~# mount /data/movies
+bornite:~# lvscan
+...
+  ACTIVE            '/dev/data/movies' [500.00 GB] inherit
+...
+bornite:~# time rsync -va /backups/00BACKUPS/20100122-data/movies/ /data/movies
+building file list ... done
+./
+500kV_Switch.mpg
+...
+tivo/Wide Angle - Back to School (Recorded Wed Jul 18 2007 01 00AM KAKM).TiVo
+
+sent 149497836615 bytes  received 10480 bytes  56552996.82 bytes/sec
+total size is 149479555911  speedup is 1.00
+
+real    44m3.900s
+user    16m50.227s
+sys     16m56.428s
+bornite:~#
+
+Recreation of /data/movies from 1000G to 500G successful.
+
+
+Mon Nov 23 10:23:01 AKST 2009
+=============================
+Create /data/debs/ volume:
+bornite:~# lvcreate -n debs --size 25g data
+  Logical volume "debs" created
+
+Format /data/iso/ volume:
+  bornite:~# mkfs.ext3 /dev/mapper/data-debs
+
+Add /etc/fstab entry for /data/debs:
+  /dev/mapper/data-debs          /data/debs          ext3   defaults   0    2
+
+
+Mon Nov 23 10:08:13 AKST 2009
+=============================
+Create /data/iso/ volume:
+bornite:~# lvcreate -n iso --size 50g data 
+  Logical volume "iso" created
+
+Format /data/iso/ volume:
+  bornite:~# mkfs.ext3 /dev/mapper/data-iso
+
+Add /etc/fstab entry for /data/iso:
+  /dev/mapper/data-iso          /data/iso          ext3   defaults   0    2
+
+
+Wed Jul 22 14:02:02 AKDT 2009
+=============================
+Create /data/usr/ volume:
+
+bornite:~# lvcreate -n usr --size 10g data
+  Logical volume "usr" created
+
+Format /data/usr/ volume:
+  bornite:~# mkfs.ext3 /dev/mapper/data-usr
+
+Add /etc/fstab entry for /data/usr:
+  /dev/mapper/data-usr          /data/usr          ext3   defaults   0    2
+
+
+Tue Jan 13 20:42:58 AKST 2009
+=============================
+bornite:~# lvcreate -n 00TARBALLS --size 100GB data
+  Logical volume "00TARBALLS" created
+
+bornite:~# lvcreate -n rockhounding --size 100GB data
+  Logical volume "rockhounding" created
+
+bornite:~# mkfs.ext3 /dev/mapper/data-00TARBALLS
+bornite:~# mkfs.ext3 /dev/mapper/data-rockhounding
+
+Remove logical volume
+---------------------
+bornite:/# lvremove /dev/data/mp3
+Do you really want to remove active logical volume "mp3"? [y/n]: y
+  Logical volume "mp3" successfully removed
+
+Tue Jan 13 20:40:22 AKST 2009
+=============================
+bornite:/# umount /data/00TARBALLS
+bornite:/# lvremove /dev/data/00TARBALLS
+Do you really want to remove active logical volume "00TARBALLS"? [y/n]: y
+  Logical volume "00TARBALLS" sucessfully removed
+bornite:/#
+
+
+Display volumes
+---------------
+  --- Logical volume ---
+  LV Name                /dev/data/mp3
+  VG Name                datagroup
+  LV UUID                Dohq3V-Zzz0-Dzgw-ccOR-xjC1-Qdos-nuaWVJ
+  LV Write Access        read/write
+  LV Status              available
+  # open                 0
+  LV Size                1000.00 GB
+  Current LE             256000
+  Segments               1
+  Allocation             inherit
+  Read ahead sectors     0
+  Block device           253:0
+   
+  --- Logical volume ---
+  LV Name                /dev/data/svnroot
+  VG Name                datagroup
+  LV UUID                j6Iljy-Yc42-aqnl-ppYU-3dLY-lFIa-MruD0b
+  LV Write Access        read/write
+  LV Status              available
+  # open                 0
+  LV Size                500.00 GB
+  Current LE             128000
+  Segments               1
+  Allocation             inherit
+  Read ahead sectors     0
+  Block device           253:1
+
+
+Create filesystem on logical volume
+===================================
+bornite:/# time mkfs.ext3 /dev/mapper/data-mp3
+mke2fs 1.40-WIP (14-Nov-2006)
+Filesystem label=
+OS type: Linux
+Block size=4096 (log=2)
+Fragment size=4096 (log=2)
+131072000 inodes, 262144000 blocks
+13107200 blocks (5.00%) reserved for the super user
+First data block=0
+Maximum filesystem blocks=0
+8000 block groups
+32768 blocks per group, 32768 fragments per group
+16384 inodes per group
+Superblock backups stored on blocks: 
+        32768, 98304, 163840, 229376, 294912, 819200, 884736, 1605632, 2654208, 
+        4096000, 7962624, 11239424, 20480000, 23887872, 71663616, 78675968, 
+        102400000, 214990848
+
+Writing inode tables:  258/8000
+...
+Creating journal (32768 blocks): done
+Writing superblocks and filesystem accounting information: done
+
+This filesystem will be automatically checked every 34 mounts or
+180 days, whichever comes first.  Use tune2fs -c or -i to override.
+bornite:~#
+
+
+Mount volume
+============
+bornite:~# mount -t ext3 /dev/data/mp3 /mnt
+bornite:~# df -h
+Filesystem            Size  Used Avail Use% Mounted on
+/dev/md0               73G   19G   51G  27% /
+tmpfs                 443M     0  443M   0% /lib/init/rw
+udev                   10M   80K   10M   1% /dev
+tmpfs                 443M     0  443M   0% /dev/shm
+/dev/mapper/data--vol-mp3
+                      985G  200M  935G   1% /mnt
+
+
+Links
+=====
+Logical Volume Manager (Linux)
+From Wikipedia, the free encyclopedia
+http://en.wikipedia.org/wiki/Logical_Volume_Manager_%28Linux%29
+
+LVM Administrator's Guide
+Configuration and Administration
+Great info here.
+http://www.centos.org/docs/5/html/Cluster_Logical_Volume_Manager/
+
+4.4.1. Creating Logical Volumes
+Really good lvcreate info.
+http://www.centos.org/docs/5/html/Cluster_Logical_Volume_Manager/LV_create.html
+
+Enterprise Volume Management System
+Reportedly a nice management wrapper.
+http://evms.sourceforge.net/
+
+LVM HOWTO, AJ Lewis
+http://www.tldp.org/HOWTO/LVM-HOWTO/
+
+Pain-free disk space management with LVM
+http://www.linux.com/feature/118645
+
+lvm - Logical Volume Manager (LVM) 
+http://docs.hp.com/en/B9106-90013/lvm.7.html
+
+A simple introduction to working with LVM
+http://www.debian-administration.org/articles/410
+
+Logical volume management
+From Wikipedia, the free encyclopedia
+http://en.wikipedia.org/wiki/Logical_volume_management
+
+How to add disk space with LVM on Linux
+http://www.linuxnetadmin.com/2008/01/how-to-add-disk-space-with-lvm-on-linux.html
+
+Chapter 7. Logical Volume Manager (LVM)
+Red Hat Enterprise Linux 4: System Administration Guide
+http://www.redhat.com/docs/manuals/enterprise/RHEL-4-Manual/sysadmin-guide/ch-lvm-intro.html
+

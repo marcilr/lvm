@@ -57,3 +57,44 @@ The following commands are also available if the HP MirrorDisk/UX software is in
 
 from: hp.com/
 
+
+vgchange - change attributes of a volume group
+==============================================
+To bring a volume group online, the "vgchange" tool:
+
+1. Searches for PVs in all available block devices.
+2. Parses the metadata header in each PV found.
+3. Computes the layouts of all visible volume groups.
+4. Loops over each logical volume in the volume group to be brought online and:
+   a. Checks if the logical volume to be brought online has all its PVs visible.
+   b. Creates a new, empty device mapping.
+   c. Maps it (with the "linear" target) onto the data areas of the PVs the logical volume 
+      belongs to.
+
+wikipedia.org/
+
+
+pvmove - move physical extents
+==============================
+To move an online logical volume between PVs on the same Volume Group, use the "pvmove" tool:
+
+1. Creates a new, empty device mapping for the destination.
+2. Applies the "mirror" target to the original and destination maps. The kernel will start the 
+   mirror in "degraded" mode and begin copying data from the original to the destination to bring it 
+   into sync.
+3. Replaces the original mapping with the destination when the mirror comes into sync, then 
+   destroys the original.
+
+These device mapper operations take place transparently, without applications or filesystems being 
+aware that their underlying storage is moving.
+
+wikipedia.org/
+
+
+
+Links
+=====
+Logical Volume Manager (Linux)
+From Wikipedia, the free encyclopedia
+http://en.wikipedia.org/wiki/Logical_Volume_Manager_%28Linux%29
+

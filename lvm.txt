@@ -629,6 +629,10 @@ Logical Volume Manager (Linux)
 From Wikipedia, the free encyclopedia
 http://en.wikipedia.org/wiki/Logical_Volume_Manager_%28Linux%29
 
+LVM HOWTO
+AJ Lewis <alewis(at)rackable.com>
+http://tldp.org/HOWTO/html_single/LVM-HOWTO/
+
 LVM Administrator's Guide
 Configuration and Administration
 Great info here.

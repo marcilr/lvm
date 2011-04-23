@@ -6,6 +6,8 @@ by Raymond E. Marcil
 Configuring 5.45TB RAID6 on 3ware 9650SE-8LPML with logical volumes.
 
 
+The /dev/VGNAME/LVNAME path is just a convenience symlink to /dev/mapper/...
+
 lvm - Logical Volume Manager (LVM) 
       Physical Volume (PV)
       Logical Volume (LV)

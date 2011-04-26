@@ -65,7 +65,6 @@ Name          Capacity
 akshena           30GB
 chroot             1GB
 debs              25GB
-docs               5GB
 iso               50GB
 maps              50GB
 movies          1000GB

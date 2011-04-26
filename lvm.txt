@@ -151,6 +151,24 @@ bornite:~# lvcreate -n svnroot --size 500g data
   Logical volume "svnroot" created
 
 
+Mon Apr 25 16:45:39 AKDT 2011
+=============================
+Removed empty /data/docs logical volumn.
+
+bornite:~# umount /data/docs
+
+bornite:~# ls -l /dev/data/docs 
+lrwxrwxrwx 1 root root 21 2011-04-25 06:56 /dev/data/docs -> /dev/mapper/data-doc
+
+bornite:~# lvremove /dev/data/docs
+Do you really want to remove active logical volume "docs"? [y/n]: y
+  Logical volume "docs" successfully removed
+bornite:~#
+
+NOTE: This procedure required commenting out /dev/mapper/data-docs
+in /etc/fstab and and restarted to get /data/docs in non-used state.
+
+
 Fri Nov 12 09:52:40 AKST 2010
 =============================
 Create /data/pdf logical volume.  Migrate data from /data/docs/pdf/*.

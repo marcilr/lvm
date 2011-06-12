@@ -1,0 +1,35 @@
+vgscan.txt
+Created Sat Jun 11 16:05:42 AKDT 2011
+by Raymond E. Marcil <marcilr@gmail.com>
+
+
+vgscan - scan all disks for volume groups and rebuild caches
+
+
+The vgscan command can be used to list disks in volume groups.
+
+Example
+=======
+bornite:/# vgscan -vv
+...
+
+    Finding volume group "backups"
+      /dev/md1: lvm2 label detected
+      /dev/md1: lvm2 label detected
+  Found volume group "backups" using metadata type lvm2
+      Unlocking /var/lock/lvm/V_backups
+      Locking /var/lock/lvm/V_data RB
+    Finding volume group "data"
+      /dev/sda1: lvm2 label detected
+      /dev/sda1: lvm2 label detected
+  Found volume group "data" using metadata type lvm2
+      Unlocking /var/lock/lvm/V_data
+bornite:/#
+
+i.e. Following volume group to storage mappings:
+
+Volume group     Disk storage
+-----------------------------
+backups          /dev/md1
+daat             /dev/sda1
+

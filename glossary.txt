@@ -11,6 +11,10 @@ LVM - In computer storage, logical volume management or LVM provides a method of
   partitions into larger virtual ones that administrators can re-size or move, potentially 
   without interrupting system use.
   wikipedia.org/
+
+LE - Logical Exit.  Each logical volume is split into chunks of data, known as logical extents. 
+  The extent size is the same for all logical volumes in the volume group.
+  tldp.org/
   
 LV - Logical Volume.  The equivalent of a disk partition in a non-LVM system. The LV is visible as
   a standard block device; as such the LV can contain a file system (eg. /home). 
@@ -39,6 +43,9 @@ http://en.wikipedia.org/wiki/Logical_Volume_Manager_%28Linux%29
 LVM HOWTO
 AJ Lewis <alewis(at)rackable.com>
 http://www.tldp.org/HOWTO/LVM-HOWTO/
+
+3.5. logical extent (LE)
+http://www.tldp.org/HOWTO/LVM-HOWTO/le.html
 
 3.3. logical volume (LV)
 http://www.tldp.org/HOWTO/LVM-HOWTO/lv.html

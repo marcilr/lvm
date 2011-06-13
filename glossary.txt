@@ -13,7 +13,10 @@ LVM - In computer storage, logical volume management or LVM provides a method of
   
 PV  - Physical Volume
 LV  - Logical Volume
-VG  - Volume Group
+
+VG  - The Volume Group is the highest level abstraction used within the LVM.  It gathers together 
+  a collection of Logical Volumes and Physical Volumes into one administrative unit. 
+  tldp.org/
 
 
 
@@ -22,3 +25,11 @@ Links
 Logical Volume Manager (Linux)
 From Wikipedia, the free encyclopedia
 http://en.wikipedia.org/wiki/Logical_Volume_Manager_%28Linux%29
+
+LVM HOWTO
+AJ Lewis <alewis(at)rackable.com>
+http://www.tldp.org/HOWTO/LVM-HOWTO/
+
+3.1. volume group (VG)
+http://www.tldp.org/HOWTO/LVM-HOWTO/vg.html
+

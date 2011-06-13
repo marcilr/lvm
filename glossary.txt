@@ -41,6 +41,10 @@ Logical Volume Manager (Linux)
 From Wikipedia, the free encyclopedia
 http://en.wikipedia.org/wiki/Logical_Volume_Manager_%28Linux%29
 
+13.6. Moving a volume group to another system <== This is it!
+Chapter 13. Recipes
+http://tldp.org/HOWTO/LVM-HOWTO/recipemovevgtonewsys.html
+
 LVM HOWTO
 AJ Lewis <alewis(at)rackable.com>
 http://www.tldp.org/HOWTO/LVM-HOWTO/

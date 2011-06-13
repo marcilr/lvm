@@ -12,3 +12,8 @@ Links
 Logical volume management
 From Wikipedia, the free encyclopedia
 http://en.wikipedia.org/wiki/Logical_volume_management
+
+13.6. Moving a volume group to another system <== This is it!
+Chapter 13. Recipes
+http://tldp.org/HOWTO/LVM-HOWTO/recipemovevgtonewsys.html
+

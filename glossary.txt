@@ -16,6 +16,10 @@ LV - Logical Volume.  The equivalent of a disk partition in a non-LVM system. Th
   a standard block device; as such the LV can contain a file system (eg. /home). 
   tldp.org/
 
+PE - Each physical volume is divided chunks of data, known as physical extents, these extents have
+  the same size as the logical extents for the volume group. 
+  tldp.org/
+
 PV - A physical volume is typically a hard disk, though it may well just be a device that 'looks'
   like a hard disk (eg. a software raid device).
   tldp.org/
@@ -38,6 +42,9 @@ http://www.tldp.org/HOWTO/LVM-HOWTO/
 
 3.3. logical volume (LV)
 http://www.tldp.org/HOWTO/LVM-HOWTO/lv.html
+
+3.4. physical extent (PE)
+http://www.tldp.org/HOWTO/LVM-HOWTO/pe.html
 
 3.2. physical volume (PV)
 http://www.tldp.org/HOWTO/LVM-HOWTO/pv.html

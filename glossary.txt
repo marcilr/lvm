@@ -11,10 +11,13 @@ LVM - In computer storage, logical volume management or LVM provides a method of
   without interrupting system use.
   wikipedia.org/
   
-PV  - Physical Volume
-LV  - Logical Volume
+PV - A physical volume is typically a hard disk, though it may well just be a device that 'looks' 
+  like a hard disk (eg. a software raid device). 
+  tldp.org/
 
-VG  - The Volume Group is the highest level abstraction used within the LVM.  It gathers together 
+LV - Logical Volume
+
+VG - The Volume Group is the highest level abstraction used within the LVM.  It gathers together 
   a collection of Logical Volumes and Physical Volumes into one administrative unit. 
   tldp.org/
 
@@ -29,6 +32,9 @@ http://en.wikipedia.org/wiki/Logical_Volume_Manager_%28Linux%29
 LVM HOWTO
 AJ Lewis <alewis(at)rackable.com>
 http://www.tldp.org/HOWTO/LVM-HOWTO/
+
+3.2. physical volume (PV)
+http://www.tldp.org/HOWTO/LVM-HOWTO/pv.html
 
 3.1. volume group (VG)
 http://www.tldp.org/HOWTO/LVM-HOWTO/vg.html

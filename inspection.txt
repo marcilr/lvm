@@ -1,0 +1,32 @@
+inspection.txt
+Created Sun Jun 12 19:35:22 AKDT 2011
+by Raymond E. Marcil <marcilr@gmail.com>
+
+
+Inspection of lvm.
+
+
+pvdisplay - display attributes of a physical volume
+===================================================
+bornite:~# pvdisplay
+  --- Physical volume ---
+  PV Name               /dev/md1
+  VG Name               backups
+  PV Size               2.73 TB / not usable 0   
+  Allocatable           yes 
+  PE Size (KByte)       4096
+  Total PE              715400
+  Free PE               16520
+  Allocated PE          698880
+  PV UUID               e086PL-UkyR-92yk-ZqtC-bLqZ-nTkT-Wg1TIJ
+   
+  --- Physical volume ---
+  PV Name               /dev/sda1
+  VG Name               data
+  PV Size               5.46 TB / not usable 0   
+  Allocatable           yes 
+  PE Size (KByte)       4096
+  Total PE              1430495
+  Free PE               388063
+  Allocated PE          1042432
+  PV UUID               3qtGvo-yg3c-5NVc-PUsi-YXK3-jKaq-0M3gcY

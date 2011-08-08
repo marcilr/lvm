@@ -74,7 +74,58 @@ Sun Aug  7 19:02:36 AKDT 2011
 =============================
 Example run on malachite.
 
-1. Install lvm2 package:
+
+1. Lists disks with fdisk.  Booted to debian squeeze 6.0.2
+installed on 80GB sata attached tpo mobo.
+
+root@malachite:/home/marcilr# fdisk -l
+
+Disk /dev/sda: 80.0 GB, 80026361856 bytes
+255 heads, 63 sectors/track, 9729 cylinders
+Units = cylinders of 16065 * 512 = 8225280 bytes
+Sector size (logical/physical): 512 bytes / 512 bytes
+I/O size (minimum/optimal): 512 bytes / 512 bytes
+Disk identifier: 0x0002c1f3
+
+   Device Boot      Start         End      Blocks   Id  System
+/dev/sda1   *           1        9330    74936320   83  Linux
+/dev/sda2            9330        9730     3212289    5  Extended
+/dev/sda5            9330        9730     3212288   82  Linux swap / Solaris
+
+Disk /dev/sdb: 160.0 GB, 159977046016 bytes
+255 heads, 63 sectors/track, 19449 cylinders
+Units = cylinders of 16065 * 512 = 8225280 bytes
+Sector size (logical/physical): 512 bytes / 512 bytes
+I/O size (minimum/optimal): 512 bytes / 512 bytes
+Disk identifier: 0x00026327
+
+   Device Boot      Start         End      Blocks   Id  System
+/dev/sdb1   *           1          32      248832   83  Linux
+Partition 1 does not end on cylinder boundary.
+/dev/sdb2              32       19450   155975681    5  Extended
+/dev/sdb5              32       19450   155975680   8e  Linux LVM
+
+Disk /dev/dm-0: 153.2 GB, 153205342208 bytes
+255 heads, 63 sectors/track, 18626 cylinders
+Units = cylinders of 16065 * 512 = 8225280 bytes
+Sector size (logical/physical): 512 bytes / 512 bytes
+I/O size (minimum/optimal): 512 bytes / 512 bytes
+Disk identifier: 0x00000000
+
+Disk /dev/dm-0 doesn't contain a valid partition table
+
+Disk /dev/dm-1: 6509 MB, 6509559808 bytes
+255 heads, 63 sectors/track, 791 cylinders
+Units = cylinders of 16065 * 512 = 8225280 bytes
+Sector size (logical/physical): 512 bytes / 512 bytes
+I/O size (minimum/optimal): 512 bytes / 512 bytes
+Disk identifier: 0x00000000
+
+Disk /dev/dm-1 doesn't contain a valid partition table
+root@malachite:/home/marcilr# 
+
+
+2. Install lvm2 package:
 root@malachite:~# aptitude install lvm2
 ...
 Setting up LVM Volume Groups  Reading all physical volumes.  This may take a while...
@@ -83,13 +134,15 @@ Setting up LVM Volume Groups  Reading all physical volumes.  This may take a whi
 ...
 root@malachite:~#
 
-2. Run pvs - report information about physical volumes
+
+3. Run pvs - report information about physical volumes
 root@malachite:~# pvs
   PV         VG        Fmt  Attr PSize   PFree
   /dev/sdb5  malachite lvm2 a-   148.75g    0 
 root@malachite:~# 
 
-3. List information about malachite volume group.
+
+4. List information about malachite volume group.
 It will throw a bunch of output, but the one we are concerned 
 with is LV Name:
 
@@ -132,7 +185,7 @@ root@malachite:~# lvdisplay /dev/malachite
    
 root@malachite:~# 
 
-4. Mount logical volume:
+5. Mount logical volume:
 
 root@malachite:~# mount /dev/malachite/root /mnt
 marcilr@malachite:~$ ls /mnt

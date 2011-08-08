@@ -1,0 +1,152 @@
+mount.txt
+Created Sun Aug  7 18:55:45 AKDT 2011
+by Raymond E. Marcil <marcilr@gmail.com>
+
+
+How to mount Linux LVM volume partitions on Linux
+Written on August 28th, 2010 at 23:31 pm by shredder12
+
+So, one of my friends had this weird system breakdown while upgrading Fedora 
+from DVD.  Grub couldn't locate the grub.cfg file.  In order to fix the system
+and take a backup of some important files, we booted in a live session, mounted
+a lvm partition to find out that most of the data was gone.  The end was pretty
+bad but I think, just like in my case, there will be many more who wouldn't 
+know how to mount a lvm partition.  This little adventure of mine might help 
+you out.
+
+In case you have to do something similar just follow the steps we took.
+
+1) Once we were in live session, we opened a terminal and ran:
+[root]# fdisk -l
+
+This lists out the partition table of the system and it looked something like 
+this:
+
+Device        Boot   Start     End      Blocks       Id   System 
+/dev/sda1     *        1       4864     39070048+     7   HPFS/NTFS
+/dev/sda2            4865      6691     14675377+    83   LVM2_member
+...
+
+2) The good news was that the system was at least able to distinguish the 
+partitions.  So, in order to backup the data, the next step was to access the 
+/dev/sda2 partition.  But since it is an lvm partition we will had to take some
+additional steps to mount it.
+
+Now, run the pvs command.  Please note that while in live session you may find 
+that this is not installed by default.  In order to install the required tools,
+run the following command.
+
+[shredder12]$ sudo apt-get install lvm2
+
+Of course, you should be connected to internet.  Once you are done with this 
+run pvs.
+
+[root]# pvs
+
+This will list the volume groups to which our physical volume /dev/sda2 
+belonged.  It would be of the form:
+
+PV               VG     Fmt    Attr    PSize     PFree
+/dev/hda2   VolGroup01  lvm2   a-      148.94G   32.00M
+
+The second field, VG, shows the Volume group.  The above output is just an 
+example, showing that we are concerned with the Volume group "VolGroup01". 
+The next step is to list the information about this volume group.
+
+[root]# lvdisplay /dev/VolGroup01
+
+It will throw a bunch of ouput, but the one we are concerned with is LV Name.
+It will look something like this:
+
+LV Name /dev/VolGroup01/LogVol00
+
+In our case, there were two entries of type LV Name, the other being LogVol01, 
+the swap.  The whole output along with it will help you to identify the target 
+logical volume you are looking for.  Assuming that the above one is the 
+partition that we need to mount, just use the usual method to mount it.
+
+[root]# mount /dev/VolGroup01/LogVol00   /mnt
+
+Now, you can to find the data you were looking for in the /mnt folder.
+
+
+Sun Aug  7 19:02:36 AKDT 2011
+=============================
+Example run on malachite.
+
+1. Install lvm2 package:
+root@malachite:~# aptitude install lvm2
+...
+Setting up LVM Volume Groups  Reading all physical volumes.  This may take a while...
+  Found volume group "malachite" using metadata type lvm2
+  2 logical volume(s) in volume group "malachite" now active
+...
+root@malachite:~#
+
+2. Run pvs - report information about physical volumes
+root@malachite:~# pvs
+  PV         VG        Fmt  Attr PSize   PFree
+  /dev/sdb5  malachite lvm2 a-   148.75g    0 
+root@malachite:~# 
+
+3. List information about malachite volume group.
+It will throw a bunch of output, but the one we are concerned 
+with is LV Name:
+
+root@malachite:~# lvdisplay /dev/malachite | grep "LV Name"
+  LV Name                /dev/malachite/root
+  LV Name                /dev/malachite/swap_1
+root@malachite:~#
+
+
+root@malachite:~# lvdisplay /dev/malachite
+  --- Logical volume ---
+  LV Name                /dev/malachite/root
+  VG Name                malachite
+  LV UUID                cDcrPd-MioT-ZY1P-R4dW-3ZRX-ukb1-7trxo0
+  LV Write Access        read/write
+  LV Status              available
+  # open                 0
+  LV Size                142.68 GiB
+  Current LE             36527
+  Segments               1
+  Allocation             inherit
+  Read ahead sectors     auto
+  - currently set to     256
+  Block device           254:0
+   
+  --- Logical volume ---
+  LV Name                /dev/malachite/swap_1
+  VG Name                malachite
+  LV UUID                bLwuSz-gjgH-7YqX-GMhE-IfLj-urF6-qtV19A
+  LV Write Access        read/write
+  LV Status              available
+  # open                 0
+  LV Size                6.06 GiB
+  Current LE             1552
+  Segments               1
+  Allocation             inherit
+  Read ahead sectors     auto
+  - currently set to     256
+  Block device           254:1
+   
+root@malachite:~# 
+
+4. Mount logical volume:
+
+root@malachite:~# mount /dev/malachite/root /mnt
+marcilr@malachite:~$ ls /mnt
+bin   etc      initrd.img  lib64       mnt   README  selinux  tmp  vmlinuz
+boot  exports  lib         lost+found  opt   root    srv      usr
+dev   home     lib32       media       proc  sbin    sys      var
+marcilr@malachite:~$ 
+
+marcilr@malachite:~$ df -m
+Filesystem           1M-blocks      Used Available Use% Mounted on
+/dev/sda1                72032     20463     47910  30% /
+...
+/dev/mapper/malachite-root
+                        143815    134118      2392  99% /mnt
+marcilr@malachite:~$
+
+The mount of the logical volume group definately worked.

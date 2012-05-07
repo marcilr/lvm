@@ -27,30 +27,26 @@ Directory          Description                                  Size
                    attached to motherboard.
 
 
-Directory          Description                                  Size
---------------------------------------------------------------------
-/data/00BACKUPS    Backups                                    1.46TB
-/data/00TARBALLS   Software tarballs, 4104MB on Sep 3, 2008    100GB
-  from: malachite:/usr/local/src/00TARBALLS on Sep 3, 2008
-/data/akshena      Shena's data                                 30GB
-/data/chroot       Chroot directories                            1GB
-/data/debs         Debian debs                                  25GB
-/data/iso          ISOs                                         50GB
-/data/maps         Maps                                         50GB
-/data/movies       TiVo movies                                1000GB
-/data/music        Music collection                            500GB
-/data/pdf          PDFs                                          5GB
-/data/pictures     Picture collection                          100GB
-/data/rockhounding Rockhounding related.                       100GB
-/data/scans        Scans                                       100GB
-/data/svnroot      Subversion repositories                     500GB
-                   from turchoise:/usr/local/svnroot
-                   prior 2x 80GB  RAID1 on Jan 13, 2009
-/data/usr                                                       10GB
-/data/wallpaper                                                  1GB
-                                                     ===============
-                                                     Total:   4532GB <== Need to update
-NOTE: Taken Apr 17, 2010
+Directory          Description                Size
+--------------------------------------------------
+/data/00BACKUPS    Backups                   1.5TB
+/data/00TARBALLS   Software tarballs         100GB
+/data/akshena      Shena's data              300GB
+/data/chroot       Chroot directories          1GB
+/data/debs         Debian debs                25GB
+/data/iso          ISOs                       50GB
+/data/maps         Maps                       50GB
+/data/movies       TiVo movies              1000GB
+/data/music        Music collection          500GB
+/data/pdf          PDFs                       10GB
+/data/pictures     Picture collection        100GB
+/data/rockhounding Rockhounding related.     100GB
+/data/scans        Scans                     100GB
+/data/svnroot      Subversion repositories   500GB
+/data/usr                                     10GB
+/data/wallpaper                                1GB
+                                   ===============
+                                   Total:   4347GB (May 7, 2012)
 
 
 

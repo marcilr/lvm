@@ -49,7 +49,6 @@ Directory          Description                Size
                                    Total:   4347GB (May 7, 2012)
 
 
-
 bornite:~# lvscan | sort
   ACTIVE            '/dev/backups/00BACKUPS' [2.67 TB] inherit
   ACTIVE            '/dev/data/00BACKUPS' [1.46 TB] inherit

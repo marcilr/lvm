@@ -16,6 +16,7 @@ o Adding physical volumes to a volume group
 o Removing physical volumes from a volume group
 o Creating a logical volume
 o Extending a logical volume
+o Reducing a logical volume
 o Removing a logical volume
 o Removing a volume group
 
@@ -270,6 +271,18 @@ at your own risk)
 # mount /dev/myvg/homevol /home
 
 
+Reducing a logical volume
+=========================
+Logical volumes can be reduced in size as well as increased.  However, it is very important to
+remember to reduce the size of the file system or whatever is residing in the volume before
+shrinking the volume itself, otherwise you risk losing data. 
+
+The resize2fs can be used to shrink the ext3 partition.
+The lvreduce can then be used to shrink the lvm.
+
+FIXME: Need solid example here.
+
+
 Removing a logical volume
 =========================
 A logical volume must be closed before it can be removed:
@@ -343,6 +356,9 @@ http://tldp.org/HOWTO/LVM-HOWTO/removelv.html
 
 11.9. Extending a logical volume
 http://tldp.org/HOWTO/LVM-HOWTO/extendlv.html
+
+11.10. Reducing a logical volume
+http://tldp.org/HOWTO/LVM-HOWTO/reducelv.html
 
 Logical volume management
 From Wikipedia, the free encyclopedia

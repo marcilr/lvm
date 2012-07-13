@@ -8,9 +8,25 @@ LVM (Logical Volume Manager) HOWTO
 
 Sections
 ========
+o Create "backups" LVM
 o Removing a logical volume
 o Removing a volume group
 
+
+Create "backups" LVM
+====================
+Configured RAID5, with 4x Seagate ST31000340NS 1TB drives, attached to 9650SE-8LPML on bornite.
+Need to configure a "backups" LVM for routine backups of the c0 unit (on 9650SE-16ML controller)
+to the c5 unit on the 9650SE-8LPML controller.
+
+# tw_cli info
+
+Ctl   Model        (V)Ports  Drives   Units   NotOpt  RRate   VRate  BBU
+------------------------------------------------------------------------
+c0    9650SE-16ML  16        8        1       0       1       1      OK       
+c5    9650SE-8LPML 8         4        1       0       1       1      OK       
+
+#
 
 Removing a logical volume
 =========================

@@ -78,7 +78,7 @@ Looks good.
 
 NOTE: Don't think this was necessary.  Likely active after creation.
 
-3. Create backups lvm using lvcreate.
+4. Create backups lvm using lvcreate.
 
 Want to use entire "backups" VG for the "backups" lvm.  Use vgdisplay to find the "Total PE"
 size for "backups" VG.
@@ -108,7 +108,7 @@ This creates the "backups" LV filling the entire "backups" VG.
 
 Appears to have worked.
 
-4. Format "backups" LV ext3.
+5. Format "backups" LV ext3.
 
 # mkfs.ext3 /dev/backups/backups
 mke2fs 1.41.12 (17-May-2010)
@@ -140,7 +140,7 @@ This filesystem will be automatically checked every 20 mounts or
 #
 
 
-5. Test mount of new "backups" lvm.
+6. Test mount of new "backups" lvm.
 # mount /dev/backups/backups /mnt
 
 # df -m 
@@ -154,7 +154,7 @@ This filesystem will be automatically checked every 20 mounts or
 NOTE: I think the trick was using pvcreate to initialize the /dev/sdd1 physical volume.
 
 
-6. Add "backups" lvm to /etc/fstab.
+7. Add "backups" lvm to /etc/fstab.
 
 # LVM logical volumes on raid5 (9650SE-8LPML, unit c5)
 /dev/backups/backups          /backups           ext3   defaults   0    2
@@ -169,7 +169,7 @@ NOTE: I think the trick was using pvcreate to initialize the /dev/sdd1 physical 
                        2816095       202   2672844   1% /backups
 #
 
-Looks good!  New backups lvm, on new RAID5, attached to 9650SE-8LPMLm created.
+Looks good!  New backups lvm, on new RAID5, attached to 9650SE-8LPML created.
 
 
 

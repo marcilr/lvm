@@ -13,6 +13,7 @@ o Initializing disks or disk partitions
 o Creating a volume group
 o Activating a volume group
 o Adding physical volumes to a volume group
+o Removing physical volumes from a volume group
 o Removing a logical volume
 o Removing a volume group
 
@@ -126,6 +127,37 @@ Use 'vgextend' to add an initialized physical volume to an existing volume group
                                     ^^^^^^^^^ new physical volume
 
 
+Removing physical volumes from a volume group
+=============================================
+Make sure that the physical volume isn't used by any logical volumes by using then 'pvdisplay'
+command:
+
+# pvdisplay /dev/hda1
+
+--- Physical volume ---
+PV Name               /dev/hda1
+VG Name               myvg
+PV Size               1.95 GB / NOT usable 4 MB [LVM: 122 KB]
+PV#                   1
+PV Status             available
+Allocatable           yes (but full)
+Cur LV                1
+PE Size (KByte)       4096
+Total PE              499
+Free PE               0
+Allocated PE          499
+PV UUID               Sd44tK-9IRw-SrMC-MOkn-76iP-iftz-OVSen7
+
+
+If the physical volume is still used you will have to migrate the data to another physical volume
+using pvmove.
+
+Then use 'vgreduce' to remove the physical volume:
+
+# vgreduce my_volume_group /dev/hda1
+        
+
+
 Removing a logical volume
 =========================
 A logical volume must be closed before it can be removed:
@@ -187,6 +219,9 @@ http://tldp.org/HOWTO/LVM-HOWTO/removevgs.html
 
 11.5. Adding physical volumes to a volume group
 http://tldp.org/HOWTO/LVM-HOWTO/addpvstovg.html
+
+11.6. Removing physical volumes from a volume group
+http://tldp.org/HOWTO/LVM-HOWTO/removepvsfromvg.html
 
 11.8. Removing a logical volume
 http://tldp.org/HOWTO/LVM-HOWTO/removelv.html

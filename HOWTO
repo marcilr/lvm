@@ -131,6 +131,45 @@ Superblock backups stored on blocks:
 
 Writing inode tables: 950/22352
 ...
+Writing inode tables: done                            
+Creating journal (32768 blocks): done
+Writing superblocks and filesystem accounting information: done
+
+This filesystem will be automatically checked every 20 mounts or
+180 days, whichever comes first.  Use tune2fs -c or -i to override.
+#
+
+
+5. Test mount of new "backups" lvm.
+# mount /dev/backups/backups /mnt
+
+# df -m 
+...
+/dev/mapper/backups-backups
+                       2816095       202   2672844   1% /mnt
+#
+
+2816095MB / 1024 = 2750GB /1024 = 2.69TB   <== Yeh hah, worked good.
+
+NOTE: I think the trick was using pvcreate to initialize the /dev/sdd1 physical volume.
+
+
+6. Add "backups" lvm to /etc/fstab.
+
+# LVM logical volumes on raid5 (9650SE-8LPML, unit c5)
+/dev/backups/backups          /backups           ext3   defaults   0    2
+
+# mount /backups
+# mount
+...
+/dev/mapper/backups-backups on /backups type ext3 (rw)
+# df -m
+...
+/dev/mapper/backups-backups
+                       2816095       202   2672844   1% /backups
+#
+
+Looks good!  New backups lvm, on new RAID5, attached to 9650SE-8LPMLm created.
 
 
 

@@ -12,6 +12,7 @@ o Create "backups" LVM
 o Initializing disks or disk partitions
 o Creating a volume group
 o Activating a volume group
+o Adding physical volumes to a volume group
 o Removing a logical volume
 o Removing a volume group
 
@@ -117,6 +118,14 @@ VGs and LVs. To reactivate the volume group, run:
 # vgchange -a y my_volume_group
 
 
+Adding physical volumes to a volume group
+=========================================
+Use 'vgextend' to add an initialized physical volume to an existing volume group.
+
+# vgextend my_volume_group /dev/hdc1
+                                    ^^^^^^^^^ new physical volume
+
+
 Removing a logical volume
 =========================
 A logical volume must be closed before it can be removed:
@@ -175,6 +184,9 @@ http://tldp.org/HOWTO/LVM-HOWTO/activatevgs.html
 
 11.4. Removing a volume group
 http://tldp.org/HOWTO/LVM-HOWTO/removevgs.html
+
+11.5. Adding physical volumes to a volume group
+http://tldp.org/HOWTO/LVM-HOWTO/addpvstovg.html
 
 11.8. Removing a logical volume
 http://tldp.org/HOWTO/LVM-HOWTO/removelv.html

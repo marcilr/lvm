@@ -78,6 +78,34 @@ NOTE: Don't think this was necessary.  Likely active after creation.
 
 3. Create backups lvm using lvcreate.
 
+Want to use entire "backups" VG for the "backups" lvm.  Use vgdisplay to find the "Total PE"
+size for "backups" VG.
+
+# vgdisplay backups | grep "Total PE"
+  Total PE              715247          <== Total size of "backups" VG.
+#
+
+Create "backups" LV in "backups" VG.
+# lvcreate -l 715247 backups -n backups
+  Logical volume "backups" created
+#
+
+This creates the "backups" LV filling the entire "backups" VG.
+
+# vgdisplay
+  --- Volume group ---
+  VG Name               backups
+  ...
+  VG Size               2.73 TiB
+  PE Size               4.00 MiB
+  Total PE              715247
+  Alloc PE / Size       715247 / 2.73 TiB
+  Free  PE / Size       0 / 0
+  ...
+#
+
+Appears to have worked.
+
 
 
 Initializing disks or disk partitions

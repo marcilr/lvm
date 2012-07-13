@@ -280,6 +280,14 @@ shrinking the volume itself, otherwise you risk losing data.
 The resize2fs can be used to shrink the ext3 partition.
 The lvreduce can then be used to shrink the lvm.
 
+If you prefer to do this manually you must know the new size of the volume in blocks and use the
+following commands:
+
+# umount /home
+# resize2fs /dev/myvg/homevol 524288   <== Block per 1GB (???)
+# lvreduce -L-1G /dev/myvg/homevol
+# mount /home
+
 FIXME: Need solid example here.
 
 

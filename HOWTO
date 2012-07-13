@@ -28,6 +28,9 @@ c5    9650SE-8LPML 8         4        1       0       1       1      OK
 
 #
 
+
+
+
 Removing a logical volume
 =========================
 A logical volume must be closed before it can be removed:
@@ -84,3 +87,7 @@ http://tldp.org/HOWTO/LVM-HOWTO/removelv.html
 11.4. Removing a volume group
 Chapter 11. Common Tasks - LVM HOWTO
 http://tldp.org/HOWTO/LVM-HOWTO/removevgs.html
+
+Logical volume management
+From Wikipedia, the free encyclopedia
+http://en.wikipedia.org/wiki/Logical_volume_management

@@ -279,6 +279,9 @@ http://tldp.org/HOWTO/LVM-HOWTO/createlv.html
 11.8. Removing a logical volume
 http://tldp.org/HOWTO/LVM-HOWTO/removelv.html
 
+11.9. Extending a logical volume  <== FIXME: Add section???
+http://tldp.org/HOWTO/LVM-HOWTO/extendlv.html
+
 Logical volume management
 From Wikipedia, the free encyclopedia
 http://en.wikipedia.org/wiki/Logical_volume_management

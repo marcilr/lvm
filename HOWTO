@@ -15,6 +15,7 @@ o Activating a volume group
 o Adding physical volumes to a volume group
 o Removing physical volumes from a volume group
 o Creating a logical volume
+o Extending a logical volume
 o Removing a logical volume
 o Removing a volume group
 
@@ -105,6 +106,30 @@ This creates the "backups" LV filling the entire "backups" VG.
 #
 
 Appears to have worked.
+
+4. Format "backups" LV ext3.
+
+# mkfs.ext3 /dev/backups/backups
+mke2fs 1.41.12 (17-May-2010)
+Filesystem label=
+OS type: Linux
+Block size=4096 (log=2)
+Fragment size=4096 (log=2)
+Stride=0 blocks, Stripe width=0 blocks
+183107584 inodes, 732412928 blocks
+36620646 blocks (5.00%) reserved for the super user
+First data block=0
+Maximum filesystem blocks=4294967296
+22352 block groups
+32768 blocks per group, 32768 fragments per group
+8192 inodes per group
+Superblock backups stored on blocks: 
+        32768, 98304, 163840, 229376, 294912, 819200, 884736, 1605632, 2654208, 
+        4096000, 7962624, 11239424, 20480000, 23887872, 71663616, 78675968, 
+        102400000, 214990848, 512000000, 550731776, 644972544
+
+Writing inode tables: 950/22352
+...
 
 
 
@@ -208,6 +233,43 @@ specify the PV or PVs at the end of the lvcreate command line.
 # lvcreate -L 1500 -ntestlv testvg /dev/sdg
 
 
+Extending a logical volume
+==========================
+To extend a logical volume you simply tell the lvextend command how much you want to increase the
+size.  You can specify how much to grow the volume, or how large you want it to grow to:
+
+# lvextend -L12G /dev/myvg/homevol
+lvextend -- extending logical volume "/dev/myvg/homevol" to 12 GB
+lvextend -- doing automatic backup of volume group "myvg"
+lvextend -- logical volume "/dev/myvg/homevol" successfully extended
+        
+will extend /dev/myvg/homevol to 12 Gigabytes.
+
+# lvextend -L+1G /dev/myvg/homevol
+lvextend -- extending logical volume "/dev/myvg/homevol" to 13 GB
+lvextend -- doing automatic backup of volume group "myvg"
+lvextend -- logical volume "/dev/myvg/homevol" successfully extended
+        
+will add another gigabyte to /dev/myvg/homevol.
+
+After you have extended the logical volume it is necessary to increase the file system size to
+match. how you do this depends on the file system you are using.
+
+By default, most file system resizing tools will increase the size of the file system to be the
+size of the underlying logical volume so you don't need to worry about specifying the same size
+for each of the two commands.
+
+ext2/ext3
+---------
+Unless you have patched your kernel with the ext2online patch it is necessary to unmount the file
+system before resizing it.  (It seems that the online resizing patch is rather dangerous, so use
+at your own risk)
+
+# umount /dev/myvg/homevol/dev/myvg/homevol
+# resize2fs /dev/myvg/homevol
+# mount /dev/myvg/homevol /home
+
+
 Removing a logical volume
 =========================
 A logical volume must be closed before it can be removed:
@@ -279,7 +341,7 @@ http://tldp.org/HOWTO/LVM-HOWTO/createlv.html
 11.8. Removing a logical volume
 http://tldp.org/HOWTO/LVM-HOWTO/removelv.html
 
-11.9. Extending a logical volume  <== FIXME: Add section???
+11.9. Extending a logical volume
 http://tldp.org/HOWTO/LVM-HOWTO/extendlv.html
 
 Logical volume management

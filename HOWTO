@@ -10,6 +10,8 @@ Sections
 ========
 o Create "backups" LVM
 o Initializing disks or disk partitions
+o Creating a volume group
+o Activating a volume group
 o Removing a logical volume
 o Removing a volume group
 
@@ -29,13 +31,49 @@ c5    9650SE-8LPML 8         4        1       0       1       1      OK
 
 #
 
-1. Initialize /dev/sdd1 partition on 9650SE-8LPML RAID5.
+1. Initialize physical volume on /dev/sdd1 partition using pvcreate.
 
 # pvcreate /dev/sdd1
   Physical volume "/dev/sdd1" successfully created
 #
 
 This creates a volume group descriptor at the start of the /dev/sdd1 partition. 
+
+# pvdisplay
+...
+  "/dev/sdd1" is a new physical volume of "2.73 TiB"
+  --- NEW Physical volume ---
+  PV Name               /dev/sdd1
+  VG Name               
+  PV Size               2.73 TiB
+...
+#
+
+2. Create backups volume group on /dev/sdd1 using vgcreate.
+
+# vgcreate backups /dev/sdd1
+  Volume group "backups" successfully created
+#
+
+# vgdisplay
+  --- Volume group ---
+  VG Name               backups
+...
+  VG Size               2.73 TiB
+  PE Size               4.00 MiB
+...
+#
+
+Looks good.
+
+3. Activate "backups" volume group.
+# vgchange -a y backups
+  0 logical volume(s) in volume group "backups" now active
+#
+
+NOTE: Don't think this was necessary.  Likely active after creation.
+
+3. Create backups lvm using lvcreate.
 
 
 
@@ -59,6 +97,24 @@ Run pvcreate on the partition:
 # pvcreate /dev/hdb1
 
 This creates a volume group descriptor at the start of the /dev/hdb1 partition.
+
+
+Creating a volume group
+=======================
+Use the 'vgcreate' program:
+
+# vgcreate my_volume_group /dev/hda1 /dev/hdb1 
+
+NOTE: LVM allows for absorbing or ejecting disks from the volume group.
+      Similar to RAID0.
+
+
+Activating a volume group
+=========================
+After rebooting the system or running vgchange -an, you will not be able to access your
+VGs and LVs. To reactivate the volume group, run: 
+
+# vgchange -a y my_volume_group
 
 
 Removing a logical volume
@@ -114,13 +170,23 @@ http://tldp.org/HOWTO/LVM-HOWTO/
 11.1. Initializing disks or disk partitions
 http://tldp.org/HOWTO/LVM-HOWTO/initdisks.html
 
-11.8. Removing a logical volume
-http://tldp.org/HOWTO/LVM-HOWTO/removelv.html
+11.3. Activating a volume group
+http://tldp.org/HOWTO/LVM-HOWTO/activatevgs.html
 
 11.4. Removing a volume group
-Chapter 11. Common Tasks
 http://tldp.org/HOWTO/LVM-HOWTO/removevgs.html
+
+11.8. Removing a logical volume
+http://tldp.org/HOWTO/LVM-HOWTO/removelv.html
 
 Logical volume management
 From Wikipedia, the free encyclopedia
 http://en.wikipedia.org/wiki/Logical_volume_management
+
+Logical Volume Manager (Linux)
+From Wikipedia, the free encyclopedia
+http://en.wikipedia.org/wiki/Logical_Volume_Manager_%28Linux%29
+
+Linux LVM (Logical Volume Management)
+Solid instruictions on entire LVM process.
+http://www.novell.com/communities/node/4063/linux-lvm-logical-volume-management

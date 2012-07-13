@@ -9,6 +9,7 @@ LVM (Logical Volume Manager) HOWTO
 Sections
 ========
 o Create "backups" LVM
+o Initializing disks or disk partitions
 o Removing a logical volume
 o Removing a volume group
 
@@ -28,7 +29,36 @@ c5    9650SE-8LPML 8         4        1       0       1       1      OK
 
 #
 
+1. Initialize /dev/sdd1 partition on 9650SE-8LPML RAID5.
 
+# pvcreate /dev/sdd1
+  Physical volume "/dev/sdd1" successfully created
+#
+
+This creates a volume group descriptor at the start of the /dev/sdd1 partition. 
+
+
+
+Initializing disks or disk partitions
+=====================================
+Before you can use a disk or disk partition as a physical volume you will have to initialize it.
+
+Use pvcreate to initialize a disk or disk partition.
+
+Run pvcreate on the disk:
+# pvcreate /dev/hdb
+
+This creates a volume group descriptor at the start of disk.
+
+NOTE: Using the whole disk as a PV (as opposed to a partition spanning the whole disk) is not
+recommended because of the management issues it can create.  Any other OS that looks at the disk
+will not recognize the LVM metadata and display the disk as being free, so it is likely it will be
+overwritten.  LVM itself will work fine with whole disk PVs. 
+
+Run pvcreate on the partition:
+# pvcreate /dev/hdb1
+
+This creates a volume group descriptor at the start of the /dev/hdb1 partition.
 
 
 Removing a logical volume
@@ -81,11 +111,14 @@ Links
 LVM HOWTO
 http://tldp.org/HOWTO/LVM-HOWTO/
 
-11.8. Removing a logical volume - LVM HOWTO
+11.1. Initializing disks or disk partitions
+http://tldp.org/HOWTO/LVM-HOWTO/initdisks.html
+
+11.8. Removing a logical volume
 http://tldp.org/HOWTO/LVM-HOWTO/removelv.html
 
 11.4. Removing a volume group
-Chapter 11. Common Tasks - LVM HOWTO
+Chapter 11. Common Tasks
 http://tldp.org/HOWTO/LVM-HOWTO/removevgs.html
 
 Logical volume management

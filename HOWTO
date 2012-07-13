@@ -1,0 +1,70 @@
+HOWTO
+Created Fri Jul 13 10:19:47 AKDT 2012
+Copyright (C) 2012 by Raymond E. Marcil <marcilr@gmail.com>
+
+
+LVM (Logical Volume Manager) HOWTO
+
+
+Sections
+========
+o Removing a logical volume
+o Removing a volume group
+
+
+Removing a logical volume
+=========================
+A logical volume must be closed before it can be removed:
+
+# umount /dev/myvg/homevol
+# lvremove /dev/myvg/homevol
+lvremove -- do you really want to remove "/dev/myvg/homevol"? [y/n]: y
+lvremove -- doing automatic backup of volume group "myvg"
+lvremove -- logical volume "/dev/myvg/homevol" successfully removed
+
+tldp.org/
+
+Example (remove backups lvm on bornite):
+
+# lvremove /dev/backups/backups 
+Do you really want to remove active logical volume backups? [y/n]: y
+  Logical volume "backups" successfully removed
+# 
+
+
+Removing a volume group
+=======================
+Make sure that no logical volumes are present in the volume group, see later section for how to do
+this.
+
+Deactivate the volume group:
+# vgchange -a n my_volume_group
+
+Now you actually remove the volume group:
+# vgremove my_volume_group
+
+Example (remove backups volume group on bornite):
+
+Deactivate the volume group: 
+# vgchange -a n backups
+  0 logical volume(s) in volume group "backups" now active
+#
+        
+Now you actually remove the volume group:
+# vgremove backups
+  Volume group "backups" successfully removed
+#
+
+
+
+Links
+=====
+LVM HOWTO
+http://tldp.org/HOWTO/LVM-HOWTO/
+
+11.8. Removing a logical volume - LVM HOWTO
+http://tldp.org/HOWTO/LVM-HOWTO/removelv.html
+
+11.4. Removing a volume group
+Chapter 11. Common Tasks - LVM HOWTO
+http://tldp.org/HOWTO/LVM-HOWTO/removevgs.html

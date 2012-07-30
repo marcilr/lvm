@@ -150,9 +150,43 @@ bornite:~# lvcreate -n svnroot --size 500g data
   Logical volume "svnroot" created
 
 
+Mon Jul 30 12:59:28 AKDT 2012
+=============================
+
+
+o Create 5GB htdocs volume group for use with apache installed under /usr/local/httpd.
+
+o Create 5GB htdocs volume:
+bornite:~# lvcreate -n htdocs --size 5g data
+  Logical volume "htdocs" created
+bornite:~#
+
+o Format htdocs volume ext3:
+bornite:~# time mkfs.ext3 /dev/mapper/data-htdocs
+
+o Mount /data/htdocs:
+bornite:~# mkdir /data/htdocs
+bornite:~# chown sshfs:sshfs /data/htdocs/
+bornite:~# chmod 775 /data/htdocs
+bornite:~# chmod g+s /data/htdocs
+bornite:~# mount /dev/data/htdocs /data/htdocs
+
+o Update /etc/fstab with /data/htdocs mount:
+/dev/mapper/data-htdocs        /data/htdocs        ext3   defaults   0    2
+
+o Test /data/htdocs mount:
+bornite:~# umount /data/htdocs
+bornite:~# mount /data/htdocs
+bornite:~# mount | grep htdocs
+/dev/mapper/data-htdocs on /data/htdocs type ext3 (rw)
+bornite:~#
+
+Looks good!
+
+
 Mon Apr 25 16:45:39 AKDT 2011
 =============================
-Removed empty /data/docs logical volumn.
+Removed empty /data/docs logical volume.
 
 bornite:~# umount /data/docs
 
@@ -190,7 +224,7 @@ bornite:~# mount /dev/data/pdf /data/pdf/
 Update /etc/fstab with /data/pdf mount:
 /dev/mapper/data-pdf          /data/pdf          ext3   defaults   0    2
 
-Test /data/pad mount:
+Test /data/pdf mount:
 bornite:~# umount /data/pdf
 bornite:~# mount /data/pdf
 bornite:~# mount | grep pdf

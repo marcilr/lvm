@@ -152,11 +152,9 @@ bornite:~# lvcreate -n svnroot --size 500g data
 
 Mon Jul 30 12:59:28 AKDT 2012
 =============================
+o Created 5GB htdocs volume group for use with apache installed under /usr/local/httpd.
 
-
-o Create 5GB htdocs volume group for use with apache installed under /usr/local/httpd.
-
-o Create 5GB htdocs volume:
+o Created 5GB htdocs volume:
 bornite:~# lvcreate -n htdocs --size 5g data
   Logical volume "htdocs" created
 bornite:~#

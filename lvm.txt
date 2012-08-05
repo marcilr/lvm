@@ -150,6 +150,37 @@ bornite:~# lvcreate -n svnroot --size 500g data
   Logical volume "svnroot" created
 
 
+Sat Aug  4 16:38:16 AKDT 2012
+=============================
+o Create 300GB virtualbox volume for virtual machines:
+
+bornite:~# lvcreate -n virtualbox --size 300g data
+  Logical volume "virtualbox" created
+bornite:~#
+
+o Format virtualbox  volume ext3:
+bornite:~# mkfs.ext3 /dev/mapper/data-virtualbox
+
+o Mount /data/virtualbox:
+bornite:~# mkdir /data/virtualbox
+bornite:~# chown sshfs:sshfs /data/virtualbox/
+bornite:~# chmod 775 /data/virtualbox
+bornite:~# chmod g+s /data/virtualbox
+bornite:~# mount /dev/data/virtualbox /data/virtualbox
+
+o Update /etc/fstab with /data/virtualdocs mount:
+/dev/mapper/data-virtualdocs        /data/virtualdocs        ext3   defaults   0    2
+
+o Test /data/virtualbox mount:
+bornite:~# umount /data/virtualbox
+bornite:~# mount /data/virtualbox
+bornite:~# mount | grep virtualbox
+/dev/mapper/data-virtualbox on /data/virtualbox type ext3 (rw)
+bornite:~#
+
+Looks good!
+
+
 Mon Jul 30 12:59:28 AKDT 2012
 =============================
 o Created 5GB htdocs volume group for use with apache installed under /usr/local/httpd.

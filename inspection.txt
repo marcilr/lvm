@@ -5,10 +5,69 @@ by Raymond E. Marcil <marcilr@gmail.com>
 
 Inspection of lvm.
 
+There are three commands you can use to display properties of LVM physical volumes:
+  pvs, pvdisplay, and pvscan. 
 
-pvdisplay
-=========
-Use pvdisplay - display attributes of a physical volume.
+pvs - report information about physical volumes
+pvdisplay - display attributes of a physical volume
+pvscan - scan all disks for physical volumes
+
+centos.org/
+
+
+Tue Jan  8 16:07:11 AKST 2013
+=============================
+Looks like 935GB is available on the raid6.
+
+bornite:~# pvs
+  PV         VG      Fmt  Attr PSize  PFree  
+  /dev/md0   bornite lvm2 a-   74.52g      0 
+  /dev/sda1  data    lvm2 a-    5.46t 935.87g
+  /dev/sdb1  backups lvm2 a-    2.73t      0 
+bornite:~#
+
+bornite:~# pvdisplay
+  --- Physical volume ---
+  PV Name               /dev/sdb1
+  VG Name               backups
+  PV Size               2.73 TiB / not usable 2.00 MiB
+  Allocatable           yes (but full)
+  PE Size               4.00 MiB
+  Total PE              715247
+  Free PE               0
+  Allocated PE          715247
+  PV UUID               nEzuPV-00P2-qFnu-zfol-zFpL-WjSW-TIfxys
+
+  --- Physical volume ---
+  PV Name               /dev/sda1
+  VG Name               data
+  PV Size               5.46 TiB / not usable 3.97 MiB
+  Allocatable           yes
+  PE Size               4.00 MiB
+  Total PE              1430495
+  Free PE               239583
+  Allocated PE          1190912
+  PV UUID               3qtGvo-yg3c-5NVc-PUsi-YXK3-jKaq-0M3gcY
+
+  --- Physical volume ---
+  PV Name               /dev/md0
+  VG Name               bornite
+  PV Size               74.53 GiB / not usable 3.93 MiB
+  Allocatable           yes (but full)
+  PE Size               4.00 MiB
+  Total PE              19078
+  Free PE               0
+  Allocated PE          19078
+  PV UUID               AYqnE2-fkXP-tKpa-bCHv-pJJK-wi5R-AaQCQK
+
+#
+
+bornite:~# pvscan
+  PV /dev/sdb1   VG backups   lvm2 [2.73 TiB / 0    free]
+  PV /dev/sda1   VG data      lvm2 [5.46 TiB / 935.87 GiB free]
+  PV /dev/md0    VG bornite   lvm2 [74.52 GiB / 0    free]
+  Total: 3 [8.26 TiB] / in use: 3 [8.26 TiB] / in no VG: 0 [0   ]
+bornite:~#
 
 
 Mon Jul 30 12:57:11 AKDT 2012
@@ -48,3 +107,12 @@ bornite:~# pvdisplay
   PV UUID               AYqnE2-fkXP-tKpa-bCHv-pJJK-wi5R-AaQCQK
 
 bornite:~#
+
+
+
+Links
+=====
+4.2.2. Displaying Physical Volumes
+There are three commands you can use to display properties of LVM physical volumes:
+pvs, pvdisplay, and pvscan. 
+http://www.centos.org/docs/5/html/Cluster_Logical_Volume_Manager/physvol_display.html

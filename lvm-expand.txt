@@ -3,8 +3,8 @@ Created Tue Jan  8 17:02:55 AKST 2013
 Copyright (C) 2013 by Raymond E. Marcil <marcilr@gmail.com>
 
 
-I need to expand the /data/music and /data/virtualbox volumes.  The last ajoite-non-domain
-machine backup was 37.8GB:
+I need to expand the /data/music and /data/virtualbox (300 to 400GB) volumes.
+The last ajoite-non-domain machine backup was 37.8GB:
 
 bornite:/data/virtualbox/00BACKUPS$ du -m ajoite-non-domain-20130102.tar.bz2
 37854   ajoite-non-domain-20130102.tar.bz2
@@ -99,3 +99,30 @@ Get MD5SUMs:
   bornite:/backups/data/virtualbox# find . -type f -exec md5sum {} \; | sort -k2 >> MD5SUM
 
 
+MD5SUM files match.
+
+4. Unmount /data/virtualbox
+
+bornite:/$ mount | grep virtualbox
+/dev/mapper/data-virtualbox on /data/virtualbox type ext3 (rw)
+
+bornite:/# umount /data/virtualbox/
+bornite:/# 
+
+5. Inspect /dev/data/virtualbox
+  --- Logical volume ---
+  LV Name                /dev/data/virtualbox
+  VG Name                data
+  LV UUID                91VYOW-aktl-Nsyz-XzIu-9oaM-pyE6-KWvcSM
+  LV Write Access        read/write
+  LV Status              available
+  # open                 0
+  LV Size                300.00 GiB
+  Current LE             76800
+  Segments               1
+  Allocation             inherit
+  Read ahead sectors     auto
+  - currently set to     256
+  Block device           253:19
+   
+bornite:/#

@@ -1,0 +1,29 @@
+links.txt
+Created Thu Jan 10 14:00:28 AKST 2013
+Copyright (C) 2013 by Raymond E. Marcil <marcilr@gmail.com>
+
+
+Logical Volume Manager (LVM) related links
+
+
+Links
+=====
+11.9. Extending a logical volume
+LVM HOWTO
+http://tldp.org/HOWTO/LVM-HOWTO/extendlv.html
+
+11.10. Reducing a logical volume
+LVM HOWTO
+http://tldp.org/HOWTO/LVM-HOWTO/reducelv.html
+
+How To Resize ext3 Partitions Without Losing Data
+This page has some great info.  Including how to remove then add 
+back the ext3 journal.  Very useful since resize2fs only works on 
+ext2 not ext3.
+http://www.howtoforge.com/linux_resizing_ext3_partitions
+
+Linux ext3 FAQ
+http://batleth.sapienti-sat.org/projects/FAQs/ext3-faq.html
+
+LVM HOWTO - AJ Lewis
+http://tldp.org/HOWTO/LVM-HOWTO/

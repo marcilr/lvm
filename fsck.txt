@@ -3,7 +3,7 @@ Created Tue Oct 18 16:52:36 AKDT 2011
 by Raymond E. Marcil <marcilr@gmail.com>
 
 
-fsck'ing a filsystem on an LVM takes a bit more work.
+fsck'ing a filesystem on an LVM takes a bit more work.
 
 
 LVM Partitions

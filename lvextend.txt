@@ -111,11 +111,28 @@ More space needed.
 bornite:/# e2fsck -f /dev/data/virtualbox
 e2fsck 1.41.12 (17-May-2010)
 Pass 1: Checking inodes, blocks, and sizes
-...
+Pass 2: Checking directory structure
+Pass 3: Checking directory connectivity
+Pass 4: Checking reference counts
+Pass 5: Checking group summary information
+/dev/data/virtualbox: 66/26214400 files (10.6% non-contiguous), 94655750/104857600 blocks
+bornite:/#
 
+3. Expand /dev/data/virtualbox volume to 500GB:
+bornite:/# lvextend -L500G /dev/data/virtualbox
+  Extending logical volume virtualbox to 500.00 GiB
+  Logical volume virtualbox successfully resized
+bornite:/#
 
-3. Expand //dev/data/virtualbox volume to 500GB:
-bornite:/# lvextend -L400G /dev/data/virtualbox
+4. Mount:
+# mount /data/virtualbox/
+
+5. Inspect:
+bornite:/# ls /data/virtualbox/
+00BACKUPS  ajoite-non-domain  ajoite-non-domain-20130109-ORIG  lost+found  MD5SUM  mohite
+bornite:/#
+
+Looks good.
 
 
 Tue Jan  8 17:02:55 AKST 2013

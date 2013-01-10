@@ -34,6 +34,71 @@ will add another gigabyte to /dev/myvg/homevol.
 tldp.org/
 
 
+Expand volume
+=============
+1. Take backup data on volume to expand.
+
+Rsync can be used to make the backup:
+# rsync -va --delete /data/myvolume /backups/data/
+
+NOTE: Lack of trailing slash on /data/virtualbox such that the virtualbox directory itself
+      will be created under /backups/data/ as needed.
+
+Options:
+        -v, --verbose     increase verbosity
+        -a, --archive     archive mode; equals -rlptgoD (no -H,-A,-X)
+            --delete      delete extraneous files from dest dir
+
+NOTE: Lack of trailing slash on /data/virtualbox such that the virtualbox directory
+      itself will be created under /backups/data/ as needed.
+
+Get md5sum of all regular files, sort, and save to MD5SUM
+$ find . -type f -exec md5sum {} \; | sort -k2 >> MD5SUM
+
+
+2. Unmount volume:
+# umount /dev/myvg/myvolume
+
+3. The resizefs utility requires e2fsck first:
+
+# e2fsck -f /dev/mygroup/myvolume
+e2fsck 1.41.12 (17-May-2010)
+Pass 1: Checking inodes, blocks, and sizes
+Pass 2: Checking directory structure
+Pass 3: Checking directory connectivity
+Pass 4: Checking reference counts
+Pass 5: Checking group summary information
+/dev/myvg/myvolume: 48/19660800 files (6.3% non-contiguous), \
+67580459/78643200 blocks
+#
+
+4. Expand the logical volume using lvextend:
+
+# lvextend -L400G /dev/myvg/myvolume
+  Extending logical volume myvolume to 400.00 GiB
+  Logical volume myvolume successfully resized
+#
+
+In this example myvolume was expanded to 400GB.
+
+5. Use resize2fs to expand ext2/ext3/ext4 filesystem:
+
+# resize2fs /dev/myvg/myvolume 400G
+resize2fs 1.41.12 (17-May-2010)
+Resizing the filesystem on /dev/myvg/myvolume to 104857600 (4k) blocks.
+The filesystem on /dev/myvg/myvolume is now 104857600 blocks long.
+
+bornite:/#
+
+In this example myvolume was expanded to 400GB.
+
+6. Mount resized  /dev/myvg/myvolume:
+
+bornite:/# mount /myvg/myvolume/
+
+NOTE: Assume /myvg/myvolume/ is a mount point in fstab.
+
+
 Thu Jan 10 13:38:57 AKST 2013
 =============================
 Expand bornite's /dev//data/virtualbox volume again.  Updated from 400GB to 500GB.

@@ -3,6 +3,99 @@ Created Fri Jan 22 09:34:47 AKST 2010
 by Raymond Marcil
 
 
+Resizing a logical volumes comes down to a few simple steps:
+
+Expand volume
+=============
+1. Take backup data on volume to expand.
+
+2. Unmount volume:
+# umount /dev/mygroup/myvolume
+
+3. The resizefs utility requires e2fsck first:
+
+# e2fsck -f /dev/mygroup/myvolume
+e2fsck 1.41.12 (17-May-2010)
+Pass 1: Checking inodes, blocks, and sizes
+Pass 2: Checking directory structure
+Pass 3: Checking directory connectivity
+Pass 4: Checking reference counts
+Pass 5: Checking group summary information
+/dev/mygroup/myvolume: 48/19660800 files (6.3% non-contiguous), 67580459/78643200 blocks
+#
+
+4. Expand the logical volume using lvextend:
+
+# lvextend -L400G /dev/mygroup/myvolume
+  Extending logical volume myvolume to 400.00 GiB
+  Logical volume myvolume successfully resized
+#
+
+In this example myvolume was expanded to 400GB.
+
+5. Use resize2fs to expand ext2/ext3/ext4 filesystem:
+
+# resize2fs /dev/mygroup/myvolume 400G
+resize2fs 1.41.12 (17-May-2010)
+Resizing the filesystem on /dev/mygroup/myvolume to 104857600 (4k) blocks.
+The filesystem on /dev/mygroup/myvolume is now 104857600 blocks long.
+
+bornite:/#
+
+In this example myvolume was expanded to 400GB.
+
+6. Mount resized  /dev/mygroup/myvolume:
+
+bornite:/# mount /mygroup/myvolume/
+
+NOTE: Assume /mygroup/myvolume/ is a mount point in fstab.
+
+
+Reduce volume
+=============
+1. Take backup data on volume to reduce.
+
+2. Unmount volume:
+# umount /dev/mygroup/myvolume
+
+3. The resizefs utility requires e2fsck first:
+
+# e2fsck -f /dev/mygroup/myvolume
+e2fsck 1.41.12 (17-May-2010)
+Pass 1: Checking inodes, blocks, and sizes
+Pass 2: Checking directory structure
+Pass 3: Checking directory connectivity
+Pass 4: Checking reference counts
+Pass 5: Checking group summary information
+/dev/mygroup/myvolume: 48/19660800 files (6.3% non-contiguous), 67580459/78643200 blocks
+#
+
+4. Reduce the size of the ext2/ext3/ext4 filesystem on the volume using resize2fs:
+
+Resize /dev/mygroup/myvolume from 1TB to 500GB:
+bornite:~# resize2fs /dev/mygroup/myvolume 500G
+resize2fs 1.40-WIP (14-Nov-2006)
+Resizing the filesystem on /dev/mygroup/myvolume to 131072000 (4k) blocks.
+The filesystem on /dev/mygroup/myvolume is now 131072000 blocks long.
+bornite:~#
+
+5. Reduce /dev/mygroup/myvolume from 1TB to 500GB:
+bornite:~# lvreduce -L500G /dev/mygroup/myvolume
+  WARNING: Reducing active logical volume to 500.00 GB
+  THIS MAY DESTROY YOUR DATA (filesystem etc.)
+Do you really want to reduce myvolume? [y/n]: y
+  Reducing logical volume myvolume to 500.00 GB
+  Logical volume music successfully resized
+bornite:~#
+
+6. Mount resized  /dev/mygroup/myvolume:
+
+bornite:/# mount /mygroup/myvolume/
+
+NOTE: Assume /mygroup/myvolume/ is a mount point in fstab.
+
+
+
 Packages
 ========
 $ apt-cache search resize2fs

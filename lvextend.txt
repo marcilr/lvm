@@ -34,6 +34,198 @@ will add another gigabyte to /dev/myvg/homevol.
 tldp.org/
 
 
+Tue Jan  8 17:02:55 AKST 2013
+=============================
+I need to expand the /data/virtualbox (300 to 400GB) volumes.
+The last ajoite-non-domain machine backup was 37.8GB:
+
+bornite:/data/virtualbox/00BACKUPS$ du -m ajoite-non-domain-20130102.tar.bz2
+37854   ajoite-non-domain-20130102.tar.bz2
+bornite:/data/virtualbox/00BACKUPS$
+
+bornite:~$ df -h
+Filesystem            Size  Used Avail Use% Mounted on
+...
+/dev/mapper/data-movies
+                      985G  893G   42G  96% /data/movies
+...
+/dev/mapper/data-virtualbox
+                      296G  254G   28G  91% /data/virtualbox
+...
+$
+
+1. Shutdown the windows 7 pro virtual ajoite-non-domain machine, ip 10.1.0.15, located at
+/data/virtualbox/ajoite-non-domain/
+
+2. Verify ajoite-non-domain is down:
+
+bornite:~$ ps ax | grep vir
+28607 pts/0    S+     0:00 grep vir
+bornite:~$
+
+$ ping 10.1.0.15
+PING 10.1.0.15 (10.1.0.15) 56(84) bytes of data.
+From 10.1.0.65 icmp_seq=2 Destination Host Unreachable
+From 10.1.0.65 icmp_seq=3 Destination Host Unreachable
+From 10.1.0.65 icmp_seq=4 Destination Host Unreachable
+...
+^C
+--- 10.1.0.15 ping statistics ---
+10 packets transmitted, 0 received, +6 errors, 100% packet loss, time 9032ms
+pipe 3
+bornite:~$ 
+
+Dead as a doornail.   Very good.
+
+3. Rsync /data/virtualbox/ to 2.73TB backu0p raid5 (9650SE-8LPML, unit c5).
+bornite:~# rsync -va --delete /data/virtualbox /backups/data/
+sending incremental file list
+virtualbox/
+virtualbox/00BACKUPS/
+virtualbox/00BACKUPS/ajoite-non-domain-20130102.tar.bz2
+virtualbox/00BACKUPS/ajoite-non-domain-20130102.tar.bz2.md5
+virtualbox/ajoite-non-domain/
+virtualbox/ajoite-non-domain/ajoite-non-domain-disk1.vdi
+virtualbox/ajoite-non-domain/ajoite-non-domain-disk2.vdi
+virtualbox/ajoite-non-domain/ajoite-non-domain.vbox
+virtualbox/ajoite-non-domain/ajoite-non-domain.vbox-prev
+virtualbox/ajoite-non-domain/ajoite-non-domain.vdi
+virtualbox/ajoite-non-domain/Logs/
+virtualbox/ajoite-non-domain/Logs/VBox.log
+virtualbox/ajoite-non-domain/Logs/VBox.log.1
+virtualbox/ajoite-non-domain/Logs/VBox.log.2
+virtualbox/ajoite-non-domain/Logs/VBox.log.3
+virtualbox/ajoite-non-domain/Snapshots/
+deleting virtualbox/ajoite-non-domain/Snapshots/2012-09-03T23-06-22-134493000Z.sav
+virtualbox/lost+found/
+virtualbox/mohite/
+virtualbox/mohite/mohite-disk1.vdi
+virtualbox/mohite/mohite-disk2.vdi
+virtualbox/mohite/mohite-disk3.vdi
+virtualbox/mohite/mohite.vbox
+virtualbox/mohite/Logs/
+virtualbox/mohite/Logs/VBox.log
+virtualbox/mohite/Logs/VBox.log.1
+
+sent 149987705372 bytes  received 376 bytes  56738303.67 bytes/sec
+total size is 271289789355  speedup is 1.81
+bornite:~#
+
+
+NOTE: Lack of trailing slash on /data/virtualbox such that the virtualbox directory
+      itself will be created under /backups/data/ as needed.
+
+Options:
+        -v, --verbose     increase verbosity
+        -a, --archive     archive mode; equals -rlptgoD (no -H,-A,-X)
+            --delete      delete extraneous files from dest dirs
+
+Verify rsync backup:
+  root@bornite:/backups/data/virtualbox# find . | wc -l
+  38
+
+  root@bornite:/data/virtualbox# find . | wc -l
+  38
+
+Get MD5SUMs:
+  bornite:/data/virtualbox# find . -type f -exec md5sum {} \; | sort -k2 >> MD5SUM
+  bornite:/backups/data/virtualbox# find . -type f -exec md5sum {} \; | sort -k2 >> MD5SUM
+
+
+MD5SUM files match.
+
+4. Unmount /data/virtualbox
+
+bornite:/$ mount | grep virtualbox
+/dev/mapper/data-virtualbox on /data/virtualbox type ext3 (rw)
+
+bornite:/# umount /data/virtualbox/
+bornite:/# 
+
+5. Inspect /dev/data/virtualbox
+  --- Logical volume ---
+  LV Name                /dev/data/virtualbox
+  VG Name                data
+  LV UUID                91VYOW-aktl-Nsyz-XzIu-9oaM-pyE6-KWvcSM
+  LV Write Access        read/write
+  LV Status              available
+  # open                 0
+  LV Size                300.00 GiB
+  Current LE             76800
+  Segments               1
+  Allocation             inherit
+  Read ahead sectors     auto
+  - currently set to     256
+  Block device           253:19
+   
+bornite:/#
+
+
+6. The resizefs utility required e2fsck first:
+
+bornite:/# e2fsck -f /dev/data/virtualbox
+e2fsck 1.41.12 (17-May-2010)
+Pass 1: Checking inodes, blocks, and sizes
+Pass 2: Checking directory structure
+Pass 3: Checking directory connectivity
+Pass 4: Checking reference counts
+Pass 5: Checking group summary information
+/dev/data/virtualbox: 48/19660800 files (6.3% non-contiguous), 67580459/78643200 blocks
+bornite:/#
+
+Looks good.
+
+7. Expand the /dev/data/virtualbox logical volume from 300GB to 400GB:
+
+bornite:/# lvextend -L400G /dev/data/virtualbox
+  Extending logical volume virtualbox to 400.00 GiB
+  Logical volume virtualbox successfully resized
+bornite:/#
+
+bornite:/# lvdisplay /dev/data/virtualbox
+  --- Logical volume ---
+  LV Name                /dev/data/virtualbox
+  VG Name                data
+  LV UUID                91VYOW-aktl-Nsyz-XzIu-9oaM-pyE6-KWvcSM
+  LV Write Access        read/write
+  LV Status              available
+  # open                 0
+  LV Size                400.00 GiB
+  Current LE             102400
+  Segments               1
+  Allocation             inherit
+  Read ahead sectors     auto
+  - currently set to     256
+  Block device           253:19
+   
+bornite:/#
+
+Looks good.
+
+
+8. Resize the /dev/data/virtual ext3 filesystem from 300GB to 400GB:
+
+bornite:/# resize2fs /dev/data/virtualbox 400G
+resize2fs 1.41.12 (17-May-2010)
+Resizing the filesystem on /dev/data/virtualbox to 104857600 (4k) blocks.
+The filesystem on /dev/data/virtualbox is now 104857600 blocks long.
+
+bornite:/#
+
+Looks good.
+
+9. Mount resized  /dev/data/virtualbox:
+
+bornite:/# mount /data/virtualbox/
+
+bornite:/# ls /data/virtualbox/
+00BACKUPS  ajoite-non-domain  lost+found  MD5SUM  mohite
+bornite:/#
+
+Fine work.
+
+
+
 Links
 =====
 11.9. Extending a logical volume

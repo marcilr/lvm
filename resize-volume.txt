@@ -5,6 +5,7 @@ by Raymond Marcil <marcilr@gmail.com>
 
 Resizing a logical volumes comes down to a few simple steps:
 
+
 Expand volume
 =============
 1. Take backup data on volume to expand.
@@ -111,18 +112,6 @@ bornite:~#
 bornite:/# mount /mygroup/myvolume/
 
 NOTE: Assume /mygroup/myvolume/ is a mount point in fstab.
-
-
-
-Packages
-========
-bornite:~$ apt-cache search resize2fs   <=== (Jan 10, 2013)
-system-config-lvm - A utility for graphically configuring Logical Volumes
-bornite:~$
-
-bornite:~$  dpkg -l | grep lvm          <=== (Jan 10, 2013)
-ii  lvm2                                2.02.66-5                    The Linux Logical Volume Manager
-bornite:~$
 
 
 Sat Apr 17 10:41:57 AKDT 2010

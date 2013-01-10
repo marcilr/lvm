@@ -9,6 +9,21 @@ Expand volume
 =============
 1. Take backup data on volume to expand.
 
+Rsync can be used to make the backup:
+# rsync -va --delete /data/myvolume /backups/data/
+
+NOTE: Lack of trailing slash on /data/virtualbox such that the virtualbox directory itself
+      will be created under /backups/data/ as needed.
+
+Options:
+        -v, --verbose     increase verbosity
+        -a, --archive     archive mode; equals -rlptgoD (no -H,-A,-X)
+            --delete      delete extraneous files from dest dir
+
+NOTE: Lack of trailing slash on /data/virtualbox such that the virtualbox directory
+      itself will be created under /backups/data/ as needed.
+
+
 2. Unmount volume:
 # umount /dev/mygroup/myvolume
 

@@ -157,30 +157,6 @@ partition, make sure you do not make it smaller than the new size of the ext2 fi
 from: resize2fs manpage
 
 
-lvreduce - reduce the size of a logical volume
-==============================================
-lvreduce  [-A/--autobackup  y/n]  [-d/--debug]  [-f/--force]  [-h/-?/--help] {-l/--extents
-[-]LogicalExtentsNumber[%{VG|LV|FREE}] | -L/--size [-]LogicalVolumeSize[kKmMgGtT]}
-[-t/--test] [-v/--verbose] LogicalVolume[Path]
-
-lvreduce allows you to reduce the size of a logical volume. Be careful when reducing a logical
-volume's size, because data in the reduced part is lost!!! You should therefore ensure that any 
-filesystem on the volume is resized before running lvreduce so that the extents that are to 
-be removed are not in use. Shrinking snapshot logical volumes (see lvcreate(8) for information to 
-create snapshots) is supported as well.  But to change the number of copies in a mirrored logical 
-volume use lvconvert (8).
-
-Sizes will be rounded if necessary - for example, the volume size must be an exact number
-of extents and the size of a striped segment must be a multiple of the number of stripes.
-
-from: lvreduce manpage
-
-Example
--------
-Reduce /dev/mapper/data-music logical volume from 1TB to 500GB:
-bornite:~# lvreduce -L500G /dev/mapper/data-music
-
-
 Sat Apr 17 10:41:57 AKDT 2010
 =============================
 Need to take 500GB from /date/music/ and add to /data/movies/.

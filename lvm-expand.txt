@@ -142,7 +142,7 @@ bornite:/#
 
 Looks good.
 
-6. Expand the /dev/data/virtualbox logical volume from 300GB to 400GB:
+7. Expand the /dev/data/virtualbox logical volume from 300GB to 400GB:
 
 bornite:/# lvextend -L400G /dev/data/virtualbox
   Extending logical volume virtualbox to 400.00 GiB
@@ -170,7 +170,7 @@ bornite:/#
 Looks good.
 
 
-7. Resize the /dev/data/virtual ext3 filesystem from 300GB to 400GB:
+8. Resize the /dev/data/virtual ext3 filesystem from 300GB to 400GB:
 
 bornite:/# resize2fs /dev/data/virtualbox 400G
 resize2fs 1.41.12 (17-May-2010)
@@ -179,9 +179,9 @@ The filesystem on /dev/data/virtualbox is now 104857600 blocks long.
 
 bornite:/#
 
-Looak good.
+Looks good.
 
-8. Mount resized  /dev/data/virtualbox:
+9. Mount resized  /dev/data/virtualbox:
 
 bornite:/# mount /data/virtualbox/
 

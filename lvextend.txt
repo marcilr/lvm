@@ -36,11 +36,21 @@ tldp.org/
 
 Thu Jan 10 13:38:57 AKST 2013
 =============================
-Expanded bornite's /data/virtualbox again.  Updated from 400GB to 500GB.
+Expand bornite's /dev//data/virtualbox volume again.  Updated from 400GB to 500GB.
 More space needed.
 
 1. Unmount:
 # umount /data/virtualbox/
+
+2. The resize2fs utility requires e2fsck first:
+bornite:/# e2fsck -f /dev/data/virtualbox
+e2fsck 1.41.12 (17-May-2010)
+Pass 1: Checking inodes, blocks, and sizes
+...
+
+
+3. Expand //dev/data/virtualbox volume to 500GB:
+bornite:/# lvextend -L400G /dev/data/virtualbox
 
 
 Tue Jan  8 17:02:55 AKST 2013
@@ -171,7 +181,7 @@ bornite:/# lvdisplay /dev/data/virtualbox
 bornite:/#
 
 
-6. The resizefs utility required e2fsck first:
+6. The resize2fs utility requires e2fsck first:
 
 bornite:/# e2fsck -f /dev/data/virtualbox
 e2fsck 1.41.12 (17-May-2010)

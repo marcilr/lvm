@@ -23,6 +23,9 @@ Options:
 NOTE: Lack of trailing slash on /data/virtualbox such that the virtualbox directory
       itself will be created under /backups/data/ as needed.
 
+Get md5sum of all regular files, sort, and save to MD5SUM
+$ find . -type f -exec md5sum {} \; | sort -k2 >> MD5SUM
+
 
 2. Unmount volume:
 # umount /dev/mygroup/myvolume

@@ -6,6 +6,8 @@ by Raymond E. Marcil
 LVM (Logical Volume Management) commands.
 
 
+dmsetup - low level logical volume management
+
 lvdisplay - display attributes of a logical volume
 lvextend  - add space to logical volume
 lvreduce  - reduce size of logical volume

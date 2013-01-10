@@ -34,6 +34,15 @@ will add another gigabyte to /dev/myvg/homevol.
 tldp.org/
 
 
+Thu Jan 10 13:38:57 AKST 2013
+=============================
+Expanded bornite's /data/virtualbox again.  Updated from 400GB to 500GB.
+More space needed.
+
+1. Unmount:
+# umount /data/virtualbox/
+
+
 Tue Jan  8 17:02:55 AKST 2013
 =============================
 I need to expand the /data/virtualbox (300 to 400GB) volumes.
@@ -143,6 +152,7 @@ bornite:/# umount /data/virtualbox/
 bornite:/# 
 
 5. Inspect /dev/data/virtualbox
+bornite:/# lvdisplay /dev/data/virtualbox
   --- Logical volume ---
   LV Name                /dev/data/virtualbox
   VG Name                data

@@ -1,6 +1,6 @@
-resize_volume.txt
+resize-volume.txt
 Created Fri Jan 22 09:34:47 AKST 2010
-by Raymond Marcil
+by Raymond Marcil <marcilr@gmail.com>
 
 
 Resizing a logical volumes comes down to a few simple steps:

@@ -79,13 +79,13 @@ total size is 271289789355  speedup is 1.81
 bornite:~#
 
 
-NOTE: Lack of trailing slash on /data/virtualbox such that the virtualbox directory itself
-      will be created under /backups/data/ as needed.
+NOTE: Lack of trailing slash on /data/virtualbox such that the virtualbox directory
+      itself will be created under /backups/data/ as needed.
 
 Options:
-        -v, --verbose               increase verbosity
-        -a, --archive               archive mode; equals -rlptgoD (no -H,-A,-X)
-            --delete                delete extraneous files from dest dirs
+        -v, --verbose     increase verbosity
+        -a, --archive     archive mode; equals -rlptgoD (no -H,-A,-X)
+            --delete      delete extraneous files from dest dirs
 
 Verify rsync backup:
   root@bornite:/backups/data/virtualbox# find . | wc -l

@@ -1,0 +1,42 @@
+lvextend.txt
+Created Thu Jan 10 13:15:08 AKST 2013
+Copyright (C) 2013 by Raymond E. Marcil <marcilr@gmail.com>
+
+
+lvextend - extend the size of a logical volume
+==============================================
+lvextend  [--alloc AllocationPolicy] [-A/--autobackup y/n] [-d/--debug]
+[-h/-?/--help]  [-i/--stripes  Stripes  [-I/--stripesize   StripeSize]]
+{-l/--extents  [+]LogicalExtentsNumber  |  -L/--size  [+]LogicalVolume‐Size[kKmMgGtT]} 
+[-t/--test]  [-v/--verbose]  LogicalVolumePath  [Physi‐calVolumePath...]
+
+lvextend  allows you to extend the size of a logical volume.  Extension
+of snapshot logical volumes (see lvcreate(8) for information to  create
+snapshots) is supported as well.
+
+
+Examples
+========
+# lvextend -L12G /dev/myvg/homevol
+lvextend -- extending logical volume "/dev/myvg/homevol" to 12 GB
+lvextend -- doing automatic backup of volume group "myvg"
+lvextend -- logical volume "/dev/myvg/homevol" successfully extended
+        
+will extend /dev/myvg/homevol to 12 Gigabytes. 
+
+# lvextend -L+1G /dev/myvg/homevol
+lvextend -- extending logical volume "/dev/myvg/homevol" to 13 GB
+lvextend -- doing automatic backup of volume group "myvg"
+lvextend -- logical volume "/dev/myvg/homevol" successfully extended
+        
+will add another gigabyte to /dev/myvg/homevol. 
+
+tldp.org/
+
+
+Links
+=====
+11.9. Extending a logical volume
+LVM HOWTO
+http://tldp.org/HOWTO/LVM-HOWTO/extendlv.html
+

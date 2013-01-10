@@ -1,6 +1,6 @@
-resize_howto.txt
+resize-howto.txt
 Created Fri Jan 22 09:43:11 AKST 2010
-by Raymond E. Marcil
+by Raymond E. Marcil <marcilr@gmail.com>
 
 
 

@@ -1,0 +1,36 @@
+lvreduce.txt
+Created Thu Jan 10 13:17:49 AKST 2013
+Copyright (C) 2013 by Raymond E. Marcil <marcilr@gmail.com>
+
+
+lvreduce - reduce the size of a logical volume
+==============================================
+lvreduce  [-A/--autobackup  y/n]  [-d/--debug]  [-f/--force]  [-h/-?/--help] {-l/--extents
+[-]LogicalExtentsNumber[%{VG|LV|FREE}] | -L/--size [-]LogicalVolumeSize[kKmMgGtT]}
+[-t/--test] [-v/--verbose] LogicalVolume[Path]
+
+lvreduce allows you to reduce the size of a logical volume. Be careful when reducing a logical
+volume's size, because data in the reduced part is lost!!! You should therefore ensure that any
+filesystem on the volume is resized before running lvreduce so that the extents that are to
+be removed are not in use. Shrinking snapshot logical volumes (see lvcreate(8) for information to
+create snapshots) is supported as well.  But to change the number of copies in a mirrored logical
+volume use lvconvert (8).
+
+Sizes will be rounded if necessary - for example, the volume size must be an exact number
+of extents and the size of a striped segment must be a multiple of the number of stripes.
+
+manpage
+
+
+Example
+-------
+Reduce /dev/mapper/data-music logical volume from 1TB to 500GB:
+bornite:~# lvreduce -L500G /dev/mapper/data-music
+
+
+Links
+=====
+11.10. Reducing a logical volume
+LVM HOWTO
+http://tldp.org/HOWTO/LVM-HOWTO/reducelv.html
+

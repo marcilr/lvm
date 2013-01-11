@@ -117,6 +117,9 @@ Logical Volume Manager (Linux)
 From Wikipedia, the free encyclopedia
 http://en.wikipedia.org/wiki/Logical_Volume_Manager_%28Linux%29
 
+lvm - Logical Volume Manager (LVM)
+http://docs.hp.com/en/B9106-90013/lvm.7.html
+
 Root filesystem over LVM2, DM-Crypt and RAID
 http://en.gentoo-wiki.com/wiki/Root_filesystem_over_LVM2,_DM-Crypt_and_RAID#LVM2
 

@@ -5,23 +5,22 @@ by Raymond E. Marcil
 
 LVM (Logical Volume Management) commands.
 
+  dmsetup - low level logical volume management
 
-dmsetup - low level logical volume management
+  lvdisplay - display attributes of a logical volume
+  lvextend  - add space to logical volume
+  lvreduce  - reduce size of logical volume
+  lvremove  - remove a logical volume
+  lvrename  - rename a logical volume
+  lvscan    - nice list of logical volumes
 
-lvdisplay - display attributes of a logical volume
-lvextend  - add space to logical volume
-lvreduce  - reduce size of logical volume
-lvremove  - remove a logical volume
-lvrename  - rename a logical volume
-lvscan    - nice list of logical volumes
-
-pvcreate  - initialize a disk or partition for use by LVM
-vgcreate  - create a volume group
-vgdisplay - display attributes of volume groups
-vgextend  - add space to volume group
-vgremove  - remove a volume group
-vgrename  - rename a volume group
-vgscan    - scan all disks for volume groups and rebuild caches
+  pvcreate  - initialize a disk or partition for use by LVM
+  vgcreate  - create a volume group
+  vgdisplay - display attributes of volume groups
+  vgextend  - add space to volume group
+  vgremove  - remove a volume group
+  vgrename  - rename a volume group
+  vgscan    - scan all disks for volume groups and rebuild caches
 
 LVM information can be created, displayed, and manipulated with the following commands:
   lvchange     - Change logical volume characteristics

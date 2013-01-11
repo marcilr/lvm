@@ -188,8 +188,6 @@ The filesystem on /dev/data/virtualbox is now 131072000 blocks long.
 
 bornite:/#
 
-NOTE: 
-
 Looks good.
 
 NOTE: I had missed capturing this resize2fs on the first pass.
@@ -210,9 +208,9 @@ http://www.linfo.org/get_block_size.html
 500 GB * 262144 blocks per GB = 131072000 blocks total.
 
 Is there a way to list the number of 4k block on ext3 filesystem?
-By default df lists 1k block size.  Think 'df -B4096' does 4k block size.
-This lists 103212332 for /data/virtualbox which is a bit different than
-the calculated value able.
+By default df lists 1k block size.  Think 'df -B4096' or 'df -B 4k' does 4k block size.
+This lists 103212332 for /data/virtualbox which is a bit different than the calculated value
+above.
 
 
 5. Mount:

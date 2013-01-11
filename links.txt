@@ -16,10 +16,12 @@ http://tldp.org/HOWTO/LVM-HOWTO/extendlv.html
 LVM HOWTO
 http://tldp.org/HOWTO/LVM-HOWTO/reducelv.html
 
+How to Find the Block Size
+http://www.linfo.org/get_block_size.html
+
 How To Resize ext3 Partitions Without Losing Data
-This page has some great info.  Including how to remove then add 
-back the ext3 journal.  Very useful since resize2fs only works on 
-ext2 not ext3.
+This page has some great info.  Including how to remove then add back the ext3 journal.
+Very useful since resize2fs only works on ext2 not ext3.
 http://www.howtoforge.com/linux_resizing_ext3_partitions
 
 Linux ext3 FAQ

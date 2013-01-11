@@ -99,9 +99,62 @@ bornite:/# mount /myvg/myvolume/
 NOTE: Assume /myvg/myvolume/ is a mount point in fstab.
 
 
+Thu Jan 10 14:09:00 AKST 2013
+=============================
+Expand bornite's /dev/data/movies volume from 1000GB to 1100GB.
+More space needed.
+
+1. Unmount:
+# umount /data/movies
+
+2. The resize2fs utility requires e2fsck first:
+bornite:/# e2fsck -f /dev/data/movies
+e2fsck 1.41.12 (17-May-2010)
+Pass 1: Checking inodes, blocks, and sizes
+Pass 2: Checking directory structure
+Pass 3: Checking directory connectivity
+Pass 4: Checking reference counts
+Pass 5: Checking group summary information
+/dev/data/movies: 899/131072000 files (25.7% non-contiguous), 238050331/262144000 blocks
+bornite:/#
+
+3. Expand /dev/data/movies volume to 1100GB:
+bornite:/# lvextend -L1100G /dev/data/movies
+  Extending logical volume movies to 1.07 TiB
+  Logical volume movies successfully resized
+root@bornite:/#
+
+4. Expand ext3 filesystem on /dev/data/movies to 1100GB:
+bornite:/# resize2fs /dev/data/movies 1100G
+resize2fs 1.41.12 (17-May-2010)
+Resizing the filesystem on /dev/data/movies to 288358400 (4k) blocks.
+The filesystem on /dev/data/movies is now 288358400 blocks long.
+
+bornite:/#
+
+288358400 (4k) blocks / 1100 GB = 262144 (4k) blocks / GB
+
+5. Mount /dev/data/movies:
+bornite:/# mount /dev/data/movies
+bornite:/# ls /data/movies/
+2006.wmv                              MD5SUM-20100102-duplicates.txt  Sapphire-20110625.tar.bz2.md5
+500kV_Switch.mpg                      NEW_ZEELAND                     Sex and the City
+Amchitka4.mpeg                        paris                           SISTERHOOD_TRAVELING_PANTS
+Amchitka.wmv                          Pron                            STONE_COLD
+angels_and_demons.iso                 README                          THE_SECRET_NTSC
+desktop.ini                           $RECYCLE.BIN                    tivo
+Heinlein, Robert - Starship Troopers  Remington Steele                TWO_FOR_THE_MONEY
+HoldFast.mov                          Robbery1.wmv                    WEDDING_CRASHERS
+lost+found                            Sapphire
+MD5SUM-20100102                       Sapphire-20110625.tar.bz2
+root@bornite:/#
+
+Looks good.
+
+
 Thu Jan 10 13:38:57 AKST 2013
 =============================
-Expand bornite's /dev//data/virtualbox volume again.  Updated from 400GB to 500GB.
+Expand bornite's /dev/data/virtualbox volume again.  Updated from 400GB to 500GB.
 More space needed.
 
 1. Unmount:
@@ -124,10 +177,48 @@ bornite:/# lvextend -L500G /dev/data/virtualbox
   Logical volume virtualbox successfully resized
 bornite:/#
 
-4. Mount:
+----------------------
+
+4. Resize the /dev/data/virtual ext3 filesystem from 400GB to 500GB:
+
+bornite:/# resize2fs /dev/data/virtualbox 500G
+resize2fs 1.41.12 (17-May-2010)
+Resizing the filesystem on /dev/data/virtualbox to 131072000 (4k) blocks.
+The filesystem on /dev/data/virtualbox is now 131072000 blocks long.
+
+bornite:/#
+
+NOTE: 
+
+Looks good.
+
+NOTE: I had missed capturing this resize2fs on the first pass.
+      Had top to reverse engineer the number of 4k blocks:
+
+Determine block size on /dev/data/virtualbox:
+  bornite:/# /sbin/dumpe2fs /dev/data/virtualbox | grep 'Block size'
+  dumpe2fs 1.41.12 (17-May-2010)
+  Block size:               4096
+  bornite:/#
+
+How to Find the Block Size
+http://www.linfo.org/get_block_size.html
+
+1 gigabyte = 1 073 741 824 bytes
+
+1073741824 bytes / 4096 bytes / block = 262144 blocks per GB
+500 GB * 262144 blocks per GB = 131072000 blocks total.
+
+Is there a way to list the number of 4k block on ext3 filesystem?
+By default df lists 1k block size.  Think 'df -B4096' does 4k block size.
+This lists 103212332 for /data/virtualbox which is a bit different than
+the calculated value able.
+
+
+5. Mount:
 # mount /data/virtualbox/
 
-5. Inspect:
+6. Inspect:
 bornite:/# ls /data/virtualbox/
 00BACKUPS  ajoite-non-domain  ajoite-non-domain-20130109-ORIG  lost+found  MD5SUM  mohite
 bornite:/#

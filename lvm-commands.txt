@@ -55,7 +55,7 @@ The following commands are also available if the HP MirrorDisk/UX software is in
   lvsync       - Synchronize stale mirrors in logical volumes
   vgsync       - Synchronize stale logical volume mirrors in volume groups
 
-from: hp.com/
+hp.com/
 
 
 vgchange - change attributes of a volume group
@@ -129,4 +129,3 @@ http://www-public.int-evry.fr/~procacci/wiki/bin/view/Documentations/DellEmcAX10
 
 Linux LVM error VG meta data inconsistent and Solution
 http://www.cyberciti.biz/faq/lvm-error-vg-meta-data-inconsistent/
-

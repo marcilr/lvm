@@ -1,0 +1,21 @@
+#
+# svn_ext_val.txt
+# Created Thu Jan 10 15:49:35 AKST 2013
+# by Raymond E. Marcil <marcilr@gmail.com>
+#
+
+
+#
+# List of repo hierarchical directories to checkout under lvm/
+#
+# lv/   Logical Volume (LV)
+# pv/   Physical Volume (PV)
+# vg/   Volume Group (VG)
+#
+./lv    svn+ssh://home/data/svnroot/00DEBIAN/lv/lv
+./pv    svn+ssh://home/data/svnroot/00DEBIAN/pv/pv
+./vg    svn+ssh://home/data/svnroot/00DEBIAN/vg/vg
+
+#
+# List of subversion repositories to checkout under lvm/
+#

@@ -73,7 +73,7 @@ pdf                5GB
 pictures         100GB
 rockhounding     100GB
 scans            100GB 
-svnroot          500GB
+svnroot          100GB
 usr               10GB
 wallpaper          1GB    
        ===============
@@ -150,6 +150,83 @@ bornite:~# lvcreate -n svnroot --size 500g data
   Logical volume "svnroot" created
 
 
+Thu Mar 28 12:08:23 AKDT 2013
+=============================
+Expand /data/movies 200GB from 1.1T to 1.3T.
+
+bornite:~$ df -h | grep movies
+/dev/mapper/data-movies
+                      1.1T 1008G   21G  98% /data/movies
+bornite:~$ 
+
+
+1. Unmont /data/movies:
+bornite:~# umount /data/movies/
+
+2. The resizefs utility required e2fsck first:
+bornite:~# e2fsck -f /dev/mapper/data-movies
+e2fsck 1.41.12 (17-May-2010)
+Pass 1: Checking inodes, blocks, and sizes
+Pass 2: Checking directory structure
+Pass 3: Checking directory connectivity
+Pass 4: Checking reference counts
+Pass 5: Checking group summary information
+/dev/mapper/data-movies: 804/144179200 files (13.6% non-contiguous), 268508353/288358400 blocks
+bornite:~#
+
+Looks good.
+
+3. Increase size of /data/movies partition from 1.1TB to 1.3TB:
+bornite:~# lvextend -L1300G /dev/data/movies
+  Extending logical volume movies to 1.27 TiB
+  Logical volume movies successfully resized
+bornite:~#
+
+4. The resizefs utility required e2fsck first:
+bornite:~# e2fsck -f /dev/mapper/data-movies
+e2fsck 1.41.12 (17-May-2010)
+Pass 1: Checking inodes, blocks, and sizes
+Pass 2: Checking directory structure
+Pass 3: Checking directory connectivity
+Pass 4: Checking reference counts
+Pass 5: Checking group summary information
+/dev/mapper/data-movies: 804/144179200 files (13.6% non-contiguous), 268508353/288358400 blocks
+bornite:~#
+
+Looks good.
+
+5. Resize /data/movies 200GB from 1.1T to 1.3T:
+
+bornite:~# resize2fs /dev/mapper/data-movies 1300G
+resize2fs 1.41.12 (17-May-2010)
+Resizing the filesystem on /dev/mapper/data-movies to 340787200 (4k) blocks.
+The filesystem on /dev/mapper/data-movies is now 340787200 blocks long.
+
+bornite:~#
+
+6. Verify 1.3T on /data/movies:
+bornite:~# e2fsck -f /dev/mapper/data-movies
+e2fsck 1.41.12 (17-May-2010)
+Pass 1: Checking inodes, blocks, and sizes
+Pass 2: Checking directory structure
+Pass 3: Checking directory connectivity
+Pass 4: Checking reference counts
+Pass 5: Checking group summary information
+/dev/mapper/data-movies: 804/170393600 files (13.6% non-contiguous), 269330753/340787200 blocks
+bornite:~#
+
+7. Mount /data/movies:
+bornite:~# mount /data/movies/
+
+8. Inspect /data/movies:
+$ df -h | grep movies
+/dev/mapper/data-movies
+                      1.3T 1008G  208G  83% /data/movies
+$
+
+Looks good!
+
+
 Thu Mar 28 10:18:55 AKDT 2013
 =============================
 Shrunk /data/svnroot from 500GB to 100GB since only 24GB was being used.
@@ -199,6 +276,18 @@ resize2fs 1.41.12 (17-May-2010)
 Resizing the filesystem on /dev/mapper/data-svnroot to 26214400 (4k) blocks.
 The filesystem on /dev/mapper/data-svnroot is now 26214400 blocks long.
 
+5. Verify integrity with e2fsck:
+bornite:~# e2fsck -f /dev/mapper/data-svnroot
+e2fsck 1.41.12 (17-May-2010)
+Pass 1: Checking inodes, blocks, and sizes
+Pass 2: Checking directory structure
+Pass 3: Checking directory connectivity
+Pass 4: Checking reference counts
+Pass 5: Checking group summary information
+/dev/mapper/data-svnroot: 305602/13107200 files (1.4% non-contiguous), 6621139/26214400 blocks
+bornite:~#
+
+6. Mount resized /data/svnroot/
 root@bornite:~# mount /data/svnroot/
 
 bornite:~# df -h | grep svnroot

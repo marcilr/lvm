@@ -70,7 +70,7 @@ iso               50GB
 maps              50GB
 movies          1300GB
 music            500GB
-pdf                5GB
+pdf               10GB
 pictures         100GB
 rockhounding     100GB
 scans            100GB 

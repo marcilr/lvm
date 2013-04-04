@@ -70,7 +70,7 @@ iso               50GB
 maps              50GB
 movies          1300GB
 music            500GB
-pdf               10GB
+pdf               20GB
 pictures         100GB
 rockhounding     100GB
 scans            100GB 
@@ -149,6 +149,77 @@ Volume with 500GB capacity with name 'svnroot', for data group:
 
 bornite:~# lvcreate -n svnroot --size 500g data
   Logical volume "svnroot" created
+
+
+Wed Apr  3 15:52:27 AKDT 2013
+=============================
+Increase bornite's /data/pdf from 10GB to 20GB.
+
+1. Unmount /data/pdf
+bornite:~# umount /data/pdf/
+
+2. The resizefs utility requires e2fsck first:
+bornite:~# e2fsck -f /dev/mapper/data-pdf
+e2fsck 1.41.12 (17-May-2010)
+Pass 1: Checking inodes, blocks, and sizes
+Pass 2: Checking directory structure
+Pass 3: Checking directory connectivity
+Pass 4: Checking reference counts
+Pass 5: Checking group summary information
+/dev/mapper/data-pdf: 33110/1310720 files (1.2% non-contiguous), 2341908/2621440 blocks
+root@bornite:~#
+
+Looks good.
+
+3. Increase size of /data/pdf partition from 10GB to 20GB:
+
+bornite:~# lvextend -L20G /devbornite:~# lvextend -L20G /dev/data/pdf
+  Extending logical volume pdf to 20.00 GiB
+  Logical volume pdf successfully resized
+bornite:~#
+
+4. The resizefs utility requires e2fsck first:
+root@bornite:~# e2fsck -f /dev/mapper/data-pdf
+e2fsck 1.41.12 (17-May-2010)
+Pass 1: Checking inodes, blocks, and sizes
+Pass 2: Checking directory structure
+Pass 3: Checking directory connectivity
+Pass 4: Checking reference counts
+Pass 5: Checking group summary information
+/dev/mapper/data-pdf: 33110/1310720 files (1.2% non-contiguous), 2341908/2621440 blocks
+bornite:~# 
+
+Looks good.
+
+5. Resize /data/pdf 10GB from 10GB to 20GB:
+
+bornite:~# resize2fs /dev/mapper/data-pdf 20G
+resize2fs 1.41.12 (17-May-2010)
+Resizing the filesystem on /dev/mapper/data-pdf to 5242880 (4k) blocks.
+The filesystem on /dev/mapper/data-pdf is now 5242880 blocks long.
+
+root@bornite:~#
+
+6. Verify 20GB on /data/pdf:
+bornite:~# e2fsck -f /dev/mapper/data-pdf
+e2fsck 1.41.12 (17-May-2010)
+Pass 1: Checking inodes, blocks, and sizes
+Pass 2: Checking directory structure
+Pass 3: Checking directory connectivity
+Pass 4: Checking reference counts
+Pass 5: Checking group summary information
+/dev/mapper/data-pdf: 33110/2621440 files (1.2% non-contiguous), 2383670/5242880 blocks
+bornite:~# 
+
+7. Mount /data/pdf:
+bornite:~# mount /data/pdf/
+
+8. Inspect /data/pdf:
+bornite:~# df -h | grep pdf
+/dev/mapper/data-pdf   20G  8.8G   10G  47% /data/pdf
+bornite:~#
+
+Looks good!
 
 
 Sat Mar 30 14:33:36 AKDT 2013

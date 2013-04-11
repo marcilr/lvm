@@ -29,3 +29,51 @@ http://batleth.sapienti-sat.org/projects/FAQs/ext3-faq.html
 
 LVM HOWTO - AJ Lewis
 http://tldp.org/HOWTO/LVM-HOWTO/
+
+--------------------------------------------------
+
+To merge:
+
+Logical Volume Manager (Linux)
+From Wikipedia, the free encyclopedia
+http://en.wikipedia.org/wiki/Logical_Volume_Manager_%28Linux%29
+
+LVM HOWTO
+AJ Lewis <alewis(at)rackable.com>
+http://tldp.org/HOWTO/html_single/LVM-HOWTO/
+
+LVM Administrator's Guide
+Configuration and Administration
+Great info here.
+http://www.centos.org/docs/5/html/Cluster_Logical_Volume_Manager/
+
+4.4.1. Creating Logical Volumes
+Really good lvcreate info.
+http://www.centos.org/docs/5/html/Cluster_Logical_Volume_Manager/LV_create.html
+
+Enterprise Volume Management System
+Reportedly a nice management wrapper.
+http://evms.sourceforge.net/
+
+LVM HOWTO, AJ Lewis
+http://www.tldp.org/HOWTO/LVM-HOWTO/
+
+Pain-free disk space management with LVM
+http://www.linux.com/feature/118645
+
+lvm - Logical Volume Manager (LVM) 
+http://docs.hp.com/en/B9106-90013/lvm.7.html
+
+A simple introduction to working with LVM
+http://www.debian-administration.org/articles/410
+
+Logical volume management
+From Wikipedia, the free encyclopedia
+http://en.wikipedia.org/wiki/Logical_volume_management
+
+How to add disk space with LVM on Linux
+http://www.linuxnetadmin.com/2008/01/how-to-add-disk-space-with-lvm-on-linux.html
+
+Chapter 7. Logical Volume Manager (LVM)
+Red Hat Enterprise Linux 4: System Administration Guide
+http://www.redhat.com/docs/manuals/enterprise/RHEL-4-Manual/sysadmin-guide/ch-lvm-intro.html

@@ -1,6 +1,6 @@
 lvm.txt
 Created Wed Sep  3 11:47:17 AKDT 2008
-by Raymond E. Marcil
+by Raymond E. Marcil <marcilr@gmail.com>
 
 
 Configuring 5.45TB RAID6 on 3ware 9650SE-8LPML with logical volumes.

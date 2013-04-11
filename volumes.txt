@@ -50,7 +50,33 @@ Thu Apr 11 09:59:32 AKDT 2013
 =============================
 Create 25GB encrypted volume on bornite for EncFS FUSE-based cryptographic filesystem storage.
 
-1. 
+1. Create 25GB /data/encrypted/ volume:
+bornite:~# lvcreate -n encrypted --size 25g data
+  Logical volume "encrypted" created
+root@bornite:~#
+
+2. Format /data/encrypted/ volume:
+bornite:~# mkfs.ext3 /dev/mapper/data-encrypted
+
+3. Create /date/encrypted mount point:
+bornite:~# mkdir /data/encrypted
+bornite:~# chown sshfs:sshfs /data/encrypted
+bornite:~# chmod 775 /data/encrypted/
+bornite:~# chmod g+s /data/encrypted/
+
+4. Add /etc/fstab entry for /data/usr:
+/dev/mapper/data-encrypted          /data/encrypted          ext3   defaults   0    2
+
+5. Mount it:
+bornite:~# mount /data/encrypted/
+
+bornite:~# df -h | grep encrypted
+/dev/mapper/data-encrypted
+                       25G  173M   24G   1% /data/encrypted
+bornite:~#
+
+Looks good.
+
 
 
 Wed Apr  3 15:52:27 AKDT 2013

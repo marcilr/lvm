@@ -18,6 +18,7 @@ Name          Capacity
 akshena           30GB
 chroot             1GB
 debs              25GB
+encrypted         25GB
 irs                1GB
 iso               50GB
 maps              50GB
@@ -33,8 +34,8 @@ wallpaper          1GB
        ===============
        Total:   4037GB
 
-1460 + 100 + 30 + 1 + 25 + 5 + 50 + 50 + 1000 + 500 + 5 + 100 + 100 + 100 + 500 + 10 + 1 
-  = 4037GB
+1460 + 100 + 30 + 1 + 25 + 5 + 50 + 50 + 1000 + 500 + 5 + 100 + 100 + 100 + 500 + 10 + 1 + 25
+  = 4062GB
 
 NOTE: Taken Nov 11, 2010
       All volumes formatted with ext3.

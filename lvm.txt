@@ -84,7 +84,7 @@ wallpaper          1GB
   = 4037GB
 
 NOTE: Taken Nov 11, 2010
-      All columes volumes formatted with ext3.
+      All volumes formatted with ext3.
 
 
 Usage

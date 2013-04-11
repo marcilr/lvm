@@ -8,54 +8,7 @@ Configuring 5.45TB RAID6 on 3ware 9650SE-8LPML with logical volumes.
 
 The /dev/VGNAME/LVNAME path is just a convenience symlink to /dev/mapper/...
 
-lvm - Logical Volume Manager (LVM) 
-      Physical Volume (PV)
-      Logical Volume (LV)
-      Volume Group (VG)
-
-The Logical Volume Manager (LVM) is a subsystem for managing disk 
-space. The HP LVM subsystem offers value-added features, such as 
-mirroring (with the optional HP MirrorDisk/UX software), high 
-availability (with the optional HP ServiceGuard software), and 
-striping, that enhance availability and performance.
-
-Unlike earlier arrangements where disks were divided into fixed-sized 
-sections, LVM allows the user to consider the disks, also known as 
-physical volumes, as a pool (or volume) of data storage, consisting 
-of equal-sized extents. The default size of an extent is 4 MB.
-
-An LVM system consists of arbitrary groupings of physical volumes, 
-organized into volume groups. A volume group can consist of one or 
-more physical volumes. There can be more than one volume group in 
-the system. Once created, the volume group, and not the disk, is 
-the basic unit of data storage. Thus, whereas earlier one would move 
-disks from one system to another, with LVM, one would move a volume 
-group from one system to another. For this reason it is often 
-convenient to have multiple volume groups on a system.
-
-Volume groups can be subdivided into virtual disks, called logical 
-volumes. A logical volume can span a number of physical volumes or 
-represent only a portion of one physical volume. The pool of disk 
-space that is represented by a volume group can be apportioned into 
-logical volumes of various sizes. The size of a logical volume is 
-determined by its number of extents. Once created, logical volumes 
-can be treated just like disk partitions. Logical volumes can be 
-assigned to file systems, used as swap or dump devices, or used for 
-raw access.
-
-hp.com/
-
-config: /etc/lvm/lvm.conf
-
-
-lvm groups on raid6
-===================
-data - Has all logical volumes.
-
-
-lvm volumes on raid6
-====================
-Volumes created on bornite raid6
+lvm group: data   (with volumes on bornite's raid6)
 
 
 Name          Capacity 
@@ -84,71 +37,20 @@ wallpaper          1GB
   = 4037GB
 
 NOTE: Taken Nov 11, 2010
-      All columes volumes formatted with ext3.
+      All volumes formatted with ext3.
 
 
-Usage
-=====
-Initialize physical volume:
-bornite:~# pvcreate /dev/sde1
-  Physical volume "/dev/sde1" successfully created
+
+Logical Volume History
+======================
+History of bornite's logical volumes including creation, resize, and deletion.
 
 
-Create volume group
--------------------
-bornite:~# vgcreate data /dev/sde1
-  Volume group "data" successfully created
+Thu Apr 11 09:59:32 AKDT 2013
+=============================
+Create 25GB encrypted volume on bornite for EncFS FUSE-based cryptographic filesystem storage.
 
-
-Display volume groups
----------------------
-bornite:/# vgdisplay
-  --- Volume group ---
-  VG Name               data
-  System ID             
-  Format                lvm2
-  Metadata Areas        1
-  Metadata Sequence No  4
-  VG Access             read/write
-  VG Status             resizable
-  MAX LV                0
-  Cur LV                0
-  Open LV               0
-  Max PV                0
-  Cur PV                1
-  Act PV                1
-  VG Size               5.46 TB
-  PE Size               4.00 MB
-  Total PE              1430495
-  Alloc PE / Size       0 / 0   
-  Free  PE / Size       1430495 / 5.46 TB
-  VG UUID               IPYghg-p1g8-TWUT-t0PW-NKJ0-3TA0-lkr2ka
-
-
-Remove volume group
--------------------
-bornite:/# vgrename data-vol data
-  Volume group "data-vol" successfully renamed to "data"
-
-
-Scan volumes
-------------
-bornite:~# vgscan
-  Reading all physical volumes.  This may take a while...
-  Found volume group "data" using metadata type lvm2
-
-
-Create logical volume
---------------------- 
-Volume with 1TB capacity with name 'mp3', for data group:
-
-bornite:~# lvcreate -n mp3 --size 1000g data
-  Logical volume "mp3" created
-
-Volume with 500GB capacity with name 'svnroot', for data group:
-
-bornite:~# lvcreate -n svnroot --size 500g data
-  Logical volume "svnroot" created
+1. 
 
 
 Wed Apr  3 15:52:27 AKDT 2013
@@ -1306,51 +1208,3 @@ udev                   10M   80K   10M   1% /dev
 tmpfs                 443M     0  443M   0% /dev/shm
 /dev/mapper/data--vol-mp3
                       985G  200M  935G   1% /mnt
-
-
-Links
-=====
-Logical Volume Manager (Linux)
-From Wikipedia, the free encyclopedia
-http://en.wikipedia.org/wiki/Logical_Volume_Manager_%28Linux%29
-
-LVM HOWTO
-AJ Lewis <alewis(at)rackable.com>
-http://tldp.org/HOWTO/html_single/LVM-HOWTO/
-
-LVM Administrator's Guide
-Configuration and Administration
-Great info here.
-http://www.centos.org/docs/5/html/Cluster_Logical_Volume_Manager/
-
-4.4.1. Creating Logical Volumes
-Really good lvcreate info.
-http://www.centos.org/docs/5/html/Cluster_Logical_Volume_Manager/LV_create.html
-
-Enterprise Volume Management System
-Reportedly a nice management wrapper.
-http://evms.sourceforge.net/
-
-LVM HOWTO, AJ Lewis
-http://www.tldp.org/HOWTO/LVM-HOWTO/
-
-Pain-free disk space management with LVM
-http://www.linux.com/feature/118645
-
-lvm - Logical Volume Manager (LVM) 
-http://docs.hp.com/en/B9106-90013/lvm.7.html
-
-A simple introduction to working with LVM
-http://www.debian-administration.org/articles/410
-
-Logical volume management
-From Wikipedia, the free encyclopedia
-http://en.wikipedia.org/wiki/Logical_volume_management
-
-How to add disk space with LVM on Linux
-http://www.linuxnetadmin.com/2008/01/how-to-add-disk-space-with-lvm-on-linux.html
-
-Chapter 7. Logical Volume Manager (LVM)
-Red Hat Enterprise Linux 4: System Administration Guide
-http://www.redhat.com/docs/manuals/enterprise/RHEL-4-Manual/sysadmin-guide/ch-lvm-intro.html
-

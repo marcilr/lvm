@@ -15,7 +15,3 @@
 ./lv    svn+ssh://home/data/svnroot/compsci/storage/lvm/lv/lv
 ./pv    svn+ssh://home/data/svnroot/compsci/storage/lvm/pv/pv
 ./vg    svn+ssh://home/data/svnroot/compsci/storage/lvm/vg/vg
-
-#
-# List of subversion repositories to checkout under lvm/
-#

@@ -12,9 +12,9 @@
 # pv/   Physical Volume (PV)
 # vg/   Volume Group (VG)
 #
-./lv    svn+ssh://home/data/svnroot/storage/lvm/lv/lv
-./pv    svn+ssh://home/data/svnroot/storage/lvm/pv/pv
-./vg    svn+ssh://home/data/svnroot/storage/lvm/vg/vg
+./lv    svn+ssh://home/data/svnroot/compsci/storage/lvm/lv/lv
+./pv    svn+ssh://home/data/svnroot/compsci/storage/lvm/pv/pv
+./vg    svn+ssh://home/data/svnroot/compsci/storage/lvm/vg/vg
 
 #
 # List of subversion repositories to checkout under lvm/

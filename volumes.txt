@@ -49,7 +49,8 @@ History of bornite's logical volumes including creation, resize, and deletion.
 
 Thu Apr 11 09:59:32 AKDT 2013
 =============================
-Create 25GB encrypted volume on bornite for EncFS FUSE-based cryptographic filesystem storage.
+Create 25GB encrypted volume on bornite for EncFS FUSE-based cryptographic
+filesystem storage.
 
 1. Create 25GB /data/encrypted/ volume:
 bornite:~# lvcreate -n encrypted --size 25g data

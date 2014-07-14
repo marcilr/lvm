@@ -47,6 +47,165 @@ Logical Volume History
 History of bornite's logical volumes including creation, resize, and deletion.
 
 
+Mon Jul 14 09:38:41 AKDT 2014
+=============================
+The /data/movies logical volume is out of space.  Need to migrate 300GB from
+/data/music to /data/movies.
+
+1. Reduce /data/music from 500GB to 200GB (only using 120GB).
+i. Unmount /data/music
+bornite:~# umount /data/music
+
+ii. Run e2fsck on /dev/mapper/data-music to keep resizefs happy:
+bornite:~# e2fsck -f /dev/mapper/data-music
+e2fsck 1.41.12 (17-May-2010)
+Pass 1: Checking inodes, blocks, and sizes
+Pass 2: Checking directory structure
+Pass 3: Checking directory connectivity
+Pass 4: Checking reference counts
+Pass 5: Checking group summary information
+/dev/mapper/data-music: 37931/65536000 files (8.9% non-contiguous), \
+33276518/131072000 blocks
+bornite:~#
+
+iii. Resize /data/music from 500GB to 200GB:
+bornite:~# resize2fs /dev/mapper/data-music 200G
+resize2fs 1.41.12 (17-May-2010)
+Resizing the filesystem on /dev/mapper/data-music to 52428800 (4k) blocks.
+The filesystem on /dev/mapper/data-music is now 52428800 blocks long.
+
+bornite:~#
+
+iv. Reduce /dev/data/music volume from 500GB to 200GB:
+bornite:~# lvreduce -L200G /dev/data/music
+  WARNING: Reducing active logical volume to 200.00 GiB
+  THIS MAY DESTROY YOUR DATA (filesystem etc.)
+Do you really want to reduce music? [y/n]: y
+  Reducing logical volume music to 200.00 GiB
+  Logical volume music successfully resized
+bornite:~#
+
+v. Mount volume
+bornite:~# mount /data/music/
+
+bornite:~$ df -h
+...
+/dev/mapper/data-music
+                      197G  120G   68G  64% /data/music
+bornite:~$
+
+bornite:~$ ls /data/music/
+!!!
+01 - Paul Van Dyke - Essential Trance 4.mp3
+01 Wolves.mp3
+02 - Fishing Clothes.mp3
+...
+ZZ Top
+bornite:~$
+
+Looks good.	
+
+v. Inspect results:
+bornite:~# lvdisplay /dev/data/music
+  --- Logical volume ---
+  LV Name                /dev/data/music
+  VG Name                data
+  LV UUID                0UBPs0-hgAX-6Htx-hAm2-S5sX-lT2o-Vrzdud
+  LV Write Access        read/write
+  LV Status              available
+  # open                 1
+  LV Size                200.00 GiB
+  Current LE             51200
+  Segments               1
+  Allocation             inherit
+  Read ahead sectors     auto
+  - currently set to     256
+  Block device           253:2
+   
+bornite:~#
+
+Reduction of /data/music from 500Gb to 200GB looks good!
+
+
+2. Increase /date/movies from 1.3T to 1.6T.
+
+i. Inspect /dev/data/movies:
+bornite:~# lvdisplay /dev/data/movies
+  --- Logical volume ---
+  LV Name                /dev/data/movies
+  VG Name                data
+  LV UUID                dkZcFm-SQ5S-3eKm-EZHl-2QM7-z0LF-3KAv11
+  LV Write Access        read/write
+  LV Status              available
+  # open                 1
+  LV Size                1.27 TiB
+  Current LE             332800
+  Segments               3
+  Allocation             inherit
+  Read ahead sectors     auto
+  - currently set to     256
+  Block device           253:13
+   
+bornite:~#
+
+ii. Umount /data/movies/
+bornite:~# umount /data/movies/
+umount: /data/movies: device is busy.
+        (In some cases useful info about processes that use
+         the device is found by lsof(8) or fuser(1))
+bornite:~#
+
+bornite:~# lsof | grep data
+java       2801    subsonic  mem       REG              253,0 33554432    2181184 /var/subsonic/db/subsonic.data
+java       2801    subsonic  mem       REG              253,0    32768    3637510 /tmp/hsperfdata_subsonic/2801
+java       2801    subsonic   53u      REG              253,0 33554432    2181184 /var/subsonic/db/subsonic.data
+python     3466        plex  mem       REG              253,0   738563    3853819 /usr/lib/plexmediaserver/Resources/Python/lib/python2.7/lib-dynload/unicodedata.so
+smbd       7286        root  cwd       DIR             253,13    12288          2 /data/movies
+xfsdatad/ 23909        root  cwd       DIR              253,0     4096          2 /
+xfsdatad/ 23909        root  rtd       DIR              253,0     4096          2 /
+xfsdatad/ 23909        root  txt   unknown                                        /proc/23909/exe
+xfsdatad/ 23910        root  cwd       DIR              253,0     4096          2 /
+xfsdatad/ 23910        root  rtd       DIR              253,0     4096          2 /
+xfsdatad/ 23910        root  txt   unknown                                        /proc/23910/exe
+bornite:~#
+
+Suspect the smbd mount, i.e. samba.
+
+root@bornite:~# /etc/init.d/samba stop
+Stopping Samba daemons: nmbd smbd.
+root@bornite:~#
+
+bornite:~# lsof | grep data
+java       2801    subsonic  mem       REG              253,0 33554432    2181184 /var/subsonic/db/subsonic.data
+java       2801    subsonic  mem       REG              253,0    32768    3637510 /tmp/hsperfdata_subsonic/2801
+java       2801    subsonic   53u      REG              253,0 33554432    2181184 /var/subsonic/db/subsonic.data
+python     3466        plex  mem       REG              253,0   738563    3853819 /usr/lib/plexmediaserver/Resources/Python/lib/python2.7/lib-dynload/unicodedata.so
+xfsdatad/ 23909        root  cwd       DIR              253,0     4096          2 /
+xfsdatad/ 23909        root  rtd       DIR              253,0     4096          2 /
+xfsdatad/ 23909        root  txt   unknown                                        /proc/23909/exe
+xfsdatad/ 23910        root  cwd       DIR              253,0     4096          2 /
+xfsdatad/ 23910        root  rtd       DIR              253,0     4096          2 /
+xfsdatad/ 23910        root  txt   unknown                                        /proc/23910/exe
+bornite:~# 
+
+That disabled the smbd mount.
+
+bornite:~# umount /data/movies/
+
+Solid analysis.
+
+iii. The resizefs utility requires e2fsck first:
+
+bornite:~# e2fsck -f /dev/mapper/data-movies
+e2fsck 1.41.12 (17-May-2010)
+Pass 1: Checking inodes, blocks, and sizes
+
+
+
+iv. Increase /data/movies from 1300GB to 1600GB
+bornite:~# lvextend -L1600G /devbornite:~# lvextend -L1600G /dev/data/movies
+
+
 Thu Apr 11 09:59:32 AKDT 2013
 =============================
 Create 25GB encrypted volume on bornite for EncFS FUSE-based cryptographic

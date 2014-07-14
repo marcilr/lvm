@@ -22,8 +22,8 @@ encrypted         25GB
 irs                1GB
 iso               50GB
 maps              50GB
-movies          1300GB
-music            500GB
+movies          1600GB
+music            200GB
 pdf               20GB
 pictures         100GB
 rockhounding     100GB
@@ -199,11 +199,75 @@ iii. The resizefs utility requires e2fsck first:
 bornite:~# e2fsck -f /dev/mapper/data-movies
 e2fsck 1.41.12 (17-May-2010)
 Pass 1: Checking inodes, blocks, and sizes
-
-
+Pass 2: Checking directory structure
+Pass 3: Checking directory connectivity
+Pass 4: Checking reference counts
+Pass 5: Checking group summary information
+/dev/mapper/data-movies: 3080/170393600 files (18.9% non-contiguous), 331110665/340787200 blocks
+bornite:~#
 
 iv. Increase /data/movies from 1300GB to 1600GB
-bornite:~# lvextend -L1600G /devbornite:~# lvextend -L1600G /dev/data/movies
+bornite:~# lvextend -L1600G /dev/data/movies
+  Extending logical volume movies to 1.56 TiB
+  Logical volume movies successfully resized
+bornite:~#
+
+v. The resizefs utility requires e2fsck first:
+bornite:~# e2fsck -f /dev/mapper/data-movies
+e2fsck 1.41.12 (17-May-2010)
+Pass 1: Checking inodes, blocks, and sizes
+Pass 2: Checking directory structure
+Pass 3: Checking directory connectivity
+Pass 4: Checking reference counts
+Pass 5: Checking group summary information
+/dev/mapper/data-movies: 3080/170393600 files (18.9% non-contiguous), 331110665/340787200 blocks
+bornite:~#
+
+Looks good.
+
+vi. Resize /data/movies from 1300GB to 1600GB:
+
+bornite:~# resize2fs /dev/mapper/data-movies 1600G
+resize2fs 1.41.12 (17-May-2010)
+Resizing the filesystem on /dev/mapper/data-movies to 419430400 (4k) blocks.
+The filesystem on /dev/mapper/data-movies is now 419430400 blocks long.
+
+bornite:~#
+
+vii. Mount resized filesystem
+
+bornite:~$ df -h
+...
+/dev/mapper/data-movies
+                      1.6T  1.3T  253G  84% /data/movies
+bornite:~$
+
+marcilr# lvdisplay /dev/data/movies
+  --- Logical volume ---
+  LV Name                /dev/data/movies
+  VG Name                data
+  LV UUID                dkZcFm-SQ5S-3eKm-EZHl-2QM7-z0LF-3KAv11
+  LV Write Access        read/write
+  LV Status              available
+  # open                 1
+  LV Size                1.56 TiB
+  Current LE             409600
+  Segments               4
+  Allocation             inherit
+  Read ahead sectors     auto
+  - currently set to     256
+  Block device           253:13
+   
+bornite:/home/marcilr#
+
+Looks good!
+
+viii. Start samba:
+bornite:~# /etc/init.d/samba start
+Starting Samba daemons: nmbd smbd.
+bornite:~#
+
+Migration of 300GB from bornite's /data/music to /data/movies complete.
 
 
 Thu Apr 11 09:59:32 AKDT 2013

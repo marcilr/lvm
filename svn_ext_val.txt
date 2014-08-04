@@ -12,6 +12,9 @@
 # pv/   Physical Volume (PV)
 # vg/   Volume Group (VG)
 #
+# syntax/   Syntax for lvm
+#
 ../../lvm/lv/lv   ./lv
 ../../lvm/pv/pv   ./pv
 ../../lvm/vg/vg   ./vg
+../../lvm/syntax/syntax   ./syntax

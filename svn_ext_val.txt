@@ -11,8 +11,8 @@
 # bornite/   Bornite fileserver
 #            Chenbro RM41416B 16-bay chassis
 #            3ware 9650SE-16ML, 16x SATA-II, PCIe x8
-#            8TB RAID6
-$
+#            8x Seagate Barracuda 7200.11 ST31000340AS 1 TB = 8TB RAID6
+#
 # syntax/    Syntax for lvm
 #
 ../../lvm/bornite/bornite   ./bornite

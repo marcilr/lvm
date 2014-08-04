@@ -17,15 +17,14 @@ you out.
 In case you have to do something similar just follow the steps we took.
 
 1) Once we were in live session, we opened a terminal and ran:
-[root]# fdisk -l
+    [root]# fdisk -l
 
 This lists out the partition table of the system and it looked something like 
 this:
-
-Device        Boot   Start     End      Blocks       Id   System 
-/dev/sda1     *        1       4864     39070048+     7   HPFS/NTFS
-/dev/sda2            4865      6691     14675377+    83   LVM2_member
-...
+    Device      Boot   Start   End   Blocks     Id   System 
+    /dev/sda1   *      1       4864  39070048   7    HPFS/NTFS
+    /dev/sda2          4865    6691  14675377   83   LVM2_member
+    ...
 
 2) The good news was that the system was at least able to distinguish the 
 partitions.  So, in order to backup the data, the next step was to access the 
@@ -35,39 +34,35 @@ additional steps to mount it.
 Now, run the pvs command.  Please note that while in live session you may find 
 that this is not installed by default.  In order to install the required tools,
 run the following command.
-
-[shredder12]$ sudo apt-get install lvm2
+    [shredder12]$ sudo apt-get install lvm2
 
 Of course, you should be connected to internet.  Once you are done with this 
 run pvs.
-
-[root]# pvs
+    [root]# pvs
 
 This will list the volume groups to which our physical volume /dev/sda2 
 belonged.  It would be of the form:
-
-PV               VG     Fmt    Attr    PSize     PFree
-/dev/hda2   VolGroup01  lvm2   a-      148.94G   32.00M
+    PV          VG           Fmt    Attr   PSize     PFree
+    /dev/hda2   VolGroup01   lvm2   a-     148.94G   32.00M
 
 The second field, VG, shows the Volume group.  The above output is just an 
 example, showing that we are concerned with the Volume group "VolGroup01". 
 The next step is to list the information about this volume group.
-
-[root]# lvdisplay /dev/VolGroup01
+    [root]# lvdisplay /dev/VolGroup01
 
 It will throw a bunch of ouput, but the one we are concerned with is LV Name.
 It will look something like this:
-
-LV Name /dev/VolGroup01/LogVol00
+    LV Name /dev/VolGroup01/LogVol00
 
 In our case, there were two entries of type LV Name, the other being LogVol01, 
 the swap.  The whole output along with it will help you to identify the target 
 logical volume you are looking for.  Assuming that the above one is the 
 partition that we need to mount, just use the usual method to mount it.
-
-[root]# mount /dev/VolGroup01/LogVol00   /mnt
+    [root]# mount /dev/VolGroup01/LogVol00    /mnt
 
 Now, you can to find the data you were looking for in the /mnt folder.
+
+linuxers.org/
 
 
 Sun Aug  7 19:02:36 AKDT 2011
@@ -128,7 +123,8 @@ root@malachite:/home/marcilr#
 2. Install lvm2 package:
 root@malachite:~# aptitude install lvm2
 ...
-Setting up LVM Volume Groups  Reading all physical volumes.  This may take a while...
+Setting up LVM Volume Groups  Reading all physical volumes.  \
+This may take a while...
   Found volume group "malachite" using metadata type lvm2
   2 logical volume(s) in volume group "malachite" now active
 ...
@@ -203,3 +199,10 @@ Filesystem           1M-blocks      Used Available Use% Mounted on
 marcilr@malachite:~$
 
 The mount of the logical volume group definately worked.
+
+
+Links
+=====
+How to mount Linux LVM volume partitions on Linux
+Written on August 28th, 2010 at 23:31 pm by shredder12
+http://linuxers.org/howto/how-mount-linux-lvm-volume-partitions-linux

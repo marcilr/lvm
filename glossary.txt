@@ -5,31 +5,37 @@ Created
 LVM Glossary
 ============
 
-LVM - Logical Volume Management.  In computer storage, logical volume management or LVM provides 
-  a method of allocating space on mass-storage devices that is more flexible than conventional 
-  partitioning schemes.  In particular, a volume manager can concatenate, stripe together or 
-  otherwise combine partitions into larger virtual ones that administrators can re-size or move, 
-  potentially without interrupting system use.
+LVM - Logical Volume Management.  In computer storage, logical volume
+  management or LVM provides a method of allocating space on mass-storage
+  devices that is more flexible than conventional partitioning schemes.  In
+  particular, a volume manager can concatenate, stripe together or otherwise
+  combine partitions into larger virtual ones that administrators can re-size
+  or move, potentially without interrupting system use.
   wikipedia.org/
 
-LE - Logical Exit.  Each logical volume is split into chunks of data, known as logical extents. 
-  The extent size is the same for all logical volumes in the volume group.
+LE - Logical Exit.  Each logical volume is split into chunks of data, known as
+  logical extents.  The extent size is the same for all logical volumes in the
+  volume group.
   tldp.org/
   
-LV - Logical Volume.  The equivalent of a disk partition in a non-LVM system. The LV is visible as
-  a standard block device; as such the LV can contain a file system (eg. /home). 
+LV - Logical Volume.  The equivalent of a disk partition in a non-LVM system.
+  The LV is visible as a standard block device; as such the LV can contain a
+  file system (eg. /home). 
   tldp.org/
 
-PE - Physical Extent.  Each physical volume is divided chunks of data, known as physical extents,
-  these extents have the same size as the logical extents for the volume group. 
+PE - Physical Extent.  Each physical volume is divided chunks of data, known
+  as physical extents, these extents have the same size as the logical extents
+  for the volume group. 
   tldp.org/
 
-PV - Physical Volume.  A physical volume is typically a hard disk, though it may well just be a 
-  device that 'looks' like a hard disk (eg. a software raid device).
+PV - Physical Volume.  A physical volume is typically a hard disk, though it
+  may well just be a device that 'looks' like a hard disk (eg. a software raid
+  device).
   tldp.org/
 
-VG - Volume Group.  The Volume Group is the highest level abstraction used within the LVM.
-  It gathers together a collection of Logical Volumes and Physical Volumes into one administrative
+VG - Volume Group.  The Volume Group is the highest level abstraction used
+  within the LVM.  It gathers together a collection of Logical Volumes and
+  Physical Volumes into one administrative
   unit. 
   tldp.org/
 
@@ -63,4 +69,3 @@ http://www.tldp.org/HOWTO/LVM-HOWTO/pv.html
 
 3.1. volume group (VG)
 http://www.tldp.org/HOWTO/LVM-HOWTO/vg.html
-

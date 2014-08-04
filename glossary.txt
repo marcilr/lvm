@@ -1,9 +1,10 @@
 glossary.txt
-Created
+Created Thu Feb  3 13:03:41 AKDT 2011
+by Raymond E. Marcil <marcilr@gmail.com>
 
 
-LVM Glossary
-============
+Glossary for LVM
+
 
 LVM - Logical Volume Management.  In computer storage, logical volume
   management or LVM provides a method of allocating space on mass-storage

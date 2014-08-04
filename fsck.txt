@@ -8,8 +8,8 @@ fsck'ing a filesystem on an LVM takes a bit more work.
 
 LVM Partitions
 ==============
-In order to be able to run fsck on lvm partitions we need to find the pv's, vg's, lv's
-and activate them. 
+In order to be able to run fsck on lvm partitions we need to find the pv's,
+vg's, lv's and activate them. 
 
 # lvm pvscan
 # lvm vgscan

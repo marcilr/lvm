@@ -5,7 +5,9 @@ by Raymond E. Marcil <marcilr@gmail.com>
 
 Inspection of lvm.
 
-There are three commands you can use to display properties of LVM physical volumes:
+
+There are three commands you can use to display properties of LVM physical
+volumes:
   pvs, pvdisplay, and pvscan. 
 
 pvs - report information about physical volumes
@@ -113,6 +115,7 @@ bornite:~#
 Links
 =====
 4.2.2. Displaying Physical Volumes
-There are three commands you can use to display properties of LVM physical volumes:
-pvs, pvdisplay, and pvscan. 
+There are three commands you can use to display properties of LVM physical
+volumes:
+  pvs, pvdisplay, and pvscan. 
 http://www.centos.org/docs/5/html/Cluster_Logical_Volume_Manager/physvol_display.html

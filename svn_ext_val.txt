@@ -8,6 +8,8 @@
 #
 # List of repo hierarchical directories to checkout under lvm/
 #
-# syntax/   Syntax for lvm
+# bornite/   Bornite fileserver
+# syntax/    Syntax for lvm
 #
-../../lvm/syntax/syntax   ./syntax
+../../lvm/bornite/bornite   ./bornite
+../../lvm/syntax/syntax     ./syntax

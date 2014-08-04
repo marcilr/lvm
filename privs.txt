@@ -1,12 +1,12 @@
 privs.txt
 Created Fri Jan  1 18:14:44 AKST 2010
-by Raymond E. Marcil
+by Raymond E. Marcil <marcilr@gmail.com>
 
 
 Notes on setting currect privs for on files under directories:
-/data/music  
-/data/movies
-/data/pictures
+  /data/music  
+  /data/movies
+  /data/pictures
 
 Should have the privs:
   files - 644

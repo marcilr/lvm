@@ -30,6 +30,11 @@ http://evms.sourceforge.net/
 How to add disk space with LVM on Linux
 http://www.linuxnetadmin.com/2008/01/how-to-add-disk-space-with-lvm-on-linux.html
 
+How To Create LVM Using vgcreate, lvcreate, and lvextend lvm2 Commands
+by BALAKRISHNAN MARIYAPPAN on AUGUST 5, 2010
+Very useful.
+http://www.thegeekstuff.com/2010/08/how-to-create-lvm/
+
 How to Find the Block Size
 http://www.linfo.org/get_block_size.html
 

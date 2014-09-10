@@ -16,12 +16,19 @@ http://tldp.org/HOWTO/LVM-HOWTO/extendlv.html
 LVM HOWTO
 http://tldp.org/HOWTO/LVM-HOWTO/reducelv.html
 
+A Beginner's Guide To LVM
+http://www.howtoforge.com/linux_lvm
+
 A simple introduction to working with LVM
 http://www.debian-administration.org/articles/410
 
 Chapter 7. Logical Volume Manager (LVM)
 Red Hat Enterprise Linux 4: System Administration Guide
 http://www.redhat.com/docs/manuals/enterprise/RHEL-4-Manual/sysadmin-guide/ch-lvm-intro.html
+
+cplv - Copies the contents of a logical volume to a new logical volume.
+Looks sweet.  However, only available for aix
+http://www-01.ibm.com/support/knowledgecenter/POWER6/iphcg/cplv.htm?cp=POWER6%2F2-5-3-7-2-38
 
 Enterprise Volume Management System
 Reportedly a nice management wrapper.

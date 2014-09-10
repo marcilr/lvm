@@ -82,6 +82,12 @@ http://tldp.org/HOWTO/html_single/LVM-HOWTO/
 Pain-free disk space management with LVM
 http://www.linux.com/feature/118645
 
+Red Hat Enterprise Linux 6
+Logical Volume Manager Administration
+LVM Administrator Guide
+Edition 1
+https://access.redhat.com/documentation/en-US/Red_Hat_Enterprise_Linux/6/html-single/Logical_Volume_Manager_Administration/
+
 Reduce the size of an ext2, ext3 or ext4 filesystem
 http://www.microhowto.info/howto/reduce_the_size_of_an_ext2_ext3_or_ext4_filesystem.html
 

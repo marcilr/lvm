@@ -93,3 +93,7 @@ http://www.microhowto.info/howto/reduce_the_size_of_an_ext2_ext3_or_ext4_filesys
 
 Reduce the size of an LVM logical volume
 http://www.microhowto.info/howto/reduce_the_size_of_an_lvm_logical_volume.html
+
+Use vgcfgbackup and vgcfgrestore to back up metadata on LVM
+By Scott Reeves in Linux and Open Source, November 25, 2011, 1:00 AM PST
+http://www.techrepublic.com/blog/linux-and-open-source/use-vgcfgbackup-and-vgcfgrestore-to-back-up-metadata-on-lvm/

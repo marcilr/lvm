@@ -23,9 +23,10 @@ o Removing a volume group
 
 Create "backups" LVM
 ====================
-Configured RAID5, with 4x Seagate ST31000340NS 1TB drives, attached to 9650SE-8LPML on bornite.
-Need to configure a "backups" LVM for routine backups of the c0 unit (on 9650SE-16ML controller)
-to the c5 unit on the 9650SE-8LPML controller.
+Configured RAID5, with 4x Seagate ST31000340NS 1TB drives, attached to
+9650SE-8LPML on bornite.  Need to configure a "backups" LVM for routine
+backups of the c0 unit (on 9650SE-16ML controller) to the c5 unit on the
+9650SE-8LPML controller.
 
 # tw_cli info
 
@@ -80,8 +81,8 @@ NOTE: Don't think this was necessary.  Likely active after creation.
 
 4. Create backups lvm using lvcreate.
 
-Want to use entire "backups" VG for the "backups" lvm.  Use vgdisplay to find the "Total PE"
-size for "backups" VG.
+Want to use entire "backups" VG for the "backups" lvm.  Use vgdisplay to find
+the "Total PE" size for "backups" VG.
 
 # vgdisplay backups | grep "Total PE"
   Total PE              715247          <== Total size of "backups" VG.
@@ -151,7 +152,8 @@ This filesystem will be automatically checked every 20 mounts or
 
 2816095MB / 1024 = 2750GB /1024 = 2.69TB   <== Yeh hah, worked good.
 
-NOTE: I think the trick was using pvcreate to initialize the /dev/sdd1 physical volume.
+NOTE: I think the trick was using pvcreate to initialize the /dev/sdd1
+      physical volume.
 
 
 7. Add "backups" lvm to /etc/fstab.
@@ -175,7 +177,8 @@ Looks good!  New backups lvm, on new RAID5, attached to 9650SE-8LPML created.
 
 Initializing disks or disk partitions
 =====================================
-Before you can use a disk or disk partition as a physical volume you will have to initialize it.
+Before you can use a disk or disk partition as a physical volume you will have
+to initialize it.
 
 Use pvcreate to initialize a disk or disk partition.
 
@@ -184,10 +187,11 @@ Run pvcreate on the disk:
 
 This creates a volume group descriptor at the start of disk.
 
-NOTE: Using the whole disk as a PV (as opposed to a partition spanning the whole disk) is not
-recommended because of the management issues it can create.  Any other OS that looks at the disk
-will not recognize the LVM metadata and display the disk as being free, so it is likely it will be
-overwritten.  LVM itself will work fine with whole disk PVs. 
+NOTE: Using the whole disk as a PV (as opposed to a partition spanning the
+      whole disk) is not recommended because of the management issues it can
+      create.  Any other OS that looks at the disk will not recognize the LVM
+      metadata and display the disk as being free, so it is likely it will be
+      overwritten.  LVM itself will work fine with whole disk PVs. 
 
 Run pvcreate on the partition:
 # pvcreate /dev/hdb1
@@ -207,15 +211,16 @@ NOTE: LVM allows for absorbing or ejecting disks from the volume group.
 
 Activating a volume group
 =========================
-After rebooting the system or running vgchange -an, you will not be able to access your
-VGs and LVs. To reactivate the volume group, run: 
+After rebooting the system or running vgchange -an, you will not be able to
+access your VGs and LVs. To reactivate the volume group, run: 
 
 # vgchange -a y my_volume_group
 
 
 Adding physical volumes to a volume group
 =========================================
-Use 'vgextend' to add an initialized physical volume to an existing volume group.
+Use 'vgextend' to add an initialized physical volume to an existing volume
+group.
 
 # vgextend my_volume_group /dev/hdc1
                                     ^^^^^^^^^ new physical volume
@@ -223,8 +228,8 @@ Use 'vgextend' to add an initialized physical volume to an existing volume group
 
 Removing physical volumes from a volume group
 =============================================
-Make sure that the physical volume isn't used by any logical volumes by using then 'pvdisplay'
-command:
+Make sure that the physical volume isn't used by any logical volumes by using
+then 'pvdisplay' command:
 
 # pvdisplay /dev/hda1
 
@@ -243,8 +248,8 @@ Allocated PE          499
 PV UUID               Sd44tK-9IRw-SrMC-MOkn-76iP-iftz-OVSen7
 
 
-If the physical volume is still used you will have to migrate the data to another physical volume
-using pvmove.
+If the physical volume is still used you will have to migrate the data to
+another physical volume using pvmove.
 
 Then use 'vgreduce' to remove the physical volume:
 
@@ -253,14 +258,15 @@ Then use 'vgreduce' to remove the physical volume:
 
 Creating a logical volume
 =========================
-To create a 1500MB linear LV named 'testlv' and its block device special '/dev/testvg/testlv':
+To create a 1500MB linear LV named 'testlv' and its block device special
+'/dev/testvg/testlv':
 # lvcreate -L1500 -ntestlv testvg
         
 To create a 100 LE large logical volume with 2 stripes and stripe size 4 KB.
 # lvcreate -i2 -I4 -l100 -nanothertestlv testvg
         
-If you want to create an LV that uses the entire VG, use vgdisplay to find the "Total PE" size, 
-then use that when running lvcreate.
+If you want to create an LV that uses the entire VG, use vgdisplay to find the
+"Total PE" size, then use that when running lvcreate.
 
 # vgdisplay testvg | grep "Total PE"
 Total PE              10230
@@ -268,15 +274,18 @@ Total PE              10230
         
 This will create an LV called mylv filling the testvg VG.
 
-If you want the logical volume to be allocated from a specific physical volume in the volume group,
-specify the PV or PVs at the end of the lvcreate command line.
+If you want the logical volume to be allocated from a specific physical volume
+in the volume group, specify the PV or PVs at the end of the lvcreate command
+line.
+
 # lvcreate -L 1500 -ntestlv testvg /dev/sdg
 
 
 Extending a logical volume
 ==========================
-To extend a logical volume you simply tell the lvextend command how much you want to increase the
-size.  You can specify how much to grow the volume, or how large you want it to grow to:
+To extend a logical volume you simply tell the lvextend command how much you
+want to increase the size.  You can specify how much to grow the volume, or
+how large you want it to grow to:
 
 # lvextend -L12G /dev/myvg/homevol
 lvextend -- extending logical volume "/dev/myvg/homevol" to 12 GB
@@ -292,18 +301,19 @@ lvextend -- logical volume "/dev/myvg/homevol" successfully extended
         
 will add another gigabyte to /dev/myvg/homevol.
 
-After you have extended the logical volume it is necessary to increase the file system size to
-match. how you do this depends on the file system you are using.
+After you have extended the logical volume it is necessary to increase the
+file system size to match. how you do this depends on the file system you are
+using.
 
-By default, most file system resizing tools will increase the size of the file system to be the
-size of the underlying logical volume so you don't need to worry about specifying the same size
-for each of the two commands.
+By default, most file system resizing tools will increase the size of the file
+system to be the size of the underlying logical volume so you don't need to
+worry about specifying the same size for each of the two commands.
 
 ext2/ext3
 ---------
-Unless you have patched your kernel with the ext2online patch it is necessary to unmount the file
-system before resizing it.  (It seems that the online resizing patch is rather dangerous, so use
-at your own risk)
+Unless you have patched your kernel with the ext2online patch it is necessary
+to unmount the file system before resizing it.  (It seems that the online
+resizing patch is rather dangerous, so use at your own risk)
 
 # umount /dev/myvg/homevol/dev/myvg/homevol
 # resize2fs /dev/myvg/homevol
@@ -312,15 +322,16 @@ at your own risk)
 
 Reducing a logical volume
 =========================
-Logical volumes can be reduced in size as well as increased.  However, it is very important to
-remember to reduce the size of the file system or whatever is residing in the volume before
-shrinking the volume itself, otherwise you risk losing data. 
+Logical volumes can be reduced in size as well as increased.  However, it is
+very important to remember to reduce the size of the file system or whatever
+is residing in the volume before shrinking the volume itself, otherwise you
+risk losing data. 
 
 The resize2fs can be used to shrink the ext3 partition.
 The lvreduce can then be used to shrink the lvm.
 
-If you prefer to do this manually you must know the new size of the volume in blocks and use the
-following commands:
+If you prefer to do this manually you must know the new size of the volume in
+blocks and use the following commands:
 
 # umount /home
 # resize2fs /dev/myvg/homevol 524288   <== Block per 1GB (???)
@@ -352,8 +363,8 @@ Do you really want to remove active logical volume backups? [y/n]: y
 
 Removing a volume group
 =======================
-Make sure that no logical volumes are present in the volume group, see later section for how to do
-this.
+Make sure that no logical volumes are present in the volume group, see later
+section for how to do this.
 
 Deactivate the volume group:
 # vgchange -a n my_volume_group

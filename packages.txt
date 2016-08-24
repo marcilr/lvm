@@ -14,7 +14,7 @@ Has pvcreate, vgcreate, and vgscan lvm utilities.
 Inspection of bornite Jan 10, 2013:
 
 bornite:~$  dpkg -l | grep lvm                             
-ii  lvm2                                2.02.66-5                    The Linux Logical Volume Manager
+ii  lvm2     2.02.66-5     The Linux Logical Volume Manager
 bornite:~$
 
 bornite:~$ apt-cache search resize2fs

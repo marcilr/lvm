@@ -1,0 +1,37 @@
+fsck.txt
+Created Tue Oct 18 16:52:36 AKDT 2011
+by Raymond E. Marcil <marcilr@gmail.com>
+
+
+fsck'ing a filesystem on an LVM takes a bit more work.
+
+
+LVM Partitions
+==============
+In order to be able to run fsck on lvm partitions we need to find the pv's,
+vg's, lv's and activate them. 
+
+# lvm pvscan
+# lvm vgscan
+# lvm lvchange -ay /dev/VolGroup00/LogVol_home
+# lvm lvscan
+
+# fsck -yfv /dev/VolGroup00/LogVol_home
+
+
+Example
+=======
+On UAA ITS WebApps Debian squeeze amd64 3.0.1 laptop booted to Knoppix 6.0 cd.
+
+knoppix@MicroKnoppix:~$ sudo su
+knoppix@MicroKnoppix:/home/knoppix# 
+
+Argh, no lvm utilities under Knoppix 6.0
+
+
+
+Links
+=====
+How should I run fsck on a Linux file system
+January 5, 2009 | By Fabio Milano In CentOS,Fedora,File System,Linux,Tutorial
+http://www.kernelhardware.org/how-should-run-fsck-linux-file-system/

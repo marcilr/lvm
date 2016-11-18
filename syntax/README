@@ -8,6 +8,9 @@ Filelist
 blkid.txt
   blkid - locate/print block device attributes
 
+create.txt
+  Creating logical volume and formatting filesystem
+
 free-space/
   To determine the free space available for logical volumes use 
   vgs - report information about volume groups:

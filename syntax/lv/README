@@ -1,0 +1,16 @@
+README
+Created Sat Nov 14 08:27:15 AKST 2015
+Copyright (C) 2015 by Raymond E. Marcil <marcilr@gmail.com>
+
+
+Filelist
+========
+lvcreate.txt
+  Create logical volume with filesystem
+
+lvextend.txt
+lvreduce.txt
+lvremove.txt
+lv.txt
+resize2fs.txt
+resize-howto.txt

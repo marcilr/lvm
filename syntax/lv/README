@@ -29,4 +29,9 @@ lv.txt
   Logical Volume (LV) 
 
 resize2fs.txt
+  Resize ext2/ext3/ext4 filesystem on the volume using resize2fs
+
 resize-howto.txt
+  -- How to resize an ext2/3 partition --
+  [without using Partition magic]
+  http://happy-werner.de/howtos/resize_howto.txt

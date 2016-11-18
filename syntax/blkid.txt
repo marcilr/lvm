@@ -1,0 +1,30 @@
+blkid.txt
+Created Mon Jul 20 18:36:38 AKDT 2015
+Copyright (C) 2015 by Raymond E. Marcil <marcilr@gmail.com>
+
+
+blkid - locate/print block device attributes
+
+
+List all uuids on base system
+
+
+Usage
+=====
+blkid -L label | -U uuid
+
+
+Example
+=======
+# blkid
+/dev/sda1: UUID="108b9e50-6228-485b-9f21-24b3951fc9a8" TYPE="ext4" \
+  PARTLABEL="malachite" PARTUUID="5ee04fcd-dc50-403d-b427-c276adde498f"
+/dev/sdb1: UUID="137ba80d-bd1f-4948-89e5-95b6bde40658" TYPE="ext4" \
+  PARTLABEL="primary" PARTUUID="4ed27d64-91d7-4fd1-8fd6-db7637877e10"
+/dev/sdb2: UUID="1f6bf3ee-2125-410c-8ad4-8ce66a38f768" TYPE="ext4" \
+  PARTLABEL="primary" PARTUUID="3de3c642-05f4-455f-90a1-b93e05d9a6a4"
+/dev/sdb3: UUID="16aaebd0-3095-4abe-a090-c38442909487" TYPE="ext4" \
+  PARTLABEL="primary" PARTUUID="da33d42b-8017-41fc-b430-b969003e2bff"
+/dev/sdb4: PARTLABEL="primary" PARTUUID="aed3f827-a500-488e-8371-8ee8b7f00621"   <=== Not formatted yet.
+# 
+

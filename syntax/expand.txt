@@ -1,0 +1,247 @@
+expand.txt
+Created Wed Aug 13 08:14:41 AKDT 2014
+Copyright (C) 2014 by Raymond E. Marcil <marcilr@gmail.com>
+
+
+Expand lvm
+
+
+The time has come to expand the movies lvm again.  I've documented these
+expansions under lvm/bornite/volumes.txt  However, the time has come to
+get a separate document going to document the techiques.
+
+
+Examples
+========
+
+Fri Jan 23 08:18:59 AKST 2015
+=============================
+Noticed that the 1.8TB movies lvm (1.8T) was 99% full with only 20G
+available.  Going to increase size to 1.9T.
+
+1. Umount movies logical volume:
+bornite:~# umount /data/movies/
+
+2. fsck movies logical volume:
+bornite:~# e2fsck -f /dev/data/movies
+e2fsck 1.41.12 (17-May-2010)
+Pass 1: Checking inodes, blocks, and sizes
+Pass 2: Checking directory structure
+Pass 3: Checking directory connectivity
+Pass 4: Checking reference counts
+Pass 5: Checking group summary information
+/dev/data/movies: 24425/235929600 files (26.5% non-contiguous), \
+443235878/471859200 blocks
+bornite:~#
+
+Looks good.
+
+3. Extend movies logical volume from 1.8TB to 1.9TB
+(not enough space for 2TB):
+
+bornite:~# lvextend --size 1.9T /dev/mapper/data-movies
+  Rounding up size to full physical extent 1.90 TiB
+  Extending logical volume movies to 1.90 TiB
+  Logical volume movies successfully resized
+bornite:~# 
+
+4. Resize filesystem on movies logical volume to 400GB:
+bornite:~# resize2fs /dev/mapper/data-movies
+resize2fs 1.41.12 (17-May-2010)
+Resizing the filesystem on /dev/mapper/data-movies to 510027776 (4k) blocks.
+The filesystem on /dev/mapper/data-movies is now 510027776 blocks long.
+
+bornite:~#
+
+5. Remount movies
+bornite:~# mount /data/movies/
+
+bornite:~# df -h | grep movies
+Filesystem            Size  Used Avail Use% Mounted on
+...
+/dev/mapper/data-movies
+                      1.9T  1.7T  156G  92% /data/movies
+bornite:~#
+
+
+Wed Dec 24 08:28:27 AKST 2014
+=============================
+Expanded the vms lvm, in the tennantite group on my 2TB Seagate ST32000641AS
+external drive on the GCI Network Services, OSS covellite workstation:
+
+1. Unmount vms logical volume:
+# umount /mnt/tar/vms/
+
+2. fsck vms logical volume:
+# e2fsck -f /dev/tennantite/vms
+e2fsck 1.42.5 (29-Jul-2012)
+Pass 1: Checking inodes, blocks, and sizes
+Pass 2: Checking directory structure
+Pass 3: Checking directory connectivity
+Pass 4: Checking reference counts
+Pass 5: Checking group summary information
+/dev/tennantite/vms: 70/19660800 files (0.0% non-contiguous), 70566527/78643200 blocks
+#
+
+3. Extend logical volume from 300GB to 400GB:
+# lvextend --size 400G /dev/tennantite/vms
+  Extending logical volume vms to 400.00 GiB
+  Logical volume vms successfully resized
+#
+
+4. Resize filesystem on logical volume to 400GB:
+# resize2fs /dev/tennantite/vms
+resize2fs 1.42.5 (29-Jul-2012)
+Resizing the filesystem on /dev/tennantite/vms to 104857600 (4k) blocks.
+
+5. Mount vms logical volume and inspect:
+# mount /dev/tennantite/vms /mnt/tar/vms/
+# df -h | grep vms | grep tennantite
+Filesystem                     Size  Used Avail Use% Mounted on
+/dev/mapper/tennantite-vms     394G  265G  110G  71% /mnt/tar/vms
+
+Looks good.
+
+
+Fri Aug 15 20:58:45 AKDT 2014
+=============================
+The movies expans from 1700GB to 1800GB did not work.  Only the lvm got expanded
+not the filesystem.  Need to fix this.
+
+1. Run e2fsck for resize2fs.
+bornite:~# e2fsck -f /dev/data/movies 
+e2fsck 1.41.12 (17-May-2010)
+Pass 1: Checking inodes, blocks, and sizes
+Pass 2: Checking directory structure
+Pass 3: Checking directory connectivity
+Pass 4: Checking reference counts
+Pass 5: Checking group summary information
+/dev/data/movies: 23389/209715200 files (26.7% non-contiguous), 416505720/419430400 blocks
+bornite:~# 
+
+2. Run e2fsck pm movies without size specified.  This should use the complete
+size of the lvm.
+
+bornite:~# resize2fs /dev/mapper/data-movies
+resize2fs 1.41.12 (17-May-2010)
+Resizing the filesystem on /dev/mapper/data-movies to 471859200 (4k) blocks.
+The filesystem on /dev/mapper/data-movies is now 471859200 blocks long.
+
+bornite:~# 
+
+Wow, looks good.
+
+3. Mount movies
+bornite:~# mount /data/movies
+bornite:~# df -h | grep movies
+/dev/mapper/data-movies
+                      1.8T  1.6T  119G  93% /data/movies
+bornite:~#
+
+Got my space!
+
+4. Start services
+bornite:~# /etc/init.d/samba start
+Starting Samba daemons: nmbd smbd
+bornite:~# /etc/init.d/plexmediaserver start
+Starting Plex Media Server: done
+bornite:~#
+
+Back in action!
+
+
+
+
+
+Wed Aug 13 08:14:41 AKDT 2014
+=============================
+Expand movies lvm from 1700GB to 1800GB
+
+1. Check space available to volume group using vgs:
+bornite:/home/marcilr# vgs
+  VG      #PV #LV #SN Attr   VSize  VFree  
+  backups   1   1   0 wz--n-  2.73t      0 
+  bornite   1   1   0 wz--n- 74.52g      0 
+  data      1  20   0 wz--n-  5.46t 289.87g
+bornite:/home/marcilr# 
+
+2. Stop services using /data/movies:
+bornite:~# /etc/init.d/plexmediaserver stop
+Killing Plex Media Server: done
+bornite:~#
+
+bornite:~# lsof /data/movies
+COMMAND   PID USER   FD   TYPE DEVICE SIZE/OFF NODE NAME
+smbd    19796 root  cwd    DIR 253,13    12288    2 /data/movies
+bornite:~#
+
+bornite:~# /etc/init.d/samba stop
+Stopping Samba daemons: nmbd smbd.
+bornite:~#
+
+bornite:~# lsof /data/movies
+bornite:~#
+
+3. unmount /data/movies:
+bornite:~# umount /data/movies/
+
+4. Run e2fsck on /dev/data/movies to keep resize2fs happy:
+bornite:~# e2fsck -f /dev/data/movies
+e2fsck 1.41.12 (17-May-2010)
+Pass 1: Checking inodes, blocks, and sizes
+Pass 2: Checking directory structure
+Pass 3: Checking directory connectivity
+Pass 4: Checking reference counts
+Pass 5: Checking group summary information
+/dev/data/movies: 23294/209715200 files (26.8% non-contiguous), 388639238/419430400 blocks
+bornite:~#
+
+
+5. Use lvextend to increase volume size to 1800GB:
+bornite:~# lvextend --size 1800G /dev/data/movies
+  Extending logical volume movies to 1.76 TiB
+  Logical volume movies successfully resized
+bornite:~#
+
+6. Resize /data/movies from 1700GB to 1800GB:
+bornite:~# lvextend --size 1800G /dev/data/movies
+  Extending logical volume movies to 1.76 TiB
+  Logical volume movies successfully resized
+root@bornite:~# resize2fs /dev/mapper/data-movies 1800GB
+resize2fs 1.41.12 (17-May-2010)
+resize2fs: Invalid new size: 1800GB
+
+bornite:~# 
+
+7. Inspect results:
+bornite:~# lvdisplay /dev/data/movies
+  --- Logical volume ---
+  LV Name                /dev/data/movies
+  VG Name                data
+  LV UUID                dkZcFm-SQ5S-3eKm-EZHl-2QM7-z0LF-3KAv11
+  LV Write Access        read/write
+  LV Status              available
+  # open                 0
+  LV Size                1.76 TiB
+  Current LE             460800
+  Segments               5
+  Allocation             inherit
+  Read ahead sectors     auto
+  - currently set to     256
+  Block device           253:13
+   
+bornite:~#
+
+Looks good!
+
+8. Mount /data/movies and start services.
+
+bornite:~# mount /data/movies/
+bornite:~# /etc/init.d/samba start
+Starting Samba daemons: nmbd smbd.
+bornite:~#
+bornite:~# /etc/init.d/plexmediaserver start
+Starting Plex Media Server: done
+bornite:~# 
+
+Very good!

@@ -1,0 +1,52 @@
+README
+Created Mon Aug  4 14:08:29 AKDT 2014
+Copyright (C) 2014 by Raymond E. Marcil <marcilr@gmail.com>
+
+
+Filelist
+========
+blkid.txt
+  blkid - locate/print block device attributes
+
+free-space/
+  To determine the free space available for logical volumes use 
+  vgs - report information about volume groups:
+
+  bornite:~# vgs
+    VG      #PV #LV #SN Attr   VSize  VFree  
+    backups   1   1   0 wz--n-  2.73t      0 
+    bornite   1   1   0 wz--n- 74.52g      0 
+    data      1  19   0 wz--n-  5.46t 434.87g
+  bornite:~#
+
+fsck.txt
+  fsck instructions for LVMs.
+
+inspection.txt
+  Inspection of lvm.
+
+lv/
+  Logical Volume (LV)
+
+lvm-commands.txt
+  LVM (Logical Volume Management) commands.
+
+mount.txt
+  How to mount Linux LVM volume partitions on Linux
+  Written on August 28th, 2010 at 23:31 pm by shredder12
+  http://linuxers.org/howto/how-mount-linux-lvm-volume-partitions-linux
+
+pv/
+  Physical Volume (PV)
+
+shrink.txt
+  Shrink lvm
+
+svn_ext_val.txt
+  List of repo hierarchical directories to checkout under syntax/
+
+syntax.txt
+  Syntax for lvm
+
+vg/
+  Volume Group (VG)

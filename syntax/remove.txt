@@ -1,0 +1,17 @@
+remove.txt
+Created Thu Dec 18 15:56:38 AKST 2014
+Copyright (C) 2014 by Raymond E. Marcil <marcilr@gmail.com>
+
+
+lvremove - remove a logical volume
+
+
+Example
+=======
+Remove debs volume group:
+
+covellite:/# lvremove /dev/antlerite/debs 
+Do you really want to remove active logical volume debs? [y/n]: y
+  Logical volume "debs" successfully removed
+covellite:/# 
+

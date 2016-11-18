@@ -1,0 +1,55 @@
+lvremove.txt
+Created Thu Sep 11 11:16:50 AKDT 2014
+Copyright (C) 2014 by Raymond E. Marcil <marcilr@gmail.com>
+
+
+lvremove - remove a logical volume
+
+
+Thu Sep 11 11:16:50 AKDT 2014
+=============================
+o On external 2TB Seagate ST32000641AS Barracuda XT eSATA drive need to 
+remove 300GB /dev/tennantite/backups LVM.
+
+1. Remove lvm:
+covellite:/# lvremove -f /dev/tennantite/backups
+  Logical volume "backups" successfully removed
+covellite:/# 
+
+2. Verify removal:
+covellite:/# lvdisplay | grep tennantite | grep "LV Path"
+  LV Path                /dev/tennantite/vms
+  LV Path                /dev/tennantite/debs
+  LV Path                /dev/tennantite/iso
+  LV Path                /dev/tennantite/perforce
+  LV Path                /dev/tennantite/svn
+  LV Path                /dev/tennantite/talend
+  LV Path                /dev/tennantite/wallpaper
+covellite:/# 
+
+Looks good.
+
+
+o On GCI Network Services, OSS debian wheezy 7.6 amd64 covellite workstation
+needed to remove non-sed  300GB /dev/ziesite/data lvm on /dev/sdb4 partition.
+
+1. Unmount partition
+covellite:~# /usr/local/data
+
+2. Remove lvm:
+covellite:~# lvremove -f /dev/ziesite/data 
+  Logical volume "data" successfully removed
+covellite:~#
+
+3. Verify removal:
+covellite:~# lvdisplay | grep ziesite | grep "LV Path"
+  LV Path                /dev/ziesite/vms
+  LV Path                /dev/ziesite/svn
+  LV Path                /dev/ziesite/iso
+  LV Path                /dev/ziesite/wallpaper
+  LV Path                /dev/ziesite/debs
+  LV Path                /dev/ziesite/perforce
+  LV Path                /dev/ziesite/talend
+covellite:~#
+
+Gone.  Its good!

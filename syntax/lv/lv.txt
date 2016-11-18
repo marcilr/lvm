@@ -1,0 +1,69 @@
+lv.txt
+Created Thu Jan 10 16:04:24 AKST 2013
+Copyright (C) 2013 by Raymond E. Marcil <marcilr@gmail.com>
+
+
+Logical Volume (LV)
+
+LVM (Logical Volume Management) commands.
+  dmsetup      - low level logical volume management
+
+  lvdisplay    - display attributes of a logical volume
+  lvextend     - add space to logical volume
+  lvreduce     - reduce size of logical volume
+  lvremove     - remove a logical volume
+  lvrename     - rename a logical volume
+  lvscan       - nice list of logical volumes
+
+LVM information can be created, displayed, and manipulated with the following commands:
+  lvchange     - Change logical volume characteristics
+  lvcreate     - Stripe, create logical volume in volume group
+  lvdisplay    - Display information about logical volumes
+  lvextend     - Increase space, increase mirrors for logical volume
+  lvlnboot     - Prepare logical volume to be root, primary swap, or dump volume
+  lvmmigrate   - Prepare root file system for migration from partitions to logical
+                 volumes
+  lvreduce     - Decrease number of physical extents allocated to logical volume
+  lvremove     - Remove one or more logical volumes from volume group
+  lvrmboot     - Remove logical volume link to root, primary swap, or dump volume
+
+The following commands are also available if the HP MirrorDisk/UX software is installed:
+  lvmerge      - Merge two logical volumes into one logical volume
+  lvsplit      - Split mirrored logical volume into two logical volumes
+  lvsync       - Synchronize stale mirrors in logical volumes
+
+hp.com/
+
+
+Filelist
+========
+lvextend.txt
+  lvextend  allows you to extend the size of a logical volume.  Extension
+  of snapshot logical volumes (see lvcreate(8) for information to  create
+  snapshots) is supported as well.
+
+lvreduce.txt
+  lvreduce allows you to reduce the size of a logical volume. Be careful when reducing a logical
+  volume's size, because data in the reduced part is lost!!!  You should therefore ensure that any
+  filesystem on the volume is resized before running lvreduce so that the extents that are to
+  be removed are not in use. Shrinking snapshot logical volumes (see lvcreate(8) for information to
+  create snapshots) is supported as well.  But to change the number of copies in a mirrored logical
+  volume use lvconvert (8).
+
+  Sizes will be rounded if necessary - for example, the volume size must be an exact number
+  of extents and the size of a striped segment must be a multiple of the number of stripes.
+
+resize2fs.txt
+  Resize ext2/ext3/ext4 filesystem on the volume using resize2fs.
+
+resize-howto.txt
+  -- How to resize an ext2/3 partition --
+  [without using Partition magic]
+  http://happy-werner.de/howtos/resize_howto.txt
+
+
+Links
+=====
+lvm - Logical Volume Manager (LVM)
+http://docs.hp.com/en/B9106-90013/lvm.7.html
+

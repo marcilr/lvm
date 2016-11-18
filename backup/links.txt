@@ -1,0 +1,15 @@
+links.txt
+Created Tue Aug 26 08:53:00 AKDT 2014
+Copyright (C) 2014 by Raymond E. Marcil <marcilr@gmail.com>
+
+
+Backup related links
+
+
+Links
+=====
+Backup of LVM2 logical volume
+Unix & Linux Stack Exchange is a question and answer site for users of Linux,
+FreeBSD and other Un*x-like operating systems.. It's 100% free,
+no registration required.
+http://unix.stackexchange.com/questions/34785/backup-of-lvm2-logical-volume

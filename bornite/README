@@ -1,0 +1,22 @@
+README
+Created Mon Aug  4 14:34:00 AKDT 2014
+Copyright (C) 2014 by Raymond E. Marcil <marcilr@gmail.com>
+
+
+Filelist
+========
+privs.txt
+  Notes on setting currect privs for on files under directories: 
+    /data/music
+    /data/movies
+    /data/pictures
+
+shares.txt
+  The bornite server has a series of lvm-based shares on the
+  16-port 3ware 9650SE-16ML PCIe x8 RAID6.
+
+volumes.txt
+  Configuration of 5.45TB RAID6 on 3ware 9650SE-16ML 16x SATA-II,
+  and 9650SE-8LPML 8x SATA-II.  Both are PCIe x8.
+
+

@@ -1,0 +1,213 @@
+free-space.txt
+Created Wed Apr  3 10:39:02 AKDT 2013
+Copyright (C) 2013 by Raymond E. Marcil <marcilr@gmail.com>
+
+
+To determine the free space available for logical volumes use 
+vgs - report information about volume groups:
+
+bornite:~# vgs
+  VG      #PV #LV #SN Attr   VSize  VFree  
+  backups   1   1   0 wz--n-  2.73t      0 
+  bornite   1   1   0 wz--n- 74.52g      0 
+  data      1  19   0 wz--n-  5.46t 434.87g
+bornite:~#
+
+
+pvdisplay - display attributes of a physical volume
+===================================================
+The pvdisplay command can be very useful.  However, the "Free PE" (free
+physical extents) is not an easily digestable value.  The default extent size
+is 4MB.  Use vgdisplay to check currently allocated sizes.
+
+
+Usage
+=====
+If you use the pvdisplay command without any flags, the program displays
+the characteristics of each physical volume that you specified with the
+PhysicalVolumePath parameter, namely:
+
+PV Name        The name of the physical volume
+VG Name        The name of the volume group
+PV Status      The state of the physical volume: available or unavailable
+Allocatable    The allocation permission for the physical volume
+VGDA           The number of volume group descriptors on the physical volume
+Cur LV         The number of logical volumes using the physical volume
+PE Size        The size of physical extents on the volume
+Total PE       The total number of physical extents on the physical volume
+Free PE        The number of free physical extents on the physical volume
+Allocated PE   The number of physical extents on the physical volume that are
+               allocated to logical volumes
+Stale PE       The number of physical extents on the physical volume that are
+               not current
+
+hp.com/
+
+
+pvscan - scan all disks for physical volumes
+============================================
+pvscan also generates nice report:
+
+covellite:~# pvscan
+  PV /dev/sda4   VG antlerite   lvm2 [1.53 TiB / 800.01 GiB free]
+  Total: 1 [1.53 TiB] / in use: 1 [1.53 TiB] / in no VG: 0 [0   ]
+covellite:~#
+
+
+
+
+Examples
+========
+bornite:~# pvdisplay
+  --- Physical volume ---
+  PV Name               /dev/sdb1
+  VG Name               backups
+  PV Size               2.73 TiB / not usable 2.00 MiB
+  Allocatable           yes (but full)
+  PE Size               4.00 MiB
+  Total PE              715247
+  Free PE               0
+  Allocated PE          715247
+  PV UUID               nEzuPV-00P2-qFnu-zfol-zFpL-WjSW-TIfxys
+   
+  --- Physical volume ---
+  PV Name               /dev/sda1
+  VG Name               data
+  PV Size               5.46 TiB / not usable 3.97 MiB
+  Allocatable           yes 
+  PE Size               4.00 MiB
+  Total PE              1430495
+  Free PE               111327
+  Allocated PE          1319168
+  PV UUID               3qtGvo-yg3c-5NVc-PUsi-YXK3-jKaq-0M3gcY
+   
+  --- Physical volume ---
+  PV Name               /dev/md0
+  VG Name               bornite
+  PV Size               74.53 GiB / not usable 3.93 MiB
+  Allocatable           yes (but full)
+  PE Size               4.00 MiB
+  Total PE              19078
+  Free PE               0
+  Allocated PE          19078
+  PV UUID               AYqnE2-fkXP-tKpa-bCHv-pJJK-wi5R-AaQCQK
+
+bornite:~#
+
+
+
+vgdisplay - display attributes of volume group
+==============================================
+The question is how to convert the Free PE number to a value like MB, GB,
+or TB?
+
+The vgdisplay command will display the current extent size:
+
+bornite:~# vgdisplay
+  --- Volume group ---
+  VG Name               backups
+  System ID             
+  Format                lvm2
+  Metadata Areas        1
+  Metadata Sequence No  2
+  VG Access             read/write
+  VG Status             resizable
+  MAX LV                0
+  Cur LV                1
+  Open LV               1
+  Max PV                0
+  Cur PV                1
+  Act PV                1
+  VG Size               2.73 TiB
+  PE Size               4.00 MiB
+  Total PE              715247
+  Alloc PE / Size       715247 / 2.73 TiB
+  Free  PE / Size       0 / 0   
+  VG UUID               3BP5Nf-foxp-Ua8L-cNmT-HkcC-SH5v-lcKdEp
+   
+  --- Volume group ---
+  VG Name               data
+  System ID             
+  Format                lvm2
+  Metadata Areas        1
+  Metadata Sequence No  56
+  VG Access             read/write
+  VG Status             resizable
+  MAX LV                0
+  Cur LV                19
+  Open LV               19
+  Max PV                0
+  Cur PV                1
+  Act PV                1
+  VG Size               5.46 TiB
+  PE Size               4.00 MiB
+  Total PE              1430495
+  Alloc PE / Size       1319168 / 5.03 TiB
+  Free  PE / Size       111327 / 434.87 GiB
+  VG UUID               IPYghg-p1g8-TWUT-t0PW-NKJ0-3TA0-lkr2ka
+   
+  --- Volume group ---
+  VG Name               bornite
+  System ID             
+  Format                lvm2
+  Metadata Areas        1
+  Metadata Sequence No  2
+  VG Access             read/write
+  VG Status             resizable
+  MAX LV                0
+  Cur LV                1
+  Open LV               1
+  Max PV                0
+  Cur PV                1
+  Act PV                1
+  VG Size               74.52 GiB
+  PE Size               4.00 MiB
+  Total PE              19078
+  Alloc PE / Size       19078 / 74.52 GiB
+  Free  PE / Size       0 / 0   
+  VG UUID               92oJ8i-7LLT-3SWH-AMFj-WLll-DgUd-wP9LLg
+   
+bornite:~#
+
+
+So for bornite's data volume group the extent size is 4.00 MiB:
+  VG Size               5.46 TiB
+  PE Size               4.00 MiB
+
+The pvdisplay command shows:
+  --- Physical volume ---
+  PV Name               /dev/sda1
+  VG Name               data
+  PV Size               5.46 TiB / not usable 3.97 MiB
+  Allocatable           yes
+  PE Size               4.00 MiB
+  Total PE              1430495
+  Free PE               111327
+  Allocated PE          1319168
+
+NOTE: pvdislpay also shows the PE Size 4.00 MiB.
+
+Hence, 111327 * 4MB = 445308MB / 1024 = 434GB free
+
+This tracks preciously with vgs - report information about volume groups:
+
+bornite:~# vgs
+  VG      #PV #LV #SN Attr   VSize  VFree  
+  backups   1   1   0 wz--n-  2.73t      0 
+  bornite   1   1   0 wz--n- 74.52g      0 
+  data      1  19   0 wz--n-  5.46t 434.87g   <=== Same as calculated value from pvdisplay.
+bornite:~# 
+
+
+Links
+=====
+How To Create LVM Using vgcreate, lvcreate, and lvextend lvm2
+You can view the list of physical volumes with attributes like size, physical
+extent size, total physical extent size, the free space, etc., using pvdisplay
+command...
+http://www.zoobey.com/index.php/resources/all-articles-list/448-how-to-create-lvm-using-vgcreate-lvcreate-and-lvextend-lvm2
+
+pvdisplay - Displays information about one or more physical volumes within a
+volume group
+http://h30097.www3.hp.com/docs/base_doc/DOCUMENTATION/V40F_HTML/MAN/MAN8/0250____.HTM
+

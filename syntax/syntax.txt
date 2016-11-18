@@ -1,0 +1,6 @@
+syntax.txt
+Created Mon Aug  4 14:07:55 AKDT 2014
+Copyright (C) 2014 by Raymond E. Marcil <marcilr@gmail.com>
+
+
+Syntax for lvm

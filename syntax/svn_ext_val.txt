@@ -1,0 +1,17 @@
+#
+# svn_ext_val.txt
+# Created Thu Jan 10 15:49:35 AKST 2013
+# by Raymond E. Marcil <marcilr@gmail.com>
+#
+
+
+#
+# List of repo hierarchical directories to checkout under syntax/
+#
+# lv/   Logical Volume (LV)
+# pv/   Physical Volume (PV)
+# vg/   Volume Group (VG)
+#
+../../syntax/lv/lv   ./lv
+../../syntax/pv/pv   ./pv
+../../syntax/vg/vg   ./vg

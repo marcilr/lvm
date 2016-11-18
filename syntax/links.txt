@@ -1,0 +1,18 @@
+links.txt
+Created Wed Aug 27 10:55:39 AKDT 2014
+Copyright (C) 2014 by Raymond E. Marcil <marcilr@gmail.com>
+
+
+lvm syntax related links
+
+
+Links
+=====
+How To Create LVM Using vgcreate, lvcreate, and lvextend lvm2 Commands
+by BALAKRISHNAN MARIYAPPAN on AUGUST 5, 2010
+http://www.thegeekstuff.com/2010/08/how-to-create-lvm/
+
+Resizing Linux partitions, Part 2: Advanced resizing
+LVMs, troubleshooting, and alternatives
+http://www.ibm.com/developerworks/library/l-resizing-partitions-2/
+

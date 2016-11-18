@@ -9,8 +9,24 @@ lvcreate.txt
   Create logical volume with filesystem
 
 lvextend.txt
+  lvextend allows you to extend the size of a logical volume.  Extension
+  of snapshot logical volumes (see lvcreate(8) for information to  create
+  snapshots) is supported as well.
+
 lvreduce.txt
+  lvreduce allows you to reduce the size of a logical volume.  Be careful when  
+  reducing a logical volume's size, because data in the reduced part is lost!!!
+  You should therefore ensure that any filesystem on the volume is resized 
+  before running lvreduce so that the extents that are to be removed are not 
+  in use.  Shrinking snapshot logical volumes (see lvcreate(8) for information  
+  to create snapshots) is supported as well.  But to change the number of
+  copies in a mirrored logical volume use lvconvert (8).
+
 lvremove.txt
+  lvremove - remove a logical volume
+
 lv.txt
+  Logical Volume (LV) 
+
 resize2fs.txt
 resize-howto.txt

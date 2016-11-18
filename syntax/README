@@ -11,6 +11,9 @@ blkid.txt
 create.txt
   Creating logical volume and formatting filesystem
 
+expand.txt
+  Expand logical volume
+
 free-space/
   To determine the free space available for logical volumes use 
   vgs - report information about volume groups:

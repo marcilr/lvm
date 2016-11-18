@@ -1,0 +1,110 @@
+resize-howto.txt
+Created Fri Jan 22 09:43:11 AKST 2010
+by Raymond E. Marcil <marcilr@gmail.com>
+
+
+
+                 -- How to resize an ext2/3 partition --
+		     [without using Partition magic]
+
+    1) install resize2fs
+       (debian package: "e2fsprogs")
+    
+    2) install fdisk 
+       (dunno which package, maybe something like fstools...)
+    
+    3) Decide whether you want to shrink or to grow your partition.
+
+    Shrinking your partition:
+    -------------------------
+
+    Use "resize2fs <part> <size>" to resize your Filesystem. (no matter
+    what fs you use, ext2 or ext3)
+    <part> : partition, normally something like /dev/hda1, 2, 3, whatever,
+             the partition you want to resize
+    <size> : new size of your filesystem, can be something like
+             20000M (for Megabytes)
+	     20G (for Gigabytes)
+	     (note that this is NOT the new size of your partition, only
+	     the file system is going to be resized now)
+
+    resize2fs will tell you how many (4k) blocks your file system is
+    long from now on. KEEP THAT NUMBER IN MIND. (write it down or
+    something like that)
+
+    Multiply this number by 8. This is the amount of blocks which you
+    need to specify when you run fdisk (which is the next step)
+
+    Run "fdisk <dev>" where <dev> is you harddisk, NOT YOUR PARTITION
+    (/dev/hda for example, NOT /dev/hda1, 2, 3, [...]). 
+    
+    - Type 'u' to change the view from cylinders to blocks.
+    
+    When you type 'p<return>', you see your partition table. 
+    Chose the partition you resized with "resize2fs".
+    (keep its number, its first and its last block in mind (again: 
+    WRITE THEM DOWN _CORRECT_ !).
+    
+    - Type in 'd' to get into the deletion menu.
+    - Type in the number of your partition.
+    - Type in 'n' to recreate the partition.
+    - Chose the type of your partition. (if you dont know, what 'primary'
+      and 'extended' means, type in 'p')
+    - Type in the number of the Partition (normally it is the same as the
+      old one).
+    - Type in the first Block of the old Partition.
+    
+    -- This is important: --
+       remember the number you multiplied by 8? This is the length
+       of the new Partition.
+    
+    - Type in '+<number>' where <number> is the number you multiplied by
+      8.
+
+    - Reboot and try to mount the new Partition. (maybe you will have to
+      run fsck by hand)
+
+    -- IMPORTANT --
+    If something goes wrong, do not give up. When resize2fs did not
+    report any errors, your data is still "there". Repeat the steps
+    concerning fdisk.
+    
+    
+    Growing your partition:
+    -----------------------
+
+    If you want to grow your partition, you will first have to
+    repartinio it with fdisk and then growing the filesystem to the
+    correct size with resize2fs.
+
+    Use cfdisk to ease up the process of reparting your partition.
+    Grow it to the size you wish to. (when using cfdisk, this is fairly
+    easy, because one can tell cfdisk the size in MB, not in cylinders
+    or blocks, etc).
+
+    After that, use resize2fs:
+    
+    Use "resize2fs <part> <size>" to resize your Filesystem. (no matter
+    what fs you use, ext2 or ext3)
+    <part> : partition, normally something like /dev/hda1, 2, 3, whatever,
+             the partition you want to resize
+    <size> : new size of your filesystem, can be something like
+             20000M (for Megabytes)
+	     20G (for Gigabytes)
+	     (note that this is NOT the new size of your partition, only
+	     the file system is going to be resized now)
+    
+    Thats all. Reboot and try to mount your new filesystem.
+
+
+NOTE: NO WARRANTY for correctness of the given information, at least it 
+      worked for me...
+
+from: happy-werner.de/
+
+
+Links
+=====
+-- How to resize an ext2/3 partition
+[without using Partition magic]
+http://happy-werner.de/howtos/resize_howto.txt

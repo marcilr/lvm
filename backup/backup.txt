@@ -1,0 +1,82 @@
+backup.txt
+Created Tue Aug 26 08:55:21 AKDT 2014
+Copyright (C) 2014 by Raymond E. Marcil <marcilr@gmail.com>
+
+
+Backup
+
+
+Think that using dd to copy and gzip to compress is the way to go.
+
+
+
+Create disk image
+=================
+1. Boot from a liveCD or liveUSB.
+2. Make sure no partitions are mounted from the source hard drive.
+3. Mount the external HD
+4. Backup the drive.
+   # dd if=/dev/hda conv=sync,noerror bs=64K | gzip -c  > /mnt/sda1/hda.img.gz
+
+5. Save extra information about the drive geometry necessary in order to
+   interpret the partition table stored within the image.  The most important
+   of which is the cylinder size.
+
+   # fdisk -l /dev/hda > /mnt/sda1/hda_fdisk.info
+
+NOTE: You may wish to use a block size (bs=) that is equal to the amount of cache on the HD you are backing up. For example, bs=8192K works for an 8MB cache. The 64K mentioned in this article is better than the default bs=512 bytes, but it will run faster with a larger bs=.
+Restore system
+
+To restore your system:
+
+ # gunzip -c /mnt/sda1/hda.img.gz | dd of=/dev/hda
+
+archlinux.org/
+
+
+Examples with compression
+=========================
+When you need to create the hard drive or a single partition compressed
+backup image file you must use compression tools which can do backup from
+a stdout and the dd command.  Those compressed files cannot be mounted by
+the mount command but are useful to know how to create and restore them.
+
+7zip
+----
+Install the p7zip package from the official repositories.  This backup
+example will split the dd command output in the files by up to the
+100 megabyte each:
+
+  dd if=/dev/sdXY | 7z a -v100m -t7z -si image-file.7z
+
+Restore with 7zip:
+  7z x -so  image-file.7z | dd of=/dev/sdXY
+
+Note: 7zip can split only the 7z compression type files
+
+archlinux.org/
+
+
+[SOLVED]using dd to make image backup of logical volume?
+========================================================
+Create and restore LVM backups using dd.
+
+Create backup:
+  dd if=/dev/mapper/VolGroupArray-lvroot of=/mnt/backupdata/test1.img bs=16M
+  dd if=/dev/mapper/VolGroupArray-lvhome of=/mnt/backupdata/test2.img bs=16M
+
+Restore:
+  dd if=/mnt/backupdata/test1.img of=/dev/mapper/VolGroupArray-lvroot bs=16M
+  dd if=/mnt/backupdata/test2.img of=/dev/mapper/VolGroupArray-lvhome bs=16M
+
+archlinux.org/
+
+
+Links
+=====
+Disk cloning
+Fine examples of using dd and gzip for partition or disk cloning
+https://wiki.archlinux.org/index.php/disk_cloning#Create_disk_image
+
+[SOLVED]using dd to make image backup of logical volume?
+https://bbs.archlinux.org/viewtopic.php?id=167704

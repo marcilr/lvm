@@ -26,16 +26,16 @@ free-space/
   bornite:~#
 
 fsck.txt
-  fsck instructions for LVMs.
+  fsck instructions for LVMs
 
 inspection.txt
-  Inspection of lvm.
+  Inspection of lvm
 
 lv/
   Logical Volume (LV)
 
 lvm-commands.txt
-  LVM (Logical Volume Management) commands.
+  LVM (Logical Volume Management) commands
 
 mount.txt
   How to mount Linux LVM volume partitions on Linux

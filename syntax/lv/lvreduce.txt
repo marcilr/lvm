@@ -1,0 +1,80 @@
+lvreduce.txt
+Created Thu Jan 10 13:17:49 AKST 2013
+Copyright (C) 2013 by Raymond E. Marcil <marcilr@gmail.com>
+
+
+lvreduce - reduce the size of a logical volume
+==============================================
+lvreduce  [-A/--autobackup  y/n]  [-d/--debug]  [-f/--force]  [-h/-?/--help] {-l/--extents
+[-]LogicalExtentsNumber[%{VG|LV|FREE}] | -L/--size [-]LogicalVolumeSize[kKmMgGtT]}
+[-t/--test] [-v/--verbose] LogicalVolume[Path]
+
+lvreduce allows you to reduce the size of a logical volume. Be careful when reducing a logical
+volume's size, because data in the reduced part is lost!!! You should therefore ensure that any
+filesystem on the volume is resized before running lvreduce so that the extents that are to
+be removed are not in use. Shrinking snapshot logical volumes (see lvcreate(8) for information to
+create snapshots) is supported as well.  But to change the number of copies in a mirrored logical
+volume use lvconvert (8).
+
+Sizes will be rounded if necessary - for example, the volume size must be an exact number
+of extents and the size of a striped segment must be a multiple of the number of stripes.
+
+manpage
+
+
+Example
+-------
+Reduce /dev/mapper/data-music logical volume from 1TB to 500GB:
+bornite:~# lvreduce -L500G /dev/mapper/data-music
+
+
+Reduce volume
+=============
+1. Take backup data on volume to reduce.
+
+2. Unmount volume:
+# umount /dev/myvg/myvolume
+
+3. The resizefs utility requires e2fsck first:
+
+# e2fsck -f /dev/myvg/myvolume
+e2fsck 1.41.12 (17-May-2010)
+Pass 1: Checking inodes, blocks, and sizes
+Pass 2: Checking directory structure
+Pass 3: Checking directory connectivity
+Pass 4: Checking reference counts
+Pass 5: Checking group summary information
+/dev/mygroup/myvolume: 48/19660800 files (6.3% non-contiguous), 67580459/78643200 blocks
+#
+
+4. Reduce the size of the ext2/ext3/ext4 filesystem on the volume using resize2fs:
+
+Resize /dev/myvg/myvolume from 1TB to 500GB:
+bornite:~# resize2fs /dev/myvg/myvolume 500G
+resize2fs 1.40-WIP (14-Nov-2006)
+Resizing the filesystem on /dev/myvg/myvolume to 131072000 (4k) blocks.
+The filesystem on /dev/myvg/myvolume is now 131072000 blocks long.
+bornite:~#
+
+5. Reduce /dev/mygroup/myvolume from 1TB to 500GB:
+bornite:~# lvreduce -L500G /dev/myvg/myvolume
+  WARNING: Reducing active logical volume to 500.00 GB
+  THIS MAY DESTROY YOUR DATA (filesystem etc.)
+Do you really want to reduce myvolume? [y/n]: y
+  Reducing logical volume myvolume to 500.00 GB
+  Logical volume music successfully resized
+bornite:~#
+
+6. Mount resized  /dev/myvg/myvolume:
+
+bornite:/# mount /myvg/myvolume/
+
+NOTE: Assume /myvg/myvolume/ is a mount point in fstab.
+
+
+Links
+=====
+11.10. Reducing a logical volume
+LVM HOWTO
+http://tldp.org/HOWTO/LVM-HOWTO/reducelv.html
+

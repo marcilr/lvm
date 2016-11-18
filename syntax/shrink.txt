@@ -1,0 +1,105 @@
+shrink.txt
+Created Thu Jan 22 08:26:05 AKST 2015
+Copyright (C) 2015 by Raymond E. Marcil <marcilr@gmail.com>
+
+
+Shrink lvm
+
+
+The process to shrink an lvm is just like that used to expand an lvm.
+
+1. Shrink filesystem with resize2fs
+2. Shrink lvm with lvreduce
+
+
+Thu Jan 22 08:26:05 AKST 2015
+=============================
+Need to expand the pdf lvm that is down to 2.5GB free of 30GB:
+
+Filesystem                   Size  Used  Avail  Use% Mounted on
+  /dev/mapper/data-pdf        30G   26G   2.5G  92% /data/pdf
+  /dev/mapper/data-akshena   296G   97G   184G  35% /data/akshena
+
+Want to expand pdf to 100G and reduce akshean down to 200G.
+Get things leveled out a bit.
+
+
+bornite:~# mount | grep pdf
+/dev/mapper/data-pdf on /data/pdf type ext3 (rw)
+
+bornite:~# mount | grep akshena
+/dev/mapper/data-akshena on /data/akshena type ext3 (rw)
+
+
+1.  Unmount pdf and akshena logical volumes:
+# umount /data/pdf       <=== /dev/mapper/data-pdf
+# umount /data/akshena   <=== /dev/mapper/data-akshena
+
+2. fsck pdf & akshena logical volumes:
+bornite:~# e2fsck -f /dev/mapper/data-pdf
+e2fsck 1.41.12 (17-May-2010)
+Pass 1: Checking inodes, blocks, and sizes
+Pass 2: Checking directory structure
+Pass 3: Checking directory connectivity
+Pass 4: Checking reference counts
+Pass 5: Checking group summary information
+/dev/mapper/data-pdf: 56422/3932160 files (1.5% non-contiguous), 6823768/7864320                              blocks
+bornite:~#
+
+bornite:~# e2fsck -f /dev/mapper/data-akshena
+e2fsck 1.41.12 (17-May-2010)
+Pass 1: Checking inodes, blocks, and sizes
+Pass 2: Checking directory structure
+Pass 3: Checking directory connectivity
+Pass 4: Checking reference counts
+Pass 5: Checking group summary information
+/dev/mapper/data-akshena: 25882/39321600 files (10.4% non-contiguous), 26562039/78643200 blocks
+root@bornite:~
+
+3. Resize akshena filesystem from 300GB to 200GB.
+bornite:~# resize2fs /dev/mapper/data-akshena 200G
+resize2fs 1.41.12 (17-May-2010)
+Resizing the filesystem on /dev/mapper/data-akshena to 52428800 (4k) blocks.
+
+bornite:~#
+
+4. Resize akshena lvm from 300GB to 200GB.
+bornite:~# lvreduce -L 200G /dev/mapper/data-akshena
+  WARNING: Reducing active logical volume to 200.00 GiB
+  THIS MAY DESTROY YOUR DATA (filesystem etc.)
+Do you really want to reduce akshena? [y/n]: y
+  Reducing logical volume akshena to 200.00 GiB
+  Logical volume akshena successfully resized
+bornite:~# 
+
+5. Mount /dev/mapper/data-akshena logical volume:
+bornite:~# mount /data/akshena
+
+bornite:~# df -h | grep akshena
+/dev/mapper/data-akshena
+                      197G   97G   91G  52% /data/akshena
+
+Looks good!
+
+5. Increase size of /dev/mapper/data-pdf lvm to 100G:
+bornite:~# lvextend --size 100G /dev/mapper/data-pdf
+  Extending logical volume pdf to 100.00 GiB
+  Logical volume pdf successfully resized
+bornite:~#
+
+6. Increase size of /dev/mapper/data-pdf filesystem to 100G
+bornite:~# resize2fs /dev/mapper/data-pdf
+Resizing the filesystem on /dev/mapper/data-pdf to 26214400 (4k) blocks.
+The filesystem on /dev/mapper/data-pdf is now 26214400 blocks long
+
+bornite:~#
+
+This should use the complete size of the lvm.
+
+bornite:~# mount /data/pdf/
+
+bornite:~# df -h | grep pdf
+/dev/mapper/data-pdf   99G   26G   68G  28% /data/pdf
+bornite:~#
+
+Looks good!

@@ -31,6 +31,9 @@ fsck.txt
 inspection.txt
   Inspection of lvm
 
+links.txt
+  lvm syntax related links
+
 lv/
   Logical Volume (LV)
 
@@ -47,6 +50,9 @@ pv/
 
 shrink.txt
   Shrink lvm
+
+remove.txt
+  lvremove - remove a logical volume
 
 svn_ext_val.txt
   List of repo hierarchical directories to checkout under syntax/

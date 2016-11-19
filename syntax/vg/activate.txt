@@ -1,0 +1,14 @@
+activate.txt
+Created Fri Mar  6 13:10:26 AKST 2015
+Copyright (C) 2015 by Raymond E. Marcil <marcilr@gmail.com>
+
+
+To activate volume group:
+
+# vgchange -ay <volume group>
+
+
+Example:
+  covellite:~# vgchange -ay tennantite
+    10 logical volume(s) in volume group "tennantite" now active
+  covellite:~#

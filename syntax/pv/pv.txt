@@ -1,0 +1,34 @@
+pv.txt
+Created Thu Jan 10 16:04:59 AKST 2013
+Copyright (C) 2013 by Raymond E. Marcil <marcilr@gmail.com>
+
+
+Physical Volume (PV)
+
+
+LVM (Logical Volume Management) commands.
+  pvcreate     - initialize a disk or partition for use by LVM
+
+LVM information can be created, displayed, and manipulated with the following
+commands:
+  pvchange     - Change characteristics of physical volume in volume group
+  pvcreate     - Create physical volume for use in volume group
+  pvdisplay    - Display information about physical volumes within volume group
+  pvmove       - Move allocated physical extents from one physical volume to
+                 other physical volumes
+
+
+hp.com/
+
+
+Filelist
+========
+pvmove.txt
+  pvmove - move physical extents
+
+
+Links
+=====
+lvm - Logical Volume Manager (LVM)
+http://docs.hp.com/en/B9106-90013/lvm.7.html
+

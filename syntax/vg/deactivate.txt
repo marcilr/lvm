@@ -1,0 +1,14 @@
+deactivate.txt
+Created Fri Mar  6 13:10:26 AKST 2015
+Copyright (C) 2015 by Raymond E. Marcil <marcilr@gmail.com>
+
+
+To deactivate volume group:
+
+# vgchange -an <volume group>
+
+
+Example:
+  covellite:~# vgchange -an tennantite
+    0 logical volume(s) in volume group "tennantite" now active
+  covellite:~#

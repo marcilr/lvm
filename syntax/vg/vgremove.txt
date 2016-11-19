@@ -1,0 +1,24 @@
+vgremove.txt
+Created Tue Oct 20 16:05:42 AKDT 2015
+Copyright (C) 2015 by Raymond E. Marcil <marcilr@gmail.com>
+
+
+vgremove - remove a volume group
+
+To remove a volume group that contains no logical volumes, use the vgremove
+command. 
+
+redhat.com/
+
+
+Example
+=======
+bornite:~# vgremove data
+  Volume group "data" successfully removed
+bornite:~# 
+
+
+Links
+=====
+Removing Volume Groups
+https://access.redhat.com/documentation/en-US/Red_Hat_Enterprise_Linux/6/html/Logical_Volume_Manager_Administration/VG_remove.html

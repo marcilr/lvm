@@ -1,0 +1,49 @@
+vgchange.txt
+Created Thu Sep 11 08:09:05 AKDT 2014
+Copyright (C) 2014 by Raymond E. Marcil <marcilr@gmail.com>
+
+
+vgchange - change attributes of a volume group
+
+
+vgchange allows you to change the attributes of one or more volume groups.
+Its main purpose is to activate and deactivate VolumeGroupName, or all
+volume groups if none is specified.  Only active volume groups are subject
+to changes and allow access to their logical volumes. 
+
+
+Options
+=======
+...
+
+-a, --available [e|l]{y|n}
+    Controls the availability of the logical volumes in the volume group for
+    input/output.  In other words, makes the logical volumes known/unknown to
+    the kernel.
+
+    If clustered locking is enabled, add 'e' to activate/deactivate exclude or
+    'l' to activate/deactivate only on the local node.  Logical volumes with
+    single-host snapshots are always activated exclusively because they can
+    only be used on one node at once.
+...
+
+
+Example
+=======
+On GCI Network Services, OSS covellite debian wheezy 7.6 amd64 workstation I
+had an external eSATA 2TB Seagate ST32000641AS Barracuda XT drive attached
+with volume group tennantite with LVMs on /dev/sdc4 1700GB partition.
+However when I connected and turned on the drive tennantite's LVMs were not
+immediately visible under /dev/tennantite/*
+
+The trick was activating the tennantite volume gorup with vgchange:
+
+covellite:~# /sbin/vgchange -a y tennantite
+
+This made tennantite's LVMs available under /dev/tennantite/* as follows:
+
+covellite:~$ ls /dev/tennantite/
+backups  debs  iso  perforce  svn  talend  vms  wallpaper
+covellite:~$
+
+Very good.

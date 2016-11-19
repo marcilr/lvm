@@ -1,0 +1,45 @@
+vg.txt
+Created Thu Jan 10 16:05:37 AKST 2013
+Copyright (C) 2013 by Raymond E. Marcil <marcilr@gmail.com>
+
+
+Volume Group (VG)
+
+
+LVM (Logical Volume Management) commands.
+  vgcreate     - create a volume group
+  vgdisplay    - display attributes of volume groups
+  vgextend     - add space to volume group
+  vgremove     - remove a volume group
+  vgrename     - rename a volume group
+  vgscan       - scan all disks for volume groups and rebuild caches
+
+LVM information can be created, displayed, and manipulated with the following commands:
+  vgcfgbackup  - Create or update volume group configuration backup file
+  vgcfgrestore - Display or restore volume group configuration from backup file
+  vgchange     - Set volume group availability
+  vgcreate     - Create volume group
+  vgdisplay    - Display information about volume groups
+  vgexport     - Export an volume group and its associated logical volumes
+  vgextend     - Extend an volume group by adding physical volumes
+  vgimport     - Import an volume group onto the system
+  vgreduce     - Remove physical volumes from an volume group
+  vgremove     - Remove volume group definition from the system
+  vgscan       - Scan physical volumes for volume groups
+
+The following commands are also available if the HP MirrorDisk/UX software is installed:
+  vgsync       - Synchronize stale logical volume mirrors in volume groups
+
+hp.com/
+
+
+Filelist
+========
+vgscan.txt
+  vgscan - scan all disks for volume groups and rebuild caches
+
+
+Links
+=====
+lvm - Logical Volume Manager (LVM)
+http://docs.hp.com/en/B9106-90013/lvm.7.html

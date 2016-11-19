@@ -1,0 +1,37 @@
+README
+Created Thu Sep 11 08:20:25 AKDT 2014
+Copyright (C) 2014 by Raymond E. Marcil <marcilr@gmail.com>
+
+
+Filelist
+========
+activate.txt
+  # vgchange -ay <volume group>
+
+deactivate.txt
+  To deactivate volume group:
+  # vgchange -an <volume group>
+
+vgchange.txt
+  vgchange - change attributes of a volume group
+
+  vgchange allows you to change the attributes of one or more volume groups.
+  Its main purpose is to activate and deactivate VolumeGroupName, or all
+  volume groups if none is specified.  Only active volume groups are subject
+  to changes and allow access to their logical volumes.
+
+vgcreate.txt
+  vgcreate - create a volume group
+
+vgremove.txt
+  vgremove - remove a volume group
+
+vgscan.txt
+  vgscan - scan all disks for volume groups and rebuild caches
+
+vgs.txt
+  vgs - report information about volume groups
+  The vgs tool is the best way to check the size free on a volume group.
+
+vg.txt
+  Volume Group (VG).

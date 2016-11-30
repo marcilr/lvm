@@ -8,6 +8,9 @@ Logical Volume Manager (LVM) related links
 
 Links
 =====
+A Beginner's Guide To LVM - HowtoForge
+https://www.howtoforge.com/linux_lvm
+
 11.9. Extending a logical volume
 LVM HOWTO
 http://tldp.org/HOWTO/LVM-HOWTO/extendlv.html

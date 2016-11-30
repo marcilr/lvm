@@ -8,26 +8,11 @@ Logical Volume Manager (LVM) related links
 
 Links
 =====
-A Beginner's Guide To LVM - HowtoForge
-https://www.howtoforge.com/linux_lvm
-
-11.9. Extending a logical volume
-LVM HOWTO
-http://tldp.org/HOWTO/LVM-HOWTO/extendlv.html
-
-11.10. Reducing a logical volume
-LVM HOWTO
-http://tldp.org/HOWTO/LVM-HOWTO/reducelv.html
-
 A Beginner's Guide To LVM
 http://www.howtoforge.com/linux_lvm
 
 A simple introduction to working with LVM
 http://www.debian-administration.org/articles/410
-
-Chapter 7. Logical Volume Manager (LVM)
-Red Hat Enterprise Linux 4: System Administration Guide
-http://www.redhat.com/docs/manuals/enterprise/RHEL-4-Manual/sysadmin-guide/ch-lvm-intro.html
 
 cplv - Copies the contents of a logical volume to a new logical volume.
 Looks sweet.  However, only available for aix
@@ -36,6 +21,10 @@ http://www-01.ibm.com/support/knowledgecenter/POWER6/iphcg/cplv.htm?cp=POWER6%2F
 Enterprise Volume Management System
 Reportedly a nice management wrapper.
 http://evms.sourceforge.net/
+
+Extending a logical volume
+11.9 LVM HOWTO
+http://tldp.org/HOWTO/LVM-HOWTO/extendlv.html
 
 How can I create one logical volume over two disks using LVM?
 Solid details on how to span disks with one volume group.
@@ -75,6 +64,10 @@ Logical Volume Manager (Linux)
 From Wikipedia, the free encyclopedia
 http://en.wikipedia.org/wiki/Logical_Volume_Manager_%28Linux%29
 
+Logical Volume Manager (LVM)
+Chapter 7 - Red Hat Enterprise Linux 4: System Administration Guide
+http://www.redhat.com/docs/manuals/enterprise/RHEL-4-Manual/sysadmin-guide/ch-lvm-intro.html
+
 lvm - Logical Volume Manager (LVM)
 http://docs.hp.com/en/B9106-90013/lvm.7.html
 
@@ -101,6 +94,10 @@ http://www.microhowto.info/howto/reduce_the_size_of_an_ext2_ext3_or_ext4_filesys
 
 Reduce the size of an LVM logical volume
 http://www.microhowto.info/howto/reduce_the_size_of_an_lvm_logical_volume.html
+
+Reducing a logical volume
+11.10 LVM HOWTO
+http://tldp.org/HOWTO/LVM-HOWTO/reducelv.html
 
 How to set up multiple hard drives as one volume?
 Very good answer with lvm details.

@@ -13,3 +13,38 @@ Unix & Linux Stack Exchange is a question and answer site for users of Linux,
 FreeBSD and other Un*x-like operating systems.. It's 100% free,
 no registration required.
 http://unix.stackexchange.com/questions/34785/backup-of-lvm2-logical-volume
+
+Back Up (And Restore) LVM Partitions With LVM Snapshots
+Version 1.1
+Author: Falko Timme
+This tutorial shows how you can create backups of LVM partitions with an LVM
+feature called LVM snapshots.  An LVM snapshot is an exact copy of an LVM
+partition that has all the data from the LVM volume from the time the snapshot
+was created.  The big advantage of LVM snapshots is that they can be used to
+greatly reduce the amount of time that your services/databases are down during
+backups because a snapshot is usually created in fractions of a second.
+After the snapshot has been created, you can back up the snapshot while your
+services and databases are in normal operation.
+Very, very good details here.
+https://www.howtoforge.com/linux_lvm_snapshots
+
+How To Backup LVM Configuration On Linux (vgcfgbackup & vgcfgrestore)
+February 25, 2011 | By Bobbin Zachariah
+http://linoxide.com/how-tos/how-to-backup-lvm-configuration-on-linux/
+
+How to Take ‘Snapshot of Logical Volume and Restore’ in LVM – Part III
+by Babin Lonston | Published: August 13, 2014 | Last Updated: January 7, 2015
+http://www.tecmint.com/take-snapshot-of-logical-volume-and-restore-in-lvm/
+
+Restoring LVM volumes
+Posted on November 23, 2013 by Jethro Carr
+Has some great script for backing up and restoring as series of LVMs.
+https://www.jethrocarr.com/2013/11/23/restoring-lvm-volumes/
+
+Taking a Backup Using Snapshots
+13.4 LVM HOWTO
+http://www.tldp.org/HOWTO/LVM-HOWTO/snapshots_backup.html
+
+[SOLVED]using dd to make image backup of logical volume?
+https://bbs.archlinux.org/viewtopic.php?id=167704
+

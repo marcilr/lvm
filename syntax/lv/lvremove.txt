@@ -5,6 +5,26 @@ Copyright (C) 2014 by Raymond E. Marcil <marcilr@gmail.com>
 
 lvremove - remove a logical volume
 
+Mon Jan 16 10:20:56 AKST 2017
+=============================
+o Remove /dev/bukovite/htdocs from GCI NIT covellite Debian jessie 8.6 amd64
+workstation.  Got migrated to git/htdocs/gci/htdocs/ on usb key.
+
+1. Remove lvm:
+covellite:/# lvremove -f /dev/bukovite/htdocs
+  Logical volume "htdocs" successfully removed
+covellite:/# 
+
+2. Verify removal:
+covellite:/# lvdisplay | grep bukovite | grep "LV Path"
+  LV Path                /dev/bukovite/wallpaper
+  LV Path                /dev/bukovite/iso
+  LV Path                /dev/bukovite/debs
+  LV Path                /dev/bukovite/virtualbox
+covellite:/#
+
+Looks good.
+
 
 Thu Sep 11 11:16:50 AKDT 2014
 =============================

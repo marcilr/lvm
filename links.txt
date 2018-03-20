@@ -42,6 +42,10 @@ http://www.thegeekstuff.com/2010/08/how-to-create-lvm/
 How to Find the Block Size
 http://www.linfo.org/get_block_size.html
 
+How to Manage and Use LVM (Logical Volume Management) in Ubuntu
+by Justin Garrison on February 7th, 2011	
+https://www.howtogeek.com/howto/40702/how-to-manage-and-use-lvm-logical-volume-management-in-ubuntu/
+
 How To Resize ext3 Partitions Without Losing Data
 This page has some great info.  Including how to remove then add back the ext3 journal.
 Very useful since resize2fs only works on ext2 not ext3.
